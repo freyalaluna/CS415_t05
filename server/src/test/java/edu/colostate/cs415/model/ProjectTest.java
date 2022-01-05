@@ -24,12 +24,14 @@ public class ProjectTest {
 		assert (true);
 	}
 
+	/***** getStatus *****/
 
 	@Test
 	public void testGetStatus(){
 		assertEquals("Project.getStatus() returns PLANNED upon construction", ProjectStatus.PLANNED, project.getStatus());
 	}
 
+	/***** setStatus *****/
 
 	@Test
 	public void testSetStatus(){
