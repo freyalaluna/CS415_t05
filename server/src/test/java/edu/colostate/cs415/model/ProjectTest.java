@@ -6,6 +6,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class ProjectTest {
 
@@ -41,16 +42,17 @@ public class ProjectTest {
 	/***** HASHCODE *****/
 	@Test
 	public void testHashCodeWithNullString() {
-		assert (true);
+		assertEquals( "Project.hashCode returns 0 with a null string", project.hashCode(), 0);
 	}
 
 	@Test
 	public void testHashCodeWithEmptyString() {
-		assert (true);
+		assertEquals( "Project.hashCode returns 0 with an empty string", project.hashCode(), 0);
 	}
 
 	@Test
 	public void testHashCodeWithValidString() {
-		assert (true);
+		Project validProjectName = new Project("projectName", null, size);
+		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
 	}
 }
