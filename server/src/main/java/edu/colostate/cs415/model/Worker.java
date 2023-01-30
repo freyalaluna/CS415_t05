@@ -1,7 +1,6 @@
 package edu.colostate.cs415.model;
 
 import java.util.Set;
-
 import edu.colostate.cs415.dto.WorkerDTO;
 
 public class Worker {
@@ -14,6 +13,10 @@ public class Worker {
 	private Set<Qualification> qualifications;
 
 	public Worker(String name, Set<Qualification> qualifications, double salary) {
+		this.name = name;
+		this.qualifications = qualifications;
+		this.salary = salary;
+		this.projects = null;
 	}
 
 	@Override
@@ -23,7 +26,10 @@ public class Worker {
 
 	@Override
 	public int hashCode() {
-		return 0;
+		if(name.isEmpty() || name == null){
+			return 0;
+		}
+		return name.hashCode();
 	}
 
 	@Override
