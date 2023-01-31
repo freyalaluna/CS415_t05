@@ -33,12 +33,6 @@ public class Worker {
 		return name.hashCode();
 	}
 
-	// Returns a String that includes the name, colon, 
-	// #projects, colon, #qualifications, colon, salary. 
-	// For example, a worker named "Nick", working on 2 projects, 
-	// and having 10 qualifications and a salary of 10000.20 will 
-	// result in the string Nick:2:10:10000. 
-	// Note that the salary has no decimals but is always rounded down (truncated.
 	@Override
 	public String toString() {
 		return this.name + ":" + this.projects.size() + ":" + this.qualifications.size() + ":" + ((int)this.salary);
