@@ -27,7 +27,7 @@ public class WorkerTest {
     public void testToStringOnlyNameNotEmpty() {
        Set<Qualification> qualifications = new HashSet<Qualification>();
        Worker workerWithName = new Worker("test1", qualifications, 0.0);
-       assertEquals("Worker.toString returns test:0:0:0", workerWithName.toString(), "test1:0:0:0");
+       assertEquals(workerWithName.toString(), "test1:0:0:0");
     }
 
     @Test
@@ -36,7 +36,7 @@ public class WorkerTest {
        Qualification q = new Qualification("test");
        qualifications.add(q);
        Worker workerWithName = new Worker("test2", qualifications, 0.0);
-       assertEquals("Worker.toString returns test:0:0:0", workerWithName.toString(), "test2:0:1:0");
+       assertEquals(workerWithName.toString(), "test2:0:1:0");
     }
 
     @Test
@@ -45,7 +45,21 @@ public class WorkerTest {
        Qualification q = new Qualification("test");
        qualifications.add(q);
        Worker workerWithName = new Worker("test3", qualifications, 5122.1232);
-       assertEquals("Worker.toString returns test:0:0:0", workerWithName.toString(), "test3:0:1:5122");
+       assertEquals(workerWithName.toString(), "test3:0:1:5122");
+    }
+
+    @Test
+    public void testToStringWithOnlySalaryNotEmpty() {
+       Set<Qualification> qualifications = new HashSet<Qualification>();
+       Worker workerWithName = new Worker("", qualifications, 12345.9999);
+       assertEquals(workerWithName.toString(), ":0:0:12345");
+    }
+
+    @Test
+    public void testToStringWithIntSalary() {
+       Set<Qualification> qualifications = new HashSet<Qualification>();
+       Worker workerWithName = new Worker("", qualifications, 4);
+       assertEquals(workerWithName.toString(), ":0:0:4");
     }
 
     // Test for displaying number of projects when addProjects is done.
