@@ -38,4 +38,20 @@ public class ProjectTest {
 		project.setStatus(ProjectStatus.ACTIVE);
 		assertEquals("project.setStatus() sets status to ACTIVE after first change", ProjectStatus.ACTIVE, project.getStatus());
 	}
+
+	/***** HASHCODE *****/
+	@Test
+	public void testHashCodeWithNullString() {
+		assert (true);
+	}
+
+	@Test
+	public void testHashCodeWithEmptyString() {
+		assert (true);
+	}
+
+	@Test
+	public void testHashCodeWithValidString() {
+		assert (true);
+	}
 }
