@@ -12,7 +12,11 @@ public class Project {
 	private Set<Worker> workers;
 	private Set<Qualification> qualifications;
 
-	public Project(String name, Set<Qualification> qualifications, ProjectSize size) {
+	public Project(String name, Set<Qualification> qs, ProjectSize size) {
+		this.name = name;
+		qs = qualifications;
+		this.size = size;
+		status = ProjectStatus.PLANNED;
 	}
 
 	@Override
