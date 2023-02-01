@@ -18,7 +18,6 @@ public class ProjectTest {
         project = new Project("", qualifications, size);
     }
 
-
 	@Test
 	public void testProjectConstruct() {
 		assert (true);
