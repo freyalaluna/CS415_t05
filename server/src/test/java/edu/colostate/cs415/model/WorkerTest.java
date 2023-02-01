@@ -81,4 +81,16 @@ public class WorkerTest {
         assertThat("Worker.hashCode returns a non 0 code with a valid name", workerWithValidName.hashCode(), is(not(0)));
     }
 
+    /**** getName ****/
+    @Test
+    public void testGetNameWithEmptyName() {
+        assertEquals(worker.getName(),"");
+    }
+
+    @Test
+    public void testGetNameWithNonEmptyName() {
+        Worker worker = new Worker("test", null, 0);
+        assertEquals(worker.getName(), "test");
+    }
+
 }
