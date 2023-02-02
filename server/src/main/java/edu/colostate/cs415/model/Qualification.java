@@ -9,10 +9,6 @@ public class Qualification {
 	private String description;
 	private Set<Worker> workers;
 
-	public String getDescription() {
-		return null;
-	}
-
 	public Qualification(String description) {
 	}
 
