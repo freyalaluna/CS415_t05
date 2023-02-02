@@ -1,5 +1,6 @@
 package edu.colostate.cs415.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import edu.colostate.cs415.dto.QualificationDTO;
@@ -10,6 +11,8 @@ public class Qualification {
 	private Set<Worker> workers;
 
 	public Qualification(String description) {
+		this.description=description;
+		this.workers = new HashSet<Worker>();
 	}
 
 	@Override
