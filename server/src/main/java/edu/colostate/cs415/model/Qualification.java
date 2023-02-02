@@ -19,7 +19,10 @@ public class Qualification {
 
 	@Override
 	public int hashCode() {
-		return 0;
+		if(description.isEmpty() || description == null){
+			return 0;
+		}
+		return description.hashCode();
 	}
 
 	@Override
