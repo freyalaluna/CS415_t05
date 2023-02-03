@@ -93,4 +93,12 @@ public class WorkerTest {
         assertEquals(worker.getName(), "test");
     }
 
+    /*** getSalary */
+    @Test
+    public void testGetSalary() {
+        assertEquals(worker.getSalary(), 0.0, 0.001);
+    }
+
+    // add more tests once setSalary is done
+
 }
