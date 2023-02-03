@@ -99,6 +99,6 @@ public class WorkerTest {
         assertEquals(worker.getSalary(), 0.0, 0.001);
     }
 
-    // add more tests once setSalary is dones
+    // add more tests once setSalary is done
 
 }
