@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.junit.Before;
+import static org.junit.Assert.*;
 
 public class ProjectTest {
 
@@ -21,5 +22,11 @@ public class ProjectTest {
 	@Test
 	public void testProjectConstruct() {
 		assert (true);
+	}
+
+
+	@Test
+	public void testGetStatus(){
+		assertEquals("Project.getStatus() return PLANNED upon construction", project.getStatus(), ProjectStatus.PLANNED);
 	}
 }
