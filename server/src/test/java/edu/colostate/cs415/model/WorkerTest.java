@@ -93,12 +93,31 @@ public class WorkerTest {
         assertEquals(worker.getName(), "test");
     }
 
-    /*** getSalary */
+    /*** getSalary - setSalary */
     @Test
     public void testGetSalary() {
         assertEquals(worker.getSalary(), 0.0, 0.001);
     }
 
-    // add more tests once setSalary is done
+    @Test
+    public void testSetSalary() {
+        double expectedSalary = 1000.99;
+        worker.setSalary(expectedSalary);
+        assertEquals(worker.getSalary(), expectedSalary, 0.001);
+    }
+
+    @Test
+    public void testSetSalaryToZero() {
+        double expectedSalary = 0;
+        worker.setSalary(expectedSalary);
+        assertEquals(worker.getSalary(), expectedSalary, 0.001);
+    }
+
+    @Test
+    public void testSetSalaryToNegative() {
+        double expectedSalary = -1234.12;
+        worker.setSalary(expectedSalary);
+        assertEquals(worker.getSalary(), expectedSalary, 0.001);
+    }
 
 }
