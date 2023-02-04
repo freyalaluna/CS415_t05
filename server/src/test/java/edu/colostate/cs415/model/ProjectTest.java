@@ -27,6 +27,15 @@ public class ProjectTest {
 
 	@Test
 	public void testGetStatus(){
-		assertEquals("Project.getStatus() return PLANNED upon construction", project.getStatus(), ProjectStatus.PLANNED);
+		assertEquals("Project.getStatus() returns PLANNED upon construction", ProjectStatus.PLANNED, project.getStatus());
+	}
+
+
+	@Test
+	public void testSetStatus(){
+		project.setStatus(ProjectStatus.PLANNED);
+		assertEquals("project.setStatus() sets status to PLANNED", ProjectStatus.PLANNED, project.getStatus());
+		project.setStatus(ProjectStatus.ACTIVE);
+		assertEquals("project.setStatus() sets status to ACTIVE after first change", ProjectStatus.ACTIVE, project.getStatus());
 	}
 }
