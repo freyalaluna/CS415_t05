@@ -47,6 +47,7 @@ public class Worker {
 	}
 
 	public void setSalary(double salary) {
+		this.salary = salary;
 	}
 
 	public Set<Qualification> getQualifications() {
