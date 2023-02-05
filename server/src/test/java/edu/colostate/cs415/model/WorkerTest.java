@@ -120,4 +120,20 @@ public class WorkerTest {
         assertEquals(worker.getSalary(), expectedSalary, 0.001);
     }
 
+    /*** getQualificiations */
+    @Test
+    public void testGetQualificationsReturnsEmptySet() {
+        assertEquals(worker.getQualifications().size(), 0);
+    }
+
+    @Test
+    public void testGetQualificationsReturnsCorrectNumberOfQuals() {
+        Qualification q1 = new Qualification("q1");
+        Qualification q2 = new Qualification("q2");
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        qualifications.add(q1);
+        qualifications.add(q2);
+        Worker workerWithQuals = new Worker("test", qualifications, 0);
+        assertEquals(workerWithQuals.getQualifications().size(), 2);
+    }
 }
