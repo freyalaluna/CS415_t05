@@ -60,7 +60,7 @@ public class Worker {
 	}
 
 	public Set<Project> getProjects() {
-		return null;
+		return this.projects;
 	}
 
 	public void addProject(Project project) {
