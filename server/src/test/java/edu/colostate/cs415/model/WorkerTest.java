@@ -171,4 +171,12 @@ public class WorkerTest {
         workerWithQuals.addQualification(q2);
         assertEquals(workerWithQuals.getQualifications().size(), 2);
     }
+
+    /*** getProjects */
+    @Test
+    public void testGetProjectsReturnsEmptySet(){
+        assertEquals(worker.getProjects().size(), 0);
+    }
+
+    // add more for getProjects when addProject is done
 }
