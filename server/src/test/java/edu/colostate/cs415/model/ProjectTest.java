@@ -24,6 +24,33 @@ public class ProjectTest {
 		assert (true);
 	}
 
+	/*** getName ***/
+
+	@Test
+	public void testGetNameWithNullName() {
+		assert (true);
+	}
+
+	@Test
+	public void testGetNameWithEmptyName() {
+		assert (true);
+	}
+
+	@Test
+	public void testGetNameWithValidNameSingle() {
+		assert (true);
+	}
+
+	@Test
+	public void testGetNameWithValidNameMultiWords() {
+		assert (true);
+	}
+
+	@Test
+	public void testGetNameWithDigits() {
+		assert (true);
+	}
+
 
 	@Test
 	public void testGetStatus(){
