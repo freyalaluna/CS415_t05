@@ -136,4 +136,39 @@ public class WorkerTest {
         Worker workerWithQuals = new Worker("test", qualifications, 0);
         assertEquals(workerWithQuals.getQualifications().size(), 2);
     }
+
+    /*** addQualifications */
+    @Test
+    public void testAddQualificationsReturnsCorrectNumberOfQuals() {
+        Qualification q1 = new Qualification("q1");
+        Qualification q2 = new Qualification("q2");
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        Worker workerWithQuals = new Worker("test", qualifications, 0);
+        workerWithQuals.addQualification(q1);
+        workerWithQuals.addQualification(q2);
+        assertEquals(workerWithQuals.getQualifications().size(), 2);
+    }
+
+    @Test
+    public void testAddQualificationsWithDuplicateQualsReturnsCorrectNumberOfQuals() {
+        Qualification q1 = new Qualification("q1");
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        Worker workerWithQuals = new Worker("test", qualifications, 0);
+        workerWithQuals.addQualification(q1);
+        workerWithQuals.addQualification(q1);
+        assertEquals(workerWithQuals.getQualifications().size(), 1);
+    }
+
+    @Test
+    public void testAddQualificationsWithTwoDuplicateQualsReturnsCorrectNumberOfQuals() {
+        Qualification q1 = new Qualification("q1");
+        Qualification q2 = new Qualification("q2");
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        Worker workerWithQuals = new Worker("test", qualifications, 0);
+        workerWithQuals.addQualification(q1);
+        workerWithQuals.addQualification(q1);
+        workerWithQuals.addQualification(q2);
+        workerWithQuals.addQualification(q2);
+        assertEquals(workerWithQuals.getQualifications().size(), 2);
+    }
 }
