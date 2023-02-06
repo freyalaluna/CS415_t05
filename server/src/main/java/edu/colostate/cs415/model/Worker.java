@@ -55,6 +55,8 @@ public class Worker {
 	}
 
 	public void addQualification(Qualification qualification) {
+		// caller's responsibility to ensure that this qualification is from the company's set of qualifications
+		qualifications.add(qualification);
 	}
 
 	public Set<Project> getProjects() {
