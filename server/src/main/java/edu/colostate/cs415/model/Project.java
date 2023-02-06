@@ -26,7 +26,7 @@ public class Project {
 
 	@Override
 	public int hashCode() {
-		if (name.isEmpty() || name == null) {
+		if (name == null || name.isEmpty()) {
 			return 0;
 		}
 
