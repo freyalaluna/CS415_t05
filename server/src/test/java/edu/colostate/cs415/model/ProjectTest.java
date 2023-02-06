@@ -11,7 +11,6 @@ public class ProjectTest {
 
 	private Project project;
 	private ProjectSize size;
-	private Set<Worker> workers;
 
 	@Before
     public void setUp() throws Exception {
