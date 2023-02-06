@@ -22,7 +22,7 @@ public class Qualification {
 
 	@Override
 	public int hashCode() {
-		if(description.isEmpty() || description == null){
+		if(description == null || description.isEmpty()){
 			return 0;
 		}
 		return description.hashCode();
