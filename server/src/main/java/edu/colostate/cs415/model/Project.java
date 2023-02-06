@@ -57,7 +57,7 @@ public class Project {
 	}
 
 	public Set<Worker> getWorkers() {
-		return null;
+		return workers;
 	}
 
 	public void removeAllWorkers() {
