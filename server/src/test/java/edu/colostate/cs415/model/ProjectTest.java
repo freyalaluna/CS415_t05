@@ -44,7 +44,9 @@ public class ProjectTest {
 	/***** HASHCODE *****/
 	@Test
 	public void testHashCodeWithNullString() {
-		assertEquals( "Project.hashCode returns 0 with a null string", project.hashCode(), 0);
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+        Project emptyProject = new Project(null, qualifications, size);
+		assertEquals( "Project.hashCode returns 0 with a null string", emptyProject.hashCode(), 0);
 	}
 
 	@Test
