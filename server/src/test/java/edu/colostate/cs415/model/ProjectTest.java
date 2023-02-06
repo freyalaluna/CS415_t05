@@ -59,4 +59,11 @@ public class ProjectTest {
 		Project validProjectName = new Project("projectName", null, size);
 		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
 	}
+
+	@Test
+	public void testGetWorkers(){
+		assertEquals(null, project.getWorkers());
+	}
+
+	//Will add more tests once addWorker is done
 }

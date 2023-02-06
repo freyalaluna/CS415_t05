@@ -47,10 +47,11 @@ public class Worker {
 	}
 
 	public void setSalary(double salary) {
+		this.salary = salary;
 	}
 
 	public Set<Qualification> getQualifications() {
-		return null;
+		return this.qualifications;
 	}
 
 	public void addQualification(Qualification qualification) {
