@@ -38,4 +38,12 @@ public class ProjectTest {
 		project.setStatus(ProjectStatus.ACTIVE);
 		assertEquals("project.setStatus() sets status to ACTIVE after first change", ProjectStatus.ACTIVE, project.getStatus());
 	}
+
+
+	@Test
+	public void testGetWorkers(){
+		assertEquals(null, project.getWorkers());
+	}
+
+	//Will add more tests once addWorker is done
 }
