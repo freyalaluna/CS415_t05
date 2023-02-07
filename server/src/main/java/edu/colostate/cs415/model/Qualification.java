@@ -42,6 +42,7 @@ public class Qualification {
 	}
 
 	public void removeWorker(Worker worker) {
+		workers.remove(worker);
 	}
 
 	public QualificationDTO toDTO() {
