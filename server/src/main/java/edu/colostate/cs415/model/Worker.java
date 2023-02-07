@@ -72,6 +72,7 @@ public class Worker {
 	}
 
 	public void removeProject(Project project) {
+		projects.remove(project);
 	}
 
 	public int getWorkload() {
