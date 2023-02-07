@@ -22,7 +22,7 @@ public class Qualification {
 
 	@Override
 	public int hashCode() {
-		if(description.isEmpty() || description == null){
+		if(description == null || description.isEmpty()){
 			return 0;
 		}
 		return description.hashCode();
@@ -30,14 +30,15 @@ public class Qualification {
 
 	@Override
 	public String toString() {
-		return null;
+		return description;
 	}
 
 	public Set<Worker> getWorkers() {
-		return null;
+		return workers;
 	}
 
 	public void addWorker(Worker worker) {
+		workers.add(worker);
 	}
 
 	public void removeWorker(Worker worker) {

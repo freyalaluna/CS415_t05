@@ -26,7 +26,11 @@ public class Project {
 
 	@Override
 	public int hashCode() {
-		return 0;
+		if (name == null || name.isEmpty()) {
+			return 0;
+		}
+
+		return name.hashCode();
 	}
 
 	@Override
@@ -35,7 +39,10 @@ public class Project {
 	}
 
 	public String getName() {
-		return null;
+		if (this.name == null) {
+			this.name = "";
+		}
+		return this.name;
 	}
 
 	public ProjectSize getSize() {
@@ -57,7 +64,7 @@ public class Project {
 	}
 
 	public Set<Worker> getWorkers() {
-		return null;
+		return workers;
 	}
 
 	public void removeAllWorkers() {
