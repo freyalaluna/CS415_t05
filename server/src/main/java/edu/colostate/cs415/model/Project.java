@@ -14,9 +14,9 @@ public class Project {
 
 	public Project(String name, Set<Qualification> qs, ProjectSize size) {
 		this.name = name;
-		qs = qualifications;
+		this.qualifications = qs;
 		this.size = size;
-		status = ProjectStatus.PLANNED;
+		this.status = ProjectStatus.PLANNED;
 	}
 
 	@Override
