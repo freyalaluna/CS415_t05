@@ -6,6 +6,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class ProjectTest {
 
@@ -18,11 +19,11 @@ public class ProjectTest {
         project = new Project("", qualifications, size);
     }
 
-
 	@Test
 	public void testProjectConstruct() {
 		assert (true);
 	}
+
 
 	/*** getName ***/
 
@@ -60,11 +61,14 @@ public class ProjectTest {
 	}
 
 
+	/***** getStatus *****/
+  
 	@Test
 	public void testGetStatus(){
 		assertEquals("Project.getStatus() returns PLANNED upon construction", ProjectStatus.PLANNED, project.getStatus());
 	}
 
+	/***** setStatus *****/
 
 	@Test
 	public void testSetStatus(){
@@ -74,6 +78,25 @@ public class ProjectTest {
 		assertEquals("project.setStatus() sets status to ACTIVE after first change", ProjectStatus.ACTIVE, project.getStatus());
 	}
 
+	/***** HASHCODE *****/
+  
+	@Test
+	public void testHashCodeWithNullString() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+        Project emptyProject = new Project(null, qualifications, size);
+		assertEquals( "Project.hashCode returns 0 with a null string", emptyProject.hashCode(), 0);
+	}
+
+	@Test
+	public void testHashCodeWithEmptyString() {
+		assertEquals( "Project.hashCode returns 0 with an empty string", project.hashCode(), 0);
+	}
+
+	@Test
+	public void testHashCodeWithValidString() {
+		Project validProjectName = new Project("projectName", null, size);
+		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
+	}
 
 	@Test
 	public void testGetWorkers(){

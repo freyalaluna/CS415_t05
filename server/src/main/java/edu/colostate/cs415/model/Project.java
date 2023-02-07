@@ -26,7 +26,11 @@ public class Project {
 
 	@Override
 	public int hashCode() {
-		return 0;
+		if (name == null || name.isEmpty()) {
+			return 0;
+		}
+
+		return name.hashCode();
 	}
 
 	@Override
