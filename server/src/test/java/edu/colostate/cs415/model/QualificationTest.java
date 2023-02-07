@@ -1,5 +1,8 @@
 package edu.colostate.cs415.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -47,5 +50,40 @@ public class QualificationTest {
 	public void testToStringWithNullString() {
 		assertEquals("Qualification.toString returns null", qualificationWithNullDesc.toString(), null);
 	}
+
+	 /*** addQualifications */
+	 @Test
+	 public void testAddWorkerReturnsCorrectNumberOfWorkers() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		 qualWithWorkers.addWorker(w1);
+		 qualWithWorkers.addWorker(w2);
+		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	 }
+ 
+	 @Test
+	 public void testAddWorkerWithDuplicateWorkersReturnsCorrectNumberOfWorkers() {
+		 Set<Qualification> qualifications = new HashSet<Qualification>();
+		 Worker w1 = new Worker("W1", qualifications, 0.0);
+		 Qualification qualWithWorkers = new Qualification("test");
+		 qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w1);
+		assertEquals(qualWithWorkers.getWorkers().size(), 1);
+	 }
+ 
+	 @Test
+	 public void testAddWorkerssWithTwoDuplicateWorkersReturnsCorrectNumberOfWorkers() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		 qualWithWorkers.addWorker(w1);
+		 qualWithWorkers.addWorker(w1);
+		 qualWithWorkers.addWorker(w2);
+		 qualWithWorkers.addWorker(w2);
+		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	 }
 
 }
