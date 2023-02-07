@@ -6,7 +6,10 @@ import java.util.Set;
 import java.lang.Integer;
 
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.Before;
+import org.junit.Rule;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -18,6 +21,8 @@ public class WorkerTest {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
         worker = new Worker("", qualifications, 0.0);
     }
+
+    @Rule public ExpectedException thrown= ExpectedException.none();
 
     /**** EQUALS *****/
     @Test
@@ -139,16 +144,14 @@ public class WorkerTest {
 
     @Test
     public void testSetSalaryToZero() {
-        double expectedSalary = 0;
-        worker.setSalary(expectedSalary);
-        assertEquals(worker.getSalary(), expectedSalary, 0.001);
+        thrown.expect( IllegalArgumentException.class );
+        worker.setSalary(0);
     }
 
     @Test
-    public void testSetSalaryToNegative() {
-        double expectedSalary = -1234.12;
-        worker.setSalary(expectedSalary);
-        assertEquals(worker.getSalary(), expectedSalary, 0.001);
+    public void testSetSalaryToNegativeThrowsException() {
+        thrown.expect( IllegalArgumentException.class );
+        worker.setSalary(-1234.12);
     }
 
     /*** getQualificiations */
@@ -203,6 +206,12 @@ public class WorkerTest {
         assertEquals(workerWithQuals.getQualifications().size(), 2);
     }
 
+    @Test
+    public void testAddNullQualificationThrowsException(){
+        thrown.expect( IllegalArgumentException.class );
+        worker.addQualification(null);
+    }
+
     /*** getProjects - addProjects - removeProjects */
     @Test
     public void testGetProjectsReturnsEmptySet(){
@@ -236,6 +245,12 @@ public class WorkerTest {
             worker.addProject(p);
         }
         assertEquals(worker.getProjects().size(), numberSmallProjects);
+    }
+
+    @Test 
+    public void testAddNullProjectThrowsException(){
+        thrown.expect( IllegalArgumentException.class );
+        worker.addProject(null);
     }
 
     @Test
@@ -274,5 +289,11 @@ public class WorkerTest {
         assertTrue(names.contains("test1"));
         assertTrue(names.contains("test3"));
         assertTrue(worker.getProjects().size() == 2);
+    }
+
+    @Test
+    public void testRemoveNullProjectThrowsException(){
+        thrown.expect( IllegalArgumentException.class );
+        worker.removeProject(null);
     }
 }
