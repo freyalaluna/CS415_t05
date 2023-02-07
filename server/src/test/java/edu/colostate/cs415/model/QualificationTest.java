@@ -32,4 +32,20 @@ public class QualificationTest {
 		assertThat("Qualification.hashCode returns a non 0 code with a valid name", qualificationWithValidDesc.hashCode(), is(not(0)));
 	}
 
+	/***** TOSTRING *****/
+	@Test
+	public void testToStringWithValidString() {
+		assertEquals("Qualification.toString returns the description \"test-description\"", qualificationWithValidDesc.toString(), "test-description");
+	}
+
+	@Test
+	public void testToStringWithEmptyString() {
+		assertEquals( "Qualification.toString returns an empty string", qualificationWithEmptyDesc.toString(), "");
+	}
+
+	@Test
+	public void testToStringWithNullString() {
+		assertEquals("Qualification.toString returns null", qualificationWithNullDesc.toString(), null);
+	}
+
 }
