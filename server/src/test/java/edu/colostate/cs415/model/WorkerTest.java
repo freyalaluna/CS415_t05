@@ -2,6 +2,7 @@ package edu.colostate.cs415.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.lang.Integer;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -172,11 +173,41 @@ public class WorkerTest {
         assertEquals(workerWithQuals.getQualifications().size(), 2);
     }
 
-    /*** getProjects */
+    /*** getProjects - addProjects */
     @Test
     public void testGetProjectsReturnsEmptySet(){
         assertEquals(worker.getProjects().size(), 0);
     }
 
-    // add more for getProjects when addProject is done
+    @Test
+    public void testGetProjectsReturnsCorrectNumberOfProjects(){
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        Project proj = new Project("p1", qualifications, ProjectSize.BIG);
+        worker.addProject(proj);
+        assertEquals(worker.getProjects().size(), 1);
+    }
+
+    @Test
+    public void testAddingDuplicateProjects(){
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        Project proj = new Project("p1", qualifications, ProjectSize.BIG);
+        worker.addProject(proj);
+        worker.addProject(proj);
+        assertEquals(worker.getProjects().size(), 1);
+    }
+
+    @Test
+    public void testWorkerDoesntLimitAddingProjects(){
+        int numberSmallProjects = 13;
+        Set<Qualification> qualifications = new HashSet<Qualification>();
+        for(Integer i = 0; i < numberSmallProjects; i++){
+            String projectName = "p" + i.toString();
+            Project p = new Project(projectName, qualifications, ProjectSize.BIG);
+            worker.addProject(p);
+        }
+        assertEquals(worker.getProjects().size(), numberSmallProjects);
+    }
+
+    
+
 }
