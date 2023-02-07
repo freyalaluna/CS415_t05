@@ -30,7 +30,7 @@ public class Worker {
 
 	@Override
 	public int hashCode() {
-		if(name.isEmpty() || name == null){
+		if(name.isEmpty()){
 			return 0;
 		}
 		return name.hashCode();
