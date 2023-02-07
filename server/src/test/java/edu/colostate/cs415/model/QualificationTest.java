@@ -51,7 +51,7 @@ public class QualificationTest {
 		assertEquals("Qualification.toString returns null", qualificationWithNullDesc.toString(), null);
 	}
 
-	 /*** addQualifications */
+	 /*** addWorkers */
 	 @Test
 	 public void testAddWorkerReturnsCorrectNumberOfWorkers() {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
@@ -82,6 +82,24 @@ public class QualificationTest {
 		 qualWithWorkers.addWorker(w1);
 		 qualWithWorkers.addWorker(w1);
 		 qualWithWorkers.addWorker(w2);
+		 qualWithWorkers.addWorker(w2);
+		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	 }
+
+	 /*** getWorkers */
+	 @Test
+	 public void testGetWorkersReturnsEmptySet() {
+		Qualification q1 = new Qualification("test");
+		assertEquals(q1.getWorkers().size(), 0);
+	 }
+ 
+	 @Test
+	 public void testGetWorkerssReturnsCorrectNumberOfWorkerss() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		 qualWithWorkers.addWorker(w1);
 		 qualWithWorkers.addWorker(w2);
 		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
