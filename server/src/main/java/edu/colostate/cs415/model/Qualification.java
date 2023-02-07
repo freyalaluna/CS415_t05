@@ -34,10 +34,11 @@ public class Qualification {
 	}
 
 	public Set<Worker> getWorkers() {
-		return null;
+		return workers;
 	}
 
 	public void addWorker(Worker worker) {
+		workers.add(worker);
 	}
 
 	public void removeWorker(Worker worker) {
