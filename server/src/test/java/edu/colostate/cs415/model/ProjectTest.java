@@ -24,8 +24,45 @@ public class ProjectTest {
 		assert (true);
 	}
 
-	/***** getStatus *****/
 
+	/*** getName ***/
+
+	@Test
+	public void testGetNameWithNullName() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectNullName = new Project(null, qualifications, size);
+		assertEquals("", projectNullName.getName(), "");
+	}
+
+	@Test
+	public void testGetNameWithEmptyName() {
+		assertEquals("", project.getName(), "");
+	}
+
+	@Test
+	public void testGetNameWithValidNameSingle() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectValidName = new Project("test", qualifications, size);
+		assertEquals("", projectValidName.getName(), "test");
+	}
+
+	@Test
+	public void testGetNameWithValidNameMultiWords() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectValidNameMultiWords = new Project("Test Name", qualifications, size);
+		assertEquals("", projectValidNameMultiWords.getName(), "Test Name");
+	}
+
+	@Test
+	public void testGetNameWithDigits() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectNameDigits = new Project("twentyT00", qualifications, size);
+		assertEquals("", projectNameDigits.getName(), "twentyT00");
+	}
+
+
+	/***** getStatus *****/
+  
 	@Test
 	public void testGetStatus(){
 		assertEquals("Project.getStatus() returns PLANNED upon construction", ProjectStatus.PLANNED, project.getStatus());
@@ -42,6 +79,7 @@ public class ProjectTest {
 	}
 
 	/***** HASHCODE *****/
+  
 	@Test
 	public void testHashCodeWithNullString() {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
