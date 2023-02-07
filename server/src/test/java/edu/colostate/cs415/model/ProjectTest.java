@@ -31,6 +31,51 @@ public class ProjectTest {
 		assert (true);
 	}
 
+	/*** toString ***/
+	@Test
+	public void testToStringAllNull() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringAllEmpty() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringAllValid() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringOnlyNameValid() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringOnlyNumWorkersValid() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringOnlyStatusValid() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringOnlyNameEmpty() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringOnlyNumWorkersEmpty() {
+		assert (true);
+	}
+
+	@Test
+	public void testToStringOnlyStatusEmpty() {
+		assert (true);
+	}
 
 	/*** getName ***/
 
