@@ -35,7 +35,10 @@ public class Project {
 	}
 
 	public String getName() {
-		return null;
+		if (this.name == null) {
+			this.name = "";
+		}
+		return this.name;
 	}
 
 	public ProjectSize getSize() {
