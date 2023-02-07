@@ -1,6 +1,7 @@
 package edu.colostate.cs415.model;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.lang.Integer;
 
@@ -202,7 +203,7 @@ public class WorkerTest {
         assertEquals(workerWithQuals.getQualifications().size(), 2);
     }
 
-    /*** getProjects - addProjects */
+    /*** getProjects - addProjects - removeProjects */
     @Test
     public void testGetProjectsReturnsEmptySet(){
         assertEquals(worker.getProjects().size(), 0);
@@ -237,6 +238,41 @@ public class WorkerTest {
         assertEquals(worker.getProjects().size(), numberSmallProjects);
     }
 
-    
+    @Test
+    public void testRemoveProject(){
+        Project project = new Project("test", null, null);
+        worker.addProject(project);
+        assertTrue(worker.getProjects().size() == 1);
+        worker.removeProject(project);
+        assertTrue(worker.getProjects().size() == 0);
+    }
 
+    @Test
+    public void testRemoveProjectNotInWorkersProjects(){
+        Project project = new Project("test", null, null);
+        Project notWorkersProject = new Project("bad proj", null, null);
+        worker.addProject(project);
+        assertTrue(worker.getProjects().size() == 1);
+        worker.removeProject(notWorkersProject);
+        assertTrue(worker.getProjects().size() == 1);
+    }
+
+    @Test
+    public void testRemoveProjectWhenMultipleProjects(){
+        Project project1 = new Project("test1", null, null);
+        Project project2 = new Project("test2", null, null);
+        Project project3 = new Project("test3", null, null);
+        worker.addProject(project1);
+        worker.addProject(project2);
+        worker.addProject(project3);
+        assertTrue(worker.getProjects().size() == 3);
+        worker.removeProject(project2);
+        LinkedList<String> names = new LinkedList<String>();
+        for(Project proj: worker.getProjects()){
+            names.add(proj.getName());
+        }
+        assertTrue(names.contains("test1"));
+        assertTrue(names.contains("test3"));
+        assertTrue(worker.getProjects().size() == 2);
+    }
 }
