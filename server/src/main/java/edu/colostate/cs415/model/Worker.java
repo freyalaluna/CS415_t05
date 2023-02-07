@@ -54,16 +54,18 @@ public class Worker {
 		return this.qualifications;
 	}
 
+	// NOTE: caller's responsibility to ensure that this qualification is from the company's set of qualifications
 	public void addQualification(Qualification qualification) {
-		// caller's responsibility to ensure that this qualification is from the company's set of qualifications
 		qualifications.add(qualification);
 	}
 
 	public Set<Project> getProjects() {
 		return this.projects;
 	}
-
+	
+	// NOTE: caller's responsibility to check if the project can be added to the worker and also to ensure that the worker is added to the project
 	public void addProject(Project project) {
+		projects.add(project);
 	}
 
 	public void removeProject(Project project) {
