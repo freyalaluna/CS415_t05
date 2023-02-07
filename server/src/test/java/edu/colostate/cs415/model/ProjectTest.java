@@ -28,27 +28,35 @@ public class ProjectTest {
 
 	@Test
 	public void testGetNameWithNullName() {
-		assert (true);
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectNullName = new Project(null, qualifications, size);
+		assertEquals("", projectNullName.getName(), "");
 	}
 
 	@Test
 	public void testGetNameWithEmptyName() {
-		assert (true);
+		assertEquals("", project.getName(), "");
 	}
 
 	@Test
 	public void testGetNameWithValidNameSingle() {
-		assert (true);
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectValidName = new Project("test", qualifications, size);
+		assertEquals("", projectValidName.getName(), "test");
 	}
 
 	@Test
 	public void testGetNameWithValidNameMultiWords() {
-		assert (true);
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectValidNameMultiWords = new Project("Test Name", qualifications, size);
+		assertEquals("", projectValidNameMultiWords.getName(), "Test Name");
 	}
 
 	@Test
 	public void testGetNameWithDigits() {
-		assert (true);
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectNameDigits = new Project("twentyT00", qualifications, size);
+		assertEquals("", projectNameDigits.getName(), "twentyT00");
 	}
 
 
