@@ -51,7 +51,7 @@ public class QualificationTest {
 		assertEquals("Qualification.toString returns null", qualificationWithNullDesc.toString(), null);
 	}
 
-	 /*** addQualifications */
+	 /*** addWorkers */
 	 @Test
 	 public void testAddWorkerReturnsCorrectNumberOfWorkers() {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
@@ -85,5 +85,72 @@ public class QualificationTest {
 		 qualWithWorkers.addWorker(w2);
 		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
+
+	 /*** Remove Workers */
+
+	 @Test
+	public void testremoveWorkerWithValidWorkerEmptySet() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Qualification qualWithNoWorkers = new Qualification("test");
+		 qualWithNoWorkers.removeWorker((w1));
+		 assertEquals(qualWithNoWorkers.getWorkers().size(), 0);
+	}
+
+	@Test
+	public void testRemoveWorkerWithValidWorkerLastInSet() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Worker w3 = new Worker("W3", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w2);
+		qualWithWorkers.addWorker(w3);
+		qualWithWorkers.removeWorker((w3));
+		assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	}
+
+	@Test
+	public void testRemoveWorkerWithValidWorkerMiddleOfSet() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Worker w3 = new Worker("W3", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w2);
+		qualWithWorkers.addWorker(w3);
+		qualWithWorkers.removeWorker((w2));
+		assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	}
+
+	@Test
+	public void testRemoveWorkerWithValidWorkerFirstInSet() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Worker w3 = new Worker("W3", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w2);
+		qualWithWorkers.addWorker(w3);
+		qualWithWorkers.removeWorker((w1));
+		assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	}
+
+	@Test
+	public void testRemoveWorkerWithInvalidWorker() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Worker w3 = new Worker("W3", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w2);
+		qualWithWorkers.removeWorker((w3));
+		assertEquals(qualWithWorkers.getWorkers().size(), 2);
+	}
+
 
 }
