@@ -22,7 +22,10 @@ public class Worker {
 
 	@Override
 	public boolean equals(Object other) {
-		return false;
+		if(other == null || other.getClass() != Worker.class || ((Worker)other).getName() == null){
+			return false;
+		}
+		return this.name.equals(((Worker)other).getName());
 	}
 
 	@Override

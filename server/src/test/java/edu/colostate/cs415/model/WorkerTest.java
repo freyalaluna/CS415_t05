@@ -18,6 +18,35 @@ public class WorkerTest {
         worker = new Worker("", qualifications, 0.0);
     }
 
+    /**** EQUALS *****/
+    @Test
+    public void testEqualsReturnsTrue() {
+        assertTrue("worker should equal worker", worker.equals(worker));
+    }
+
+    @Test
+    public void testEqualsReturnsFalse(){
+        Worker testWorker2 = new Worker("test", null, 0.0);
+        assertFalse("worker should not equal test worker", worker.equals(testWorker2));
+    }
+
+    @Test
+    public void testEqualsReturnsFalseWithNullObject(){
+        assertFalse("equals returns false with null object", worker.equals(null));
+    }
+
+    @Test
+    public void testEqualsReturnsFalseWithNonWorkerObject(){
+        String nonWorker = "test";
+        assertFalse("equals returns false with non worker object", worker.equals(nonWorker));
+    }
+
+    @Test
+    public void testEqualsReturnsFalseWithNullName(){
+        Worker testWorker2 = new Worker(null, null, 0.0);
+        assertFalse("equals returns false with null name", worker.equals(testWorker2));
+    }
+
     /***** TOSTRING *****/
     @Test
     public void testToString() {
