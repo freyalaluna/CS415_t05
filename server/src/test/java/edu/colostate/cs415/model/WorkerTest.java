@@ -102,11 +102,6 @@ public class WorkerTest {
 
     /***** HASHCODE *****/
 	@Test
-    public void testHashCodeWithNullString() {
-        assertEquals( "Worker.hashCode returns 0 with a null string", worker.hashCode(), 0);
-    }
-
-	@Test
     public void testHashCodeWithEmptyString() {
         assertEquals( "Worker.hashCode returns 0 with an empty string", worker.hashCode(), 0);
     }
