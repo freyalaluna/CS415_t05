@@ -22,7 +22,7 @@ public class WorkerTest {
         worker = new Worker("", qualifications, 0.0);
     }
 
-    @Rule public ExpectedException thrown= ExpectedException.none();
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
     /**** EQUALS *****/
     @Test
