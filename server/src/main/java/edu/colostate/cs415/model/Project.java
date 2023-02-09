@@ -26,7 +26,11 @@ public class Project {
 
 	@Override
 	public boolean equals(Object other) {
-		return false;
+		// You will override the equals(o : Object) method inherited by the class.
+		// Two Project instances are equal if and only if their names match.
+
+		// add conditional if
+		return this.name.equals(((Worker)other).getName());
 	}
 
 	@Override
