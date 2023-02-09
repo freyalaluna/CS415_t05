@@ -12,11 +12,15 @@ public class Project {
 	private Set<Worker> workers;
 	private Set<Qualification> qualifications;
 
-	public Project(String name, Set<Qualification> qs, ProjectSize size) {
+	public Project(String name, Set<Qualification> qs, ProjectSize size) throws IllegalArgumentException {
+		if (size == null) {
+			throw new IllegalArgumentException();
+		}
 		this.name = name;
-		qs = qualifications;
+		this.qualifications = qs;
+		// TODO: in new branch check for null for all other types
 		this.size = size;
-		status = ProjectStatus.PLANNED;
+		this.status = ProjectStatus.PLANNED;
 	}
 
 	@Override
@@ -39,14 +43,11 @@ public class Project {
 	}
 
 	public String getName() {
-		if (this.name == null) {
-			this.name = "";
-		}
 		return this.name;
 	}
 
 	public ProjectSize getSize() {
-		return null;
+		return this.size;
 	}
 
 	public ProjectStatus getStatus() {
