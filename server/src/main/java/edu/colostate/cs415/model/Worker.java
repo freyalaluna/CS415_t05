@@ -30,9 +30,6 @@ public class Worker {
 
 	@Override
 	public int hashCode() {
-		if(name.isEmpty() || name == null){
-			return 0;
-		}
 		return name.hashCode();
 	}
 
@@ -50,6 +47,9 @@ public class Worker {
 	}
 
 	public void setSalary(double salary) {
+		if(salary <= 0){
+			throw new IllegalArgumentException();
+		}
 		this.salary = salary;
 	}
 
@@ -59,6 +59,9 @@ public class Worker {
 
 	// NOTE: caller's responsibility to ensure that this qualification is from the company's set of qualifications
 	public void addQualification(Qualification qualification) {
+		if(qualification == null){
+			throw new IllegalArgumentException();
+		}
 		qualifications.add(qualification);
 	}
 
@@ -68,10 +71,17 @@ public class Worker {
 	
 	// NOTE: caller's responsibility to check if the project can be added to the worker and also to ensure that the worker is added to the project
 	public void addProject(Project project) {
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
 		projects.add(project);
 	}
 
 	public void removeProject(Project project) {
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
+		projects.remove(project);
 	}
 
 	public int getWorkload() {
