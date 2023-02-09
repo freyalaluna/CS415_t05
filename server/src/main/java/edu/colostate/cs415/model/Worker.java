@@ -14,6 +14,9 @@ public class Worker {
 	private Set<Qualification> qualifications;
 
 	public Worker(String name, Set<Qualification> qualifications, double salary) {
+		if(name == null || name.isEmpty() || qualifications == null || salary <= 0){
+			throw new IllegalArgumentException();
+		}
 		this.name = name;
 		this.qualifications = qualifications;
 		this.salary = salary;
