@@ -13,12 +13,11 @@ public class Project {
 	private Set<Qualification> qualifications;
 
 	public Project(String name, Set<Qualification> qs, ProjectSize size) throws IllegalArgumentException {
-		if (size == null) {
+		if (size == null || name == null || qs == null) {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
 		this.qualifications = qs;
-		// TODO: in new branch check for null for all other types
 		this.size = size;
 		this.status = ProjectStatus.PLANNED;
 	}
