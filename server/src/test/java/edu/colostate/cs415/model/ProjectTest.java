@@ -34,14 +34,13 @@ public class ProjectTest {
 
 	/*** getName ***/
 
-	/* TODO: the project constructor needs to take account null values,
-		this will be fixed in the next PR */
-	// @Test
-	// public void testGetNameWithNullName() {
-	// 	Set<Qualification> qualifications = new HashSet<Qualification>();
-	// 	Project projectNullName = new Project(null, qualifications, size);
-	// 	assertEquals("", projectNullName.getName(), "");
-	// }
+	@Test
+	public void testGetNameWithNullName() {
+		thrown.expect( IllegalArgumentException.class );
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectNullName = new Project(null, qualifications, size);
+		projectNullName.getName();
+	}
 
 	@Test
 	public void testGetNameWithEmptyName() {
@@ -115,14 +114,13 @@ public class ProjectTest {
 
 	/***** HASHCODE *****/
   
-	/* TODO: the project constructor needs to take account null values,
-		this will be fixed in the next PR */
-	// @Test
-	// public void testHashCodeWithNullString() {
-	// 	Set<Qualification> qualifications = new HashSet<Qualification>();
-    //     Project emptyProject = new Project(null, qualifications, size);
-	// 	assertEquals( "Project.hashCode returns 0 with a null string", emptyProject.hashCode(), 0);
-	// }
+	@Test
+	public void testHashCodeWithNullString() {
+		thrown.expect( IllegalArgumentException.class );
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+        Project emptyProject = new Project(null, qualifications, size);
+		emptyProject.hashCode();
+	}
 
 	@Test
 	public void testHashCodeWithEmptyString() {
@@ -131,7 +129,7 @@ public class ProjectTest {
 
 	@Test
 	public void testHashCodeWithValidString() {
-		Project validProjectName = new Project("projectName", null, size);
+		Project validProjectName = new Project("projectName",  new HashSet<Qualification>(), size);
 		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
 	}
 
