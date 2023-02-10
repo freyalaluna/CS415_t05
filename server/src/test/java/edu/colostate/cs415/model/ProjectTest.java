@@ -178,4 +178,10 @@ public class ProjectTest {
 		project.addWorker(w2);
 		assertEquals(2, project.getWorkers().size());
 	}
+
+	@Test
+	public void testAddWorkerWithNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		project.addWorker(null);
+	}
 }
