@@ -25,7 +25,7 @@ public class Worker {
 
 	@Override
 	public boolean equals(Object other) {
-		if(other == null || other.getClass() != Worker.class || ((Worker)other).getName() == null){
+		if(other == null || other.getClass() != Worker.class){
 			return false;
 		}
 		return this.name.equals(((Worker)other).getName());
