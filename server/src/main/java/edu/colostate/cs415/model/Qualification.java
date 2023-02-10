@@ -49,6 +49,13 @@ public class Qualification {
 	}
 
 	public QualificationDTO toDTO() {
-		return null;
+		Set<String> workerStrings = new HashSet<String>();
+		for (Worker w : workers) {
+			workerStrings.add(w.toString());
+		}
+		String[] workerArray = workerStrings.toArray(new String[0]);
+		QualificationDTO qdto = new QualificationDTO(this.description, workerArray);
+		return qdto;
 	}
+ 
 }
