@@ -183,7 +183,6 @@ public class ProjectTest {
 		project.addWorker(null);
 	}
 
-<<<<<<< HEAD
 	/***** removeAllWorkers *****/
 
 	@Test
@@ -205,7 +204,6 @@ public class ProjectTest {
 		project.removeAllWorkers();
 		assertEquals(0, project.getWorkers().size());
 	}
-=======
 	/***** removeWorker *****/
 	
 	@Test
@@ -236,5 +234,4 @@ public class ProjectTest {
 	
 
 	
->>>>>>> main
 }
