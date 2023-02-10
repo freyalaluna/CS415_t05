@@ -14,6 +14,9 @@ public class Worker {
 	private Set<Qualification> qualifications;
 
 	public Worker(String name, Set<Qualification> qualifications, double salary) {
+		if(name == null || name.isEmpty() || qualifications == null || salary <= 0){
+			throw new IllegalArgumentException();
+		}
 		this.name = name;
 		this.qualifications = qualifications;
 		this.salary = salary;
@@ -22,7 +25,7 @@ public class Worker {
 
 	@Override
 	public boolean equals(Object other) {
-		if(other == null || other.getClass() != Worker.class || ((Worker)other).getName() == null){
+		if(other == null || other.getClass() != Worker.class){
 			return false;
 		}
 		return this.name.equals(((Worker)other).getName());
