@@ -15,7 +15,7 @@ public class ProjectTest {
 
 	private Project project;
 	private ProjectSize size = ProjectSize.SMALL;
-
+	
 	
 	@Before
     public void setUp() {
@@ -31,7 +31,44 @@ public class ProjectTest {
 		assert (true);
 	}
 
+	/*** EQUALS ***/
+	private Project projectValidName = new Project("test1", new HashSet<Qualification>(), size);
+	private Project projectEmptyName = new Project("", new HashSet<Qualification>(), size);
 
+	@Test
+    public void testEqualsReturnsTrue() {
+		assertTrue("Project.equals() returns TRUE with a valid description", projectValidName.equals(projectValidName));
+    }
+	
+    @Test
+    public void testEqualsReturnsFalse(){
+		Project projectValidName2 = new Project("test2", new HashSet<Qualification>(), size);
+        assertFalse("Project.equals() returns FALSE with two different project names", projectValidName.equals(projectValidName2));
+    }
+
+	@Test
+    public void testEqualsReturnsFalseWithEmptyName(){
+		assertFalse("Project.equals() returns FALSE with an empty name", projectValidName.equals(projectEmptyName));
+    }
+
+	@Test
+	public void testEqualsReturnsFalseWithNullName(){
+		thrown.expect(IllegalArgumentException.class);
+		Project projectNullName = new Project(null, new HashSet<Qualification>(), size);
+		projectValidName.equals(projectNullName);
+	}
+
+    @Test
+    public void testEqualsReturnsFalseWithNullObject(){
+		assertFalse("Project.equals() returns FALSE with null object", projectValidName.equals(null));
+    }
+	
+	@Test
+    public void testEqualsReturnsFalseWithNonProjectObject(){
+		String nonProjectObject = "test";
+        assertFalse("Project.equals() returns FALSE with non Project object", projectValidName.equals(nonProjectObject));
+    }
+	
 	/*** getName ***/
 
 	@Test
