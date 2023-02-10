@@ -14,6 +14,9 @@ public class Worker {
 	private Set<Qualification> qualifications;
 
 	public Worker(String name, Set<Qualification> qualifications, double salary) {
+		if(name == null || name.isEmpty() || qualifications == null || salary <= 0){
+			throw new IllegalArgumentException();
+		}
 		this.name = name;
 		this.qualifications = qualifications;
 		this.salary = salary;
@@ -22,7 +25,7 @@ public class Worker {
 
 	@Override
 	public boolean equals(Object other) {
-		if(other == null || other.getClass() != Worker.class || ((Worker)other).getName() == null){
+		if(other == null || other.getClass() != Worker.class){
 			return false;
 		}
 		return this.name.equals(((Worker)other).getName());
@@ -30,9 +33,6 @@ public class Worker {
 
 	@Override
 	public int hashCode() {
-		if(name.isEmpty() || name == null){
-			return 0;
-		}
 		return name.hashCode();
 	}
 
@@ -50,6 +50,9 @@ public class Worker {
 	}
 
 	public void setSalary(double salary) {
+		if(salary <= 0){
+			throw new IllegalArgumentException();
+		}
 		this.salary = salary;
 	}
 
@@ -59,6 +62,9 @@ public class Worker {
 
 	// NOTE: caller's responsibility to ensure that this qualification is from the company's set of qualifications
 	public void addQualification(Qualification qualification) {
+		if(qualification == null){
+			throw new IllegalArgumentException();
+		}
 		qualifications.add(qualification);
 	}
 
@@ -68,14 +74,27 @@ public class Worker {
 	
 	// NOTE: caller's responsibility to check if the project can be added to the worker and also to ensure that the worker is added to the project
 	public void addProject(Project project) {
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
 		projects.add(project);
 	}
 
 	public void removeProject(Project project) {
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
+		projects.remove(project);
 	}
 
 	public int getWorkload() {
-		return 0;
+		int workload = 0;
+		for(Project project: projects){
+			if(project.getStatus() != ProjectStatus.FINISHED){
+				workload += project.getSize().getValue();
+			}
+		}
+		return workload;
 	}
 
 	public boolean willOverload(Project project) {
