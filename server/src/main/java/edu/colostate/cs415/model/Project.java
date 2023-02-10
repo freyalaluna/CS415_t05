@@ -67,6 +67,10 @@ public class Project {
 	}
 
 	public void removeWorker(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
+		workers.remove(worker);
 	}
 
 	public Set<Worker> getWorkers() {
