@@ -278,4 +278,29 @@ public class WorkerTest {
         thrown.expect( IllegalArgumentException.class );
         worker.removeProject(null);
     }
+
+    /**** WORKLOAD ****/
+
+    @Test
+    public void testGetWorkloadWithNoProjects(){
+        assertTrue(worker.getWorkload() == 0);
+    }
+
+    @Test
+    public void testGetWorkloadWithProject(){
+        worker.addProject(new Project("p1", qualifications, ProjectSize.BIG));
+        worker.addProject(new Project("p2", qualifications, ProjectSize.MEDIUM));
+        worker.addProject(new Project("p3", qualifications, ProjectSize.SMALL));
+        assertTrue(worker.getWorkload() == 6);
+    }
+
+    @Test
+    public void testGetWorkloadWithFinishedProject(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        p1.setStatus(ProjectStatus.FINISHED);
+        worker.addProject(p1);
+        worker.addProject(new Project("p2", qualifications, ProjectSize.MEDIUM));
+        worker.addProject(new Project("p3", qualifications, ProjectSize.SMALL));
+        assertTrue(worker.getWorkload() == 3);
+    }
 }
