@@ -82,10 +82,14 @@ public class Project {
 	}
 
 	public Set<Qualification> getRequiredQualifications() {
-		return null;
+		return qualifications;
 	}
 
 	public void addQualification(Qualification qualification) {
+		if(qualification == null){
+			throw new IllegalArgumentException();
+		}
+		qualifications.add(qualification);
 	}
 
 	public Set<Qualification> getMissingQualifications() {
