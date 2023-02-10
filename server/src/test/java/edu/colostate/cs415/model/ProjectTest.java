@@ -135,10 +135,53 @@ public class ProjectTest {
 		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
 	}
 
+	/***** getWorkers *****/
+
 	@Test
 	public void testGetWorkers(){
-		assertEquals(null, project.getWorkers());
+		assertTrue(project.getWorkers().isEmpty());
 	}
 
-	//Will add more tests once addWorker is done
+	@Test
+	public void testGetWorkersWithMultipleWorkers(){
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", qualifications, 10);
+		project.addWorker(w1);
+		assertTrue(project.getWorkers().contains(w1));
+	}
+
+	/***** addWorker *****/
+
+	@Test
+	public void testAddWorkerWithOneWorker(){
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", qualifications, 10.0);
+		project.addWorker(w1);
+		assertEquals(1, project.getWorkers().size());
+	}
+
+	@Test
+	public void testAddWorkerWithTwoIdenticalyWorkers(){
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", qualifications, 10.0);
+		project.addWorker(w1);
+		project.addWorker(w1);
+		assertEquals(1, project.getWorkers().size());
+	}
+
+	@Test
+	public void testAddWorkersWithMultipleWorkers(){
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", qualifications, 10.0);
+		Worker w2 = new Worker("Ron Weasley", qualifications, 99.0);
+		project.addWorker(w1);
+		project.addWorker(w2);
+		assertEquals(2, project.getWorkers().size());
+	}
+
+	@Test
+	public void testAddWorkerWithNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		project.addWorker(null);
+	}
 }

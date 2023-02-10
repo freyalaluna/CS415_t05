@@ -1,5 +1,6 @@
 package edu.colostate.cs415.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import edu.colostate.cs415.dto.ProjectDTO;
@@ -21,6 +22,7 @@ public class Project {
 		// TODO: in new branch check for null for all other types
 		this.size = size;
 		this.status = ProjectStatus.PLANNED;
+		this.workers = new HashSet<>();
 	}
 
 	@Override
@@ -59,13 +61,17 @@ public class Project {
 	}
 
 	public void addWorker(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
+		this.workers.add(worker);
 	}
 
 	public void removeWorker(Worker worker) {
 	}
 
 	public Set<Worker> getWorkers() {
-		return workers;
+		return this.workers;
 	}
 
 	public void removeAllWorkers() {
