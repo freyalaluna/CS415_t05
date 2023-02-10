@@ -61,6 +61,9 @@ public class Project {
 	}
 
 	public void addWorker(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
 		this.workers.add(worker);
 	}
 
