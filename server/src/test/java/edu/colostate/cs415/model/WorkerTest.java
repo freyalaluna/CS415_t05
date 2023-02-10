@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class WorkerTest {
     private Worker worker;
+    private ProjectSize size = ProjectSize.SMALL;
 
     @Before
     public void setUp() throws Exception {
@@ -250,7 +251,7 @@ public class WorkerTest {
 
     @Test
     public void testRemoveProject(){
-        Project project = new Project("test", null, null);
+        Project project = new Project("test", new HashSet<Qualification>(), size);
         worker.addProject(project);
         assertTrue(worker.getProjects().size() == 1);
         worker.removeProject(project);
@@ -259,8 +260,8 @@ public class WorkerTest {
 
     @Test
     public void testRemoveProjectNotInWorkersProjects(){
-        Project project = new Project("test", null, null);
-        Project notWorkersProject = new Project("bad proj", null, null);
+        Project project = new Project("test", new HashSet<Qualification>(), size);
+        Project notWorkersProject = new Project("bad proj", new HashSet<Qualification>(), size);
         worker.addProject(project);
         assertTrue(worker.getProjects().size() == 1);
         worker.removeProject(notWorkersProject);
@@ -269,9 +270,9 @@ public class WorkerTest {
 
     @Test
     public void testRemoveProjectWhenMultipleProjects(){
-        Project project1 = new Project("test1", null, null);
-        Project project2 = new Project("test2", null, null);
-        Project project3 = new Project("test3", null, null);
+        Project project1 = new Project("test1", new HashSet<Qualification>(), size);
+        Project project2 = new Project("test2", new HashSet<Qualification>(), size);
+        Project project3 = new Project("test3", new HashSet<Qualification>(), size);
         worker.addProject(project1);
         worker.addProject(project2);
         worker.addProject(project3);
