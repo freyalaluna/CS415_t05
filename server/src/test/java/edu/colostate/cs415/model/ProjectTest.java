@@ -184,4 +184,35 @@ public class ProjectTest {
 		thrown.expect(IllegalArgumentException.class);
 		project.addWorker(null);
 	}
+
+	/***** removeWorker *****/
+	
+	@Test
+	public void testRemovingNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		project.removeWorker(null);
+	}
+
+	@Test
+	public void testRemovingNonExistentWorker(){
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", qualifications, 5.0);
+		Worker w2 = new Worker("test2", qualifications, 4.0);
+		project.addWorker(w1);
+		project.removeWorker(w2);
+		assertEquals(1, project.getWorkers().size());
+	}
+
+	@Test
+	public void testRemovingValidWorker(){
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", qualifications, 10.0);
+		project.addWorker(w1);
+		assertEquals(1, project.getWorkers().size());
+		project.removeWorker(w1);
+		assertEquals(0, project.getWorkers().size());
+	}
+	
+
+	
 }
