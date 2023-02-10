@@ -17,9 +17,12 @@ public class Qualification {
 
 	@Override
 	public boolean equals(Object other) {
-		return false;
+		if(other == null || other.getClass() != Qualification.class || ((Qualification)other).toString() == null){
+			return false;
+		}
+		return this.description.equals(((Qualification)other).toString());
 	}
-
+ 
 	@Override
 	public int hashCode() {
 		if(description == null || description.isEmpty()){
