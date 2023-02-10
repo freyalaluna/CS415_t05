@@ -169,4 +169,16 @@ public class QualificationTest {
 		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
 
+	@Test
+	public void testtoDTOReturnsCorrectDescription() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Worker w1 = new Worker("W1", qualifications, 0.0);
+		Worker w2 = new Worker("W2", qualifications, 0.0);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w2);
+		assertEquals(qualWithWorkers.toDTO().getDescription(), "test");
+	}
+
+
 }
