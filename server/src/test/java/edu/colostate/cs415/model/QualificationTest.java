@@ -19,6 +19,34 @@ public class QualificationTest {
 		qualificationWithEmptyDesc = new Qualification("");
 		qualificationWithValidDesc = new Qualification("test-description");
     }
+
+	/**** EQUALS *****/
+    @Test
+    public void testEqualsReturnsTrue() {
+        assertTrue("qualificationWithValidDesc should equal qualificationWithValidDesc", qualificationWithValidDesc.equals(qualificationWithValidDesc));
+    }
+
+    @Test
+    public void testEqualsReturnsFalse(){
+        assertFalse("qualificationWithEmptyDesc should not equal qualificationWithValidDesc", qualificationWithEmptyDesc.equals(qualificationWithValidDesc));
+    }
+
+    @Test
+    public void testEqualsReturnsFalseWithNullObject(){
+        assertFalse("equals returns false with null object", qualificationWithValidDesc.equals(null));
+    }
+
+    @Test
+    public void testEqualsReturnsFalseWithNonWorkerObject(){
+        String nonQualification = "test";
+        assertFalse("equals returns false with non qualification object", qualificationWithValidDesc.equals(nonQualification));
+    }
+
+    @Test
+    public void testEqualsReturnsFalseWithNullDesc(){
+        assertFalse("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithNullDesc));
+    }
+	
 	/***** HASHCODE *****/
 	@Test
 	public void testHashCodeWithNullString() {
