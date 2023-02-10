@@ -15,15 +15,40 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class WorkerTest {
     private Worker worker;
-    private ProjectSize size = ProjectSize.SMALL;
+    private Set<Qualification> qualifications;
 
     @Before
     public void setUp() throws Exception {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
-        worker = new Worker("", qualifications, 0.0);
+		qualifications = new HashSet<Qualification>();
+        worker = new Worker("Test", qualifications, 1.0);
     }
 
     @Rule public ExpectedException thrown = ExpectedException.none();
+
+    /*** Constructor */
+    @Test
+    public void testConstructorThrowsExceptionWithNullName() {
+        thrown.expect( IllegalArgumentException.class );
+        Worker nullWorker = new Worker(null, qualifications, 1);
+    }
+
+    @Test
+    public void testConstructorThrowsExceptionWithEmptyName() {
+        thrown.expect( IllegalArgumentException.class );
+        Worker nullWorker = new Worker("", qualifications, 1);
+    }
+
+    @Test
+    public void testConstructorThrowsExceptionWithNullQuals() {
+        thrown.expect( IllegalArgumentException.class );
+        Worker nullWorker = new Worker("Test", null, 1);
+    }
+
+    @Test
+    public void testConstructorThrowsExceptionWithZeroSalary() {
+        thrown.expect( IllegalArgumentException.class );
+        Worker nullWorker = new Worker("Test", qualifications, 0);
+    }
 
     /**** EQUALS *****/
     @Test
@@ -33,7 +58,7 @@ public class WorkerTest {
 
     @Test
     public void testEqualsReturnsFalse(){
-        Worker testWorker2 = new Worker("test", null, 0.0);
+        Worker testWorker2 = new Worker("test", qualifications, 1.0);
         assertFalse("worker should not equal test worker", worker.equals(testWorker2));
     }
 
@@ -48,32 +73,18 @@ public class WorkerTest {
         assertFalse("equals returns false with non worker object", worker.equals(nonWorker));
     }
 
-    @Test
-    public void testEqualsReturnsFalseWithNullName(){
-        Worker testWorker2 = new Worker(null, null, 0.0);
-        assertFalse("equals returns false with null name", worker.equals(testWorker2));
-    }
-
     /***** TOSTRING *****/
     @Test
     public void testToString() {
-       assertEquals("Worker.toString returns :0:0:0", worker.toString(), ":0:0:0");
-    }
-
-    @Test
-    public void testToStringOnlyNameNotEmpty() {
-       Set<Qualification> qualifications = new HashSet<Qualification>();
-       Worker workerWithName = new Worker("test1", qualifications, 0.0);
-       assertEquals(workerWithName.toString(), "test1:0:0:0");
+       assertEquals("Worker.toString returns Test:0:0:1", worker.toString(), "Test:0:0:1");
     }
 
     @Test
     public void testToStringWithQuals() {
-       Set<Qualification> qualifications = new HashSet<Qualification>();
        Qualification q = new Qualification("test");
        qualifications.add(q);
-       Worker workerWithName = new Worker("test2", qualifications, 0.0);
-       assertEquals(workerWithName.toString(), "test2:0:1:0");
+       Worker workerWithName = new Worker("test2", qualifications, 1.0);
+       assertEquals(workerWithName.toString(), "test2:0:1:1");
     }
 
     @Test
@@ -86,49 +97,32 @@ public class WorkerTest {
     }
 
     @Test
-    public void testToStringWithOnlySalaryNotEmpty() {
-       Set<Qualification> qualifications = new HashSet<Qualification>();
-       Worker workerWithName = new Worker("", qualifications, 12345.9999);
-       assertEquals(workerWithName.toString(), ":0:0:12345");
-    }
-
-    @Test
     public void testToStringWithIntSalary() {
-       Set<Qualification> qualifications = new HashSet<Qualification>();
-       Worker workerWithName = new Worker("", qualifications, 4);
-       assertEquals(workerWithName.toString(), ":0:0:4");
+       Worker workerWithName = new Worker("name", qualifications, 4);
+       assertEquals(workerWithName.toString(), "name:0:0:4");
     }
 
     // Test for displaying number of projects when addProjects is done.
 
     /***** HASHCODE *****/
 	@Test
-    public void testHashCodeWithEmptyString() {
-        assertEquals( "Worker.hashCode returns 0 with an empty string", worker.hashCode(), 0);
-    }
-
-	@Test
     public void testHashCodeWithValidString() {
-		Worker workerWithValidName = new Worker(("test"), null, 0);
+		Worker workerWithValidName = new Worker(("test"), qualifications,1.0);
         assertThat("Worker.hashCode returns a non 0 code with a valid name", workerWithValidName.hashCode(), is(not(0)));
     }
 
     /**** getName ****/
-    @Test
-    public void testGetNameWithEmptyName() {
-        assertEquals(worker.getName(),"");
-    }
 
     @Test
     public void testGetNameWithNonEmptyName() {
-        Worker worker = new Worker("test", null, 0);
+        Worker worker = new Worker("test", qualifications, 1.0);
         assertEquals(worker.getName(), "test");
     }
 
     /*** getSalary - setSalary */
     @Test
     public void testGetSalary() {
-        assertEquals(worker.getSalary(), 0.0, 0.001);
+        assertEquals(worker.getSalary(), 1.0, 0.001);
     }
 
     @Test
@@ -160,10 +154,9 @@ public class WorkerTest {
     public void testGetQualificationsReturnsCorrectNumberOfQuals() {
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
-        Set<Qualification> qualifications = new HashSet<Qualification>();
         qualifications.add(q1);
         qualifications.add(q2);
-        Worker workerWithQuals = new Worker("test", qualifications, 0);
+        Worker workerWithQuals = new Worker("test", qualifications, 1.0);
         assertEquals(workerWithQuals.getQualifications().size(), 2);
     }
 
@@ -172,34 +165,30 @@ public class WorkerTest {
     public void testAddQualificationsReturnsCorrectNumberOfQuals() {
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
-        Set<Qualification> qualifications = new HashSet<Qualification>();
-        Worker workerWithQuals = new Worker("test", qualifications, 0);
-        workerWithQuals.addQualification(q1);
-        workerWithQuals.addQualification(q2);
-        assertEquals(workerWithQuals.getQualifications().size(), 2);
+        worker.addQualification(q1);
+        worker.addQualification(q2);
+        assertEquals(worker.getQualifications().size(), 2);
     }
 
     @Test
     public void testAddQualificationsWithDuplicateQualsReturnsCorrectNumberOfQuals() {
         Qualification q1 = new Qualification("q1");
-        Set<Qualification> qualifications = new HashSet<Qualification>();
-        Worker workerWithQuals = new Worker("test", qualifications, 0);
-        workerWithQuals.addQualification(q1);
-        workerWithQuals.addQualification(q1);
-        assertEquals(workerWithQuals.getQualifications().size(), 1);
+        worker = new Worker("test", qualifications, 1.0);
+        worker.addQualification(q1);
+        worker.addQualification(q1);
+        assertEquals(worker.getQualifications().size(), 1);
     }
 
     @Test
     public void testAddQualificationsWithTwoDuplicateQualsReturnsCorrectNumberOfQuals() {
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
-        Set<Qualification> qualifications = new HashSet<Qualification>();
-        Worker workerWithQuals = new Worker("test", qualifications, 0);
-        workerWithQuals.addQualification(q1);
-        workerWithQuals.addQualification(q1);
-        workerWithQuals.addQualification(q2);
-        workerWithQuals.addQualification(q2);
-        assertEquals(workerWithQuals.getQualifications().size(), 2);
+        worker = new Worker("test", qualifications, 1.0);
+        worker.addQualification(q1);
+        worker.addQualification(q1);
+        worker.addQualification(q2);
+        worker.addQualification(q2);
+        assertEquals(worker.getQualifications().size(), 2);
     }
 
     @Test
@@ -216,7 +205,6 @@ public class WorkerTest {
 
     @Test
     public void testGetProjectsReturnsCorrectNumberOfProjects(){
-        Set<Qualification> qualifications = new HashSet<Qualification>();
         Project proj = new Project("p1", qualifications, ProjectSize.BIG);
         worker.addProject(proj);
         assertEquals(worker.getProjects().size(), 1);
@@ -224,7 +212,6 @@ public class WorkerTest {
 
     @Test
     public void testAddingDuplicateProjects(){
-        Set<Qualification> qualifications = new HashSet<Qualification>();
         Project proj = new Project("p1", qualifications, ProjectSize.BIG);
         worker.addProject(proj);
         worker.addProject(proj);
@@ -234,7 +221,6 @@ public class WorkerTest {
     @Test
     public void testWorkerDoesntLimitAddingProjects(){
         int numberSmallProjects = 13;
-        Set<Qualification> qualifications = new HashSet<Qualification>();
         for(Integer i = 0; i < numberSmallProjects; i++){
             String projectName = "p" + i.toString();
             Project p = new Project(projectName, qualifications, ProjectSize.BIG);
@@ -251,7 +237,7 @@ public class WorkerTest {
 
     @Test
     public void testRemoveProject(){
-        Project project = new Project("test", new HashSet<Qualification>(), size);
+        Project project = new Project("test", qualifications, ProjectSize.BIG);
         worker.addProject(project);
         assertTrue(worker.getProjects().size() == 1);
         worker.removeProject(project);
@@ -260,8 +246,8 @@ public class WorkerTest {
 
     @Test
     public void testRemoveProjectNotInWorkersProjects(){
-        Project project = new Project("test", new HashSet<Qualification>(), size);
-        Project notWorkersProject = new Project("bad proj", new HashSet<Qualification>(), size);
+        Project project = new Project("test", qualifications, ProjectSize.BIG);
+        Project notWorkersProject = new Project("bad proj", qualifications, ProjectSize.SMALL);
         worker.addProject(project);
         assertTrue(worker.getProjects().size() == 1);
         worker.removeProject(notWorkersProject);
@@ -270,9 +256,9 @@ public class WorkerTest {
 
     @Test
     public void testRemoveProjectWhenMultipleProjects(){
-        Project project1 = new Project("test1", new HashSet<Qualification>(), size);
-        Project project2 = new Project("test2", new HashSet<Qualification>(), size);
-        Project project3 = new Project("test3", new HashSet<Qualification>(), size);
+        Project project1 = new Project("test1", qualifications, ProjectSize.SMALL);
+        Project project2 = new Project("test2", qualifications, ProjectSize.SMALL);
+        Project project3 = new Project("test3", qualifications, ProjectSize.SMALL);
         worker.addProject(project1);
         worker.addProject(project2);
         worker.addProject(project3);
@@ -291,5 +277,30 @@ public class WorkerTest {
     public void testRemoveNullProjectThrowsException(){
         thrown.expect( IllegalArgumentException.class );
         worker.removeProject(null);
+    }
+
+    /**** WORKLOAD ****/
+
+    @Test
+    public void testGetWorkloadWithNoProjects(){
+        assertTrue(worker.getWorkload() == 0);
+    }
+
+    @Test
+    public void testGetWorkloadWithProject(){
+        worker.addProject(new Project("p1", qualifications, ProjectSize.BIG));
+        worker.addProject(new Project("p2", qualifications, ProjectSize.MEDIUM));
+        worker.addProject(new Project("p3", qualifications, ProjectSize.SMALL));
+        assertTrue(worker.getWorkload() == 6);
+    }
+
+    @Test
+    public void testGetWorkloadWithFinishedProject(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        p1.setStatus(ProjectStatus.FINISHED);
+        worker.addProject(p1);
+        worker.addProject(new Project("p2", qualifications, ProjectSize.MEDIUM));
+        worker.addProject(new Project("p3", qualifications, ProjectSize.SMALL));
+        assertTrue(worker.getWorkload() == 3);
     }
 }
