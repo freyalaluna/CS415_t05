@@ -43,7 +43,7 @@ public class Project {
 
 	@Override
 	public String toString() {
-		return null;
+		return this.name + ":" + this.workers.size() + ":" + this.status;
 	}
 
 	public String getName() {
@@ -59,6 +59,9 @@ public class Project {
 	}
 
 	public void setStatus(ProjectStatus status) {
+		if (status == null) {
+			throw new IllegalArgumentException();
+		}
 		this.status = status;
 	}
 

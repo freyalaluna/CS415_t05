@@ -68,6 +68,83 @@ public class ProjectTest {
 		String nonProjectObject = "test";
         assertFalse("Project.equals() returns FALSE with non Project object", projectValidName.equals(nonProjectObject));
     }
+    
+  /*** toString ***/
+	
+	@Test
+	public void testToStringAllNull() {
+		thrown.expect( IllegalArgumentException.class );
+		Project p = new Project(null, null, size);
+		p.setStatus(null);
+		p.toString();
+	}
+
+	@Test
+	public void testToStringAllEmptyStatusNull() {
+		thrown.expect( IllegalArgumentException.class );
+		Project p = new Project("", new HashSet<Qualification>(), size);
+		// Note, there isn't a way to test status as 'empty' because it is an enum
+		p.setStatus(null);
+		p.toString();
+	}
+
+	@Test
+	public void testToStringOnlyStatusValid() {
+		Project p = new Project("", new HashSet<Qualification>(), size);
+		p.setStatus(ProjectStatus.ACTIVE);
+		assertEquals(p.toString(), ":0:ACTIVE");
+	}
+
+	@Test
+	public void testToStringAllValidOneWorker() {
+		Project p = new Project("test", new HashSet<Qualification>(), size);
+		Worker w = new Worker("name", new HashSet<Qualification>(), 100);
+		p.addWorker(w);
+		assertEquals(p.toString(), "test:1:PLANNED");
+	}
+
+	@Test
+	public void testToStringAllValidMultipleWorkers() {
+		Project p = new Project("Test", new HashSet<Qualification>(), size);
+		p.setStatus(ProjectStatus.SUSPENDED);
+		Worker w1 = new Worker("name one", new HashSet<Qualification>(), 100);
+		Worker w2 = new Worker("name two", new HashSet<Qualification>(), 100);
+		Worker w3 = new Worker("name three", new HashSet<Qualification>(), 100);
+		p.addWorker(w1);
+		p.addWorker(w2);
+		p.addWorker(w3);
+		assertEquals(p.toString(), "Test:3:SUSPENDED");
+	}
+		
+	@Test
+	public void testToStringOnlyWorkersEmpty() {
+		Project p = new Project("Test1", new HashSet<Qualification>(), size);
+		p.setStatus(ProjectStatus.FINISHED);
+		assertEquals(p.toString(), "Test1:0:FINISHED");
+	}
+
+	@Test
+	public void testToStringOnlyNameEmpty() {
+		Project p = new Project("", new HashSet<Qualification>(), size);
+		Worker w1 = new Worker("name one", new HashSet<Qualification>(), 100);
+		Worker w2 = new Worker("name two", new HashSet<Qualification>(), 100);
+		p.addWorker(w1);
+		p.addWorker(w2);
+		assertEquals(p.toString(), ":2:PLANNED");
+	}
+
+	@Test
+	public void testToStringOnlyStatusNull() {
+		thrown.expect( IllegalArgumentException.class );
+		Project p = new Project("test1", new HashSet<Qualification>(), size);
+		Worker w1 = new Worker("name one", new HashSet<Qualification>(), 100);
+		Worker w2 = new Worker("name two", new HashSet<Qualification>(), 100);
+		p.addWorker(w1);
+		p.addWorker(w2);
+		// Note, there isn't a way to test status as 'empty' because it is an enum
+		p.setStatus(null);
+		p.toString();
+	}
 	
 	/*** getName ***/
 
@@ -147,6 +224,12 @@ public class ProjectTest {
 		assertEquals("project.setStatus() sets status to PLANNED", ProjectStatus.PLANNED, project.getStatus());
 		project.setStatus(ProjectStatus.ACTIVE);
 		assertEquals("project.setStatus() sets status to ACTIVE after first change", ProjectStatus.ACTIVE, project.getStatus());
+	}
+
+	@Test
+	public void testSetStatusNull() {
+		thrown.expect( IllegalArgumentException.class );
+		project.setStatus(null);
 	}
 
 	/***** HASHCODE *****/
