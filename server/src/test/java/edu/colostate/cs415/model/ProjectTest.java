@@ -183,6 +183,27 @@ public class ProjectTest {
 		project.addWorker(null);
 	}
 
+	/***** removeAllWorkers *****/
+
+	@Test
+	public void testRemoveAllWorkersWithNoWorkers(){
+		project.removeAllWorkers();
+		assertEquals(0, project.getWorkers().size());
+	}
+
+	@Test
+	public void testRemoveAllWorkersWithMultipleWorkers(){
+		Set<Qualification> quals = new HashSet<Qualification>();
+		Worker w1 = new Worker("test1", quals, 1.0);
+		Worker w2 = new Worker("test2", quals, 2.0);
+		Worker w3 = new Worker("test3", quals, 3.0);
+		project.addWorker(w1);
+		project.addWorker(w2);
+		project.addWorker(w3);
+		assertEquals(3, project.getWorkers().size());
+		project.removeAllWorkers();
+		assertEquals(0, project.getWorkers().size());
+	}
 	/***** removeWorker *****/
 	
 	@Test
