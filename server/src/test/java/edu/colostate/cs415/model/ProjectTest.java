@@ -242,7 +242,7 @@ public class ProjectTest {
         Qualification q2 = new Qualification("q2");
         projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q2);
-        assertEquals(project.getRequiredQualifications().size(), 2);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
 
     @Test
@@ -274,4 +274,5 @@ public class ProjectTest {
 		Project projectWithQuals = new Project("", qualifications, size);
         thrown.expect( IllegalArgumentException.class );
         projectWithQuals.addQualification(null);
+	}
 }
