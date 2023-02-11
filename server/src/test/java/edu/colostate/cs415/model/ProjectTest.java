@@ -395,4 +395,98 @@ public class ProjectTest {
         thrown.expect( IllegalArgumentException.class );
         projectWithQuals.addQualification(null);
 	}
+
+	/***** getMissingQualifications *****/
+
+	@Test
+	public void testMissingQualificationsWithZeroMissing(){
+		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("can read");
+		Qualification q2 = new Qualification("can write");
+		requiredQuals.add(q1);
+		requiredQuals.add(q2);
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		w1Quals.add(q1);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q2);
+		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Worker w1 = new Worker("w1", w1Quals, 10.0);
+		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		p1.addWorker(w1);
+		p1.addWorker(w2);
+		assertTrue("getMissingQualifications returns 0 missing qualifications", p1.getMissingQualifications().isEmpty());
+		
+	}
+
+	@Test
+	public void testMissingQualificationsWithOneMissing(){
+		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("can read");
+		Qualification q2 = new Qualification("can write");
+		Qualification q3 = new Qualification("can sing");
+		requiredQuals.add(q1);
+		requiredQuals.add(q2);
+		requiredQuals.add(q3);
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		w1Quals.add(q1);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q2);
+		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Worker w1 = new Worker("w1", w1Quals, 10.0);
+		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		p1.addWorker(w1);
+		p1.addWorker(w2);
+		assertFalse("getMissingQualifications returns 0 missing qualifications", p1.getMissingQualifications().isEmpty());
+	}
+
+	@Test
+	public void testMissingQualificationsWithMultipleMissingWithSpecifications(){
+		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("can read");
+		Qualification q2 = new Qualification("can write");
+		Qualification q3 = new Qualification("can sing");
+		Qualification q4 = new Qualification("can hulahoop");
+		requiredQuals.add(q1);
+		requiredQuals.add(q2);
+		requiredQuals.add(q3);
+		requiredQuals.add(q4);
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		w1Quals.add(q1);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q2);
+		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Worker w1 = new Worker("w1", w1Quals, 10.0);
+		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		p1.addWorker(w1);
+		p1.addWorker(w2);
+		Set<Qualification> qualComparison = new HashSet<Qualification>();
+		qualComparison.add(q3);
+		qualComparison.add(q4);
+		assertEquals("getMissingQualifications return set containing q3 and q4 qualifications", qualComparison, p1.getMissingQualifications());
+	}
+
+	@Test
+	public void testMissingQualificationsWithMultipleQualsPerWorker(){
+		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("can read");
+		Qualification q2 = new Qualification("can write");
+		Qualification q3 = new Qualification("can sing");
+		Qualification q4 = new Qualification("can hulahoop");
+		requiredQuals.add(q1);
+		requiredQuals.add(q2);
+		requiredQuals.add(q3);
+		requiredQuals.add(q4);
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		w1Quals.add(q1);
+		w1Quals.add(q3);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q2);
+		w2Quals.add(q4);
+		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Worker w1 = new Worker("w1", w1Quals, 10.0);
+		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		p1.addWorker(w1);
+		p1.addWorker(w2);
+		assertTrue("getMissingQualifications return 0 missing qualifications", p1.getMissingQualifications().isEmpty());
+	}
 }

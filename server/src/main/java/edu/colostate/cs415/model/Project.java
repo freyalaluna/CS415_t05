@@ -99,7 +99,15 @@ public class Project {
 	}
 
 	public Set<Qualification> getMissingQualifications() {
-		return null;
+		Set<Qualification> presentQualifications = new HashSet<Qualification>();
+		Set<Qualification> missingQualifications = new HashSet<Qualification>();
+		missingQualifications = qualifications;
+		for(Worker w : workers){
+			presentQualifications.addAll(w.getQualifications());
+		}
+		missingQualifications.removeAll(presentQualifications);
+		
+		return missingQualifications;
 	}
 
 	public boolean isHelpful(Worker worker) {
