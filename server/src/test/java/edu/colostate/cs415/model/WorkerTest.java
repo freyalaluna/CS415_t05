@@ -7,9 +7,6 @@ import java.lang.Integer;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import edu.colostate.cs415.dto.WorkerDTO;
-
 import org.junit.Before;
 import org.junit.Rule;
 
