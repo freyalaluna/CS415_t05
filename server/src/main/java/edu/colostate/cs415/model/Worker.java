@@ -112,6 +112,19 @@ public class Worker {
 	}
 
 	public WorkerDTO toDTO() {
-		return null;
+		Set<String> projectStrings = new HashSet<String>();
+		Set<String> qualStrings = new HashSet<String>();
+		
+		for(Project p : projects){
+			projectStrings.add(p.toString());
+		}
+		for(Qualification q : qualifications){
+			qualStrings.add(q.toString());
+		}
+
+		String[] projArray = projectStrings.toArray(new String[0]);
+		String[] qualArray = qualStrings.toArray(new String[0]);
+		WorkerDTO wDTO = new WorkerDTO(name, salary, getWorkload(), projArray, qualArray);
+		return wDTO;
 	}
 }
