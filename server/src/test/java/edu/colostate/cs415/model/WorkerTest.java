@@ -303,4 +303,63 @@ public class WorkerTest {
         worker.addProject(new Project("p3", qualifications, ProjectSize.SMALL));
         assertTrue(worker.getWorkload() == 3);
     }
+
+    /**** WILLOVERLOAD ****/
+    @Test
+    public void testWillOverload(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+        Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+        Project p4 = new Project("p4", qualifications, ProjectSize.BIG);
+        Project p5 = new Project("p5", qualifications, ProjectSize.SMALL);
+        worker.addProject(p1);
+        worker.addProject(p2);
+        worker.addProject(p3);
+        worker.addProject(p4);
+        assertTrue("adding project overloads worker", worker.willOverload(p5));
+    }
+
+    @Test
+    public void testWillNotOverload(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.SMALL);
+        Project p2 = new Project("p2", qualifications, ProjectSize.SMALL);
+        Project p3 = new Project("p3", qualifications, ProjectSize.SMALL);
+        Project p4 = new Project("p4", qualifications, ProjectSize.SMALL);
+        Project p5 = new Project("p4", qualifications, ProjectSize.SMALL);
+        worker.addProject(p1);
+        worker.addProject(p2);
+        worker.addProject(p3);
+        worker.addProject(p4);
+        assertFalse("adding project will not overload worker", worker.willOverload(p5));
+    }
+
+    @Test
+    public void testWillOverloadWithFinishedProjects(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+        Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+        Project p4 = new Project("p4", qualifications, ProjectSize.BIG);
+        Project p5 = new Project("p5", qualifications, ProjectSize.SMALL);
+        worker.addProject(p1);
+        worker.addProject(p2);
+        worker.addProject(p3);
+        worker.addProject(p4);
+        assertTrue("adding project will overload before one of the 4 current projects is finished", worker.willOverload(p5));
+        p4.setStatus(ProjectStatus.FINISHED);
+        assertFalse("adding project overloads worker", worker.willOverload(p5));
+    }
+
+    @Test
+    public void testWillOverloadWithSameProject(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+        Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+        Project p4 = new Project("p4", qualifications, ProjectSize.BIG);
+        worker.addProject(p1);
+        worker.addProject(p2);
+        worker.addProject(p3);
+        worker.addProject(p4);
+        p4.setStatus(ProjectStatus.FINISHED);
+        assertFalse("adding project overloads worker", worker.willOverload(p4));
+    }
 }
