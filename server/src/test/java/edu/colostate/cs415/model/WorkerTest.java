@@ -305,6 +305,13 @@ public class WorkerTest {
     }
 
     /**** WILLOVERLOAD ****/
+
+    @Test
+    public void testWillOverloadWithNullProject(){
+        thrown.expect(IllegalArgumentException.class);
+        worker.willOverload(null);
+    }
+
     @Test
     public void testWillOverload(){
         Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
