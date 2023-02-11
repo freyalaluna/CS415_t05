@@ -102,7 +102,7 @@ public class Worker {
 	}
 
 	public boolean isAvailable() {
-		return false;
+		return getWorkload() < 12 ? true : false;
 	}
 
 	public WorkerDTO toDTO() {
