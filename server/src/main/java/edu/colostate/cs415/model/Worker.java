@@ -108,7 +108,7 @@ public class Worker {
 	}
 
 	public boolean isAvailable() {
-		return false;
+		return getWorkload() < MAX_WORKLOAD ? true : false;
 	}
 
 	public WorkerDTO toDTO() {

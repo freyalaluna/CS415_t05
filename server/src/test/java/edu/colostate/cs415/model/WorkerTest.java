@@ -369,4 +369,28 @@ public class WorkerTest {
         p4.setStatus(ProjectStatus.FINISHED);
         assertFalse("adding project overloads worker", worker.willOverload(p4));
     }
+
+    /**** ISAVAILABLE ****/
+    
+    @Test
+    public void testIsAvaialbleWithAvailibility(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+        worker.addProject(p1);
+        worker.addProject(p2);
+        assertTrue("Current workload = 6; Worker is available", worker.isAvailable());
+    }
+
+    @Test
+    public void testIsAvailableWithNoAvailability(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+        Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+        Project p4 = new Project("p4", qualifications, ProjectSize.BIG);
+        worker.addProject(p1);
+        worker.addProject(p2);
+        worker.addProject(p3);
+        worker.addProject(p4);
+        assertFalse("Current workload = 12; worker is not available", worker.isAvailable());
+    }
 }
