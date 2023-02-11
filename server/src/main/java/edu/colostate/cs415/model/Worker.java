@@ -98,7 +98,13 @@ public class Worker {
 	}
 
 	public boolean willOverload(Project project) {
-		return false;
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
+		if(getProjects().contains(project)){
+			return getWorkload() > 12 ? true : false;
+		}
+		return (project.getSize().getValue() + getWorkload()) > 12 ? true : false;
 	}
 
 	public boolean isAvailable() {
