@@ -393,4 +393,49 @@ public class WorkerTest {
         worker.addProject(p4);
         assertFalse("Current workload = 12; worker is not available", worker.isAvailable());
     }
+
+    /**** TODTO ****/
+
+    @Test
+    public void testToDTOGetsCorrectName(){
+        Worker w1 = new Worker("w1", qualifications, 10.0);
+        assertEquals(w1.toDTO().getName(), "w1");
+
+    }
+
+    @Test
+    public void testToDTOGetsCorrectSalary(){
+        Worker w1 = new Worker("w1", qualifications, 10.0);
+        assertEquals(w1.toDTO().getSalary(), 10.0, 0.001);
+
+    }
+
+    @Test
+    public void testToDTOGetsCorrectWorkload(){
+        Worker w1 = new Worker("w1", qualifications, 10.0);
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        w1.addProject(p1);
+        assertEquals(w1.toDTO().getWorkload(), 3);
+
+    }
+
+    /****Leaving this test in for if/when the toString method in the DTO classes is fixed.****
+    
+    @Test
+    public void testToDTOGetsCorrectProjects(){
+        Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+        Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+        Worker w1 = new Worker("w1", qualifications, 10.0);
+        Worker w2 = new Worker("w2", qualifications, 10.0);
+        w1.addProject(p1);
+        w1.addProject(p2);
+        p1.addWorker(w1);
+        p1.addWorker(w2);
+        String test1 = "p1:0:PLANNED";
+        //assertTrue(w1.toDTO().toString().contains("test1"));
+        
+        System.out.println(w1.toDTO().getQualifications());
+        System.out.println(w1.toDTO().toString());
+    }
+     */
 }
