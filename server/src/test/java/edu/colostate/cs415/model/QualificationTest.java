@@ -191,15 +191,15 @@ public class QualificationTest {
 		assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	}
 
-	 /*** getWorkers */
+	 /*** getWorkers *****/
 	 @Test
-	 public void testGetWorkersReturnsEmptySet() {
+	 public void testGetWorkersEmptySet() {
 		Qualification q1 = new Qualification("test");
 		assertEquals(q1.getWorkers().size(), 0);
 	 }
  
 	 @Test
-	 public void testGetWorkerssReturnsCorrectNumberOfWorkerss() {
+	 public void testGetWorkersReturnsCorrectNumberOfWorkers() {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
@@ -208,6 +208,8 @@ public class QualificationTest {
 		 qualWithWorkers.addWorker(w2);
 		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
+
+	 /**** toDTO *****/
 
 	@Test
 	public void testtoDTOReturnsCorrectDescription() {
