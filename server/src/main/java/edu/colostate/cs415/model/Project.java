@@ -119,6 +119,23 @@ public class Project {
 	}
 
 	public ProjectDTO toDTO() {
-		return null;
+		Set<String> workerStrings = new HashSet<String>();
+		Set<String> qualStrings = new HashSet<String>();
+
+		for (Worker w : workers) {
+			workerStrings.add(w.toString());
+		}
+
+		for (Qualification q : qualifications) {
+			qualStrings.add(q.toString());
+		}
+
+		String[] workersArray = workerStrings.toArray(new String[0]);
+		String[] qualArray = qualStrings.toArray(new String[0]);
+		String[] missingQualArray = getMissingQualifications().toArray(new String[0]);
+
+		ProjectDTO pdto = new ProjectDTO(name, size, status, workersArray, qualArray, missingQualArray);
+		
+		return pdto;
 	}
 }
