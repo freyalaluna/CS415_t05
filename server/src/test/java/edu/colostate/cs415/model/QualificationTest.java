@@ -5,6 +5,9 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -38,9 +41,13 @@ public class QualificationTest {
         assertTrue("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithValidDesc));
     }
 
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
 	@Test
     public void testEqualsSelfNull(){
-        assertFalse("equals returns false with null name", qualificationWithNullDesc.equals(qualificationWithValidDesc));
+		thrown.expect(IllegalArgumentException.class);
+		qualificationWithNullDesc.equals(qualificationWithValidDesc);
     }
 
 	@Test
@@ -212,7 +219,7 @@ public class QualificationTest {
 	 /**** toDTO *****/
 
 	@Test
-	public void testtoDTOReturnsCorrectDescription() {
+	public void testtoDTOValidDescriptionFullSet() {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
@@ -220,6 +227,18 @@ public class QualificationTest {
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		assertEquals(qualWithWorkers.toDTO().getDescription(), "test");
+	}
+
+	public void testtoDTOValidDescriptionEmptySet() {
+		assertEquals(qualificationWithValidDesc.toDTO().getDescription(), "test-description");
+	}
+
+	public void testtoDTOEmptyDescriptionEmptySet() {
+		assertEquals(qualificationWithEmptyDesc.toDTO().getDescription(), "");
+	}
+
+	public void testtoDTONullDescriptionEmptySet() {
+		assertEquals(qualificationWithNullDesc.toDTO().getDescription(), null);
 	}
 
 

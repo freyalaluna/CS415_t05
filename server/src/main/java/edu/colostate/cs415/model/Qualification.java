@@ -17,6 +17,9 @@ public class Qualification {
 
 	@Override
 	public boolean equals(Object other) {
+		if (this.toString() == null) {
+			throw new IllegalArgumentException();
+		}
 		if(other == null || other.getClass() != Qualification.class || ((Qualification)other).toString() == null){
 			return false;
 		}
