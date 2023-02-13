@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
+import edu.colostate.cs415.dto.ProjectDTO;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -564,5 +566,30 @@ public class ProjectTest {
 			System.out.println(mq);
 		}
 		assertFalse(p1.isHelpful(w2));
+	}
+	
+	/*** ProjectDTO ***/
+
+	@Test
+	public void testToDTOAllValid() {
+		Set<Qualification> quals = new HashSet<Qualification>();
+		Qualification qual1 = new Qualification("qualification test-1");
+		Qualification qual2 = new Qualification("qualification test-2");
+
+		quals.add(qual1);
+		quals.add(qual2);
+
+		Project validProject = new Project("projectName",  quals, size);
+
+		Worker w1 = new Worker("test1", quals, 5.0);
+		Worker w2 = new Worker("test2", quals, 4.0);
+		validProject.addWorker(w1);
+		validProject.addWorker(w2);
+
+		ProjectDTO projectDTO = validProject.toDTO();
+
+		assertEquals(projectDTO.getName(), validProject.getName());
+		assertEquals(projectDTO.getSize(), validProject.getSize());
+		assertEquals(projectDTO.getStatus(), validProject.getStatus());
 	}
 }
