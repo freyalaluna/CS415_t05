@@ -503,4 +503,26 @@ public class ProjectTest {
         projectWithQuals.addQualification(q2);
         assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
+	
+	/*** ProjectDTO ***/
+
+	@Test
+	public void testToDTOAllValid() {
+		Set<Qualification> quals = new HashSet<Qualification>();
+
+		Project validProject = new Project("projectName",  quals, size);
+
+		Worker w1 = new Worker("test1", quals, 5.0);
+		Worker w2 = new Worker("test2", quals, 4.0);
+		validProject.addWorker(w1);
+		validProject.removeWorker(w2);
+
+		Qualification qual1 = new Qualification("qualification test-1");
+		Qualification qual2 = new Qualification("qualification test-2");
+		validProject.addQualification(qual1);
+		validProject.addQualification(qual2);
+
+		assertEquals(validProject.toDTO(), qual1);
+	}
+
 }
