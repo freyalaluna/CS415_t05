@@ -7,6 +7,9 @@ import java.lang.Integer;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import edu.colostate.cs415.dto.WorkerDTO;
+
 import org.junit.Before;
 import org.junit.Rule;
 
@@ -395,6 +398,28 @@ public class WorkerTest {
     }
 
     /**** TODTO ****/
+    @Test
+    public void testToDTOAllValid(){
+        Set<Qualification> quals = new HashSet<Qualification>();
+		Qualification qual1 = new Qualification("qualification test-1");
+		Qualification qual2 = new Qualification("qualification test-2");
+        quals.add(qual1);
+        quals.add(qual2);
+
+        Worker validWorker = new Worker("Valid Worker", quals, 100.0);
+
+        Project p1 = new Project("p1", quals, ProjectSize.MEDIUM);
+        Project p2 = new Project("p2", quals, ProjectSize.MEDIUM);
+        validWorker.addProject(p1);
+        validWorker.addProject(p2);
+
+        WorkerDTO workerDTO = validWorker.toDTO();
+
+        assertEquals(workerDTO.getName(), validWorker.getName());
+        assertEquals(((int)workerDTO.getSalary()), ((int)validWorker.getSalary()));
+        assertEquals(workerDTO.getProjects().length, validWorker.getProjects().size());
+        assertEquals(workerDTO.getQualifications().length, validWorker.getQualifications().size());
+    }
 
     @Test
     public void testToDTOGetsCorrectName(){
