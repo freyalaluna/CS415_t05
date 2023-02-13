@@ -102,13 +102,13 @@ public class Worker {
 			throw new IllegalArgumentException();
 		}
 		if(getProjects().contains(project)){
-			return getWorkload() > MAX_WORKLOAD ? true : false;
+			return false;
 		}
-		return (project.getSize().getValue() + getWorkload()) > MAX_WORKLOAD ? true : false;
+		return (project.getSize().getValue() + getWorkload()) > MAX_WORKLOAD;
 	}
 
 	public boolean isAvailable() {
-		return getWorkload() < MAX_WORKLOAD ? true : false;
+		return getWorkload() < MAX_WORKLOAD;
 	}
 
 	public WorkerDTO toDTO() {

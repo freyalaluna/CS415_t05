@@ -360,7 +360,7 @@ public class WorkerTest {
     }
 
     @Test
-    public void testWillOverloadWithSameProject(){
+    public void testWillNotOverloadWithSameProject(){
         Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
         Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
         Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
