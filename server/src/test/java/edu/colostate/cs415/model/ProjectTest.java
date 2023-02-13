@@ -28,9 +28,49 @@ public class ProjectTest {
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 
+	/*** PROJECT ***/
+
 	@Test
-	public void testProjectConstruct() {
-		assert (true);
+	public void testProjectAllNull() {
+		thrown.expect(IllegalArgumentException.class);
+		Project validProject = new Project(null, null, null);
+		validProject.toString();
+	}
+
+	@Test
+	public void testProjectOnlyNameNull() {
+		thrown.expect(IllegalArgumentException.class);
+		Project validProject = new Project(null, new HashSet<Qualification>(), size);
+		validProject.getName();
+	}
+
+	@Test
+	public void testProjectOnlyQualsNull() {
+		thrown.expect(IllegalArgumentException.class);
+		Project validProject = new Project("Project Name", null, size);
+		validProject.getRequiredQualifications();
+	}
+
+	@Test
+	public void testProjectOnlySizeNull() {
+		thrown.expect(IllegalArgumentException.class);
+		Project validProject = new Project(null, new HashSet<Qualification>(), null);
+		validProject.getSize();
+	}
+
+	@Test
+	public void testProjectAllValid() {
+		Set<Qualification> quals = new HashSet<Qualification>();
+		Qualification qual1 = new Qualification("qual1");
+		Qualification qual2 = new Qualification("qual2");
+		quals.add(qual1);
+		quals.add(qual2);
+
+		Project validProject = new Project("Valid Name", quals, size);
+
+		assertEquals(validProject.getName(), "Valid Name");
+		assertEquals(validProject.getRequiredQualifications().size(), 2);
+		assertEquals(validProject.getSize(), ProjectSize.SMALL);
 	}
 
 	/*** EQUALS ***/
