@@ -100,8 +100,7 @@ public class Project {
 
 	public Set<Qualification> getMissingQualifications() {
 		Set<Qualification> presentQualifications = new HashSet<Qualification>();
-		Set<Qualification> missingQualifications = new HashSet<Qualification>();
-		missingQualifications = qualifications;
+		Set<Qualification> missingQualifications = new HashSet<Qualification>(qualifications);
 		for(Worker w : workers){
 			presentQualifications.addAll(w.getQualifications());
 		}
