@@ -21,15 +21,6 @@ public class QualificationTest {
     }
 
 	/**** EQUALS *****/
-    @Test
-    public void testEqualsReturnsTrue() {
-        assertTrue("qualificationWithValidDesc should equal qualificationWithValidDesc", qualificationWithValidDesc.equals(qualificationWithValidDesc));
-    }
-
-    @Test
-    public void testEqualsReturnsFalse(){
-        assertFalse("qualificationWithEmptyDesc should not equal qualificationWithValidDesc", qualificationWithEmptyDesc.equals(qualificationWithValidDesc));
-    }
 
     @Test
     public void testEqualsReturnsFalseWithNullObject(){
@@ -42,10 +33,31 @@ public class QualificationTest {
         assertFalse("equals returns false with non qualification object", qualificationWithValidDesc.equals(nonQualification));
     }
 
-    @Test
-    public void testEqualsReturnsFalseWithNullDesc(){
+	@Test
+    public void testEqualsSelfValidOtherValid(){
+        assertTrue("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithValidDesc));
+    }
+
+	@Test
+    public void testEqualsSelfNull(){
+        assertFalse("equals returns false with null name", qualificationWithNullDesc.equals(qualificationWithValidDesc));
+    }
+
+	@Test
+    public void testEqualsSelfEmpty(){
+        assertFalse("equals returns false with null name", qualificationWithEmptyDesc.equals(qualificationWithValidDesc));
+    }
+
+	@Test
+    public void testEqualsOtherNull(){
         assertFalse("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithNullDesc));
     }
+
+	@Test
+    public void testEqualsOtherEmpty(){
+        assertFalse("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithEmptyDesc));
+    }
+
 	
 	/***** HASHCODE *****/
 	@Test
