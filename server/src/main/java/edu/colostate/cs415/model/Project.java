@@ -100,8 +100,7 @@ public class Project {
 
 	public Set<Qualification> getMissingQualifications() {
 		Set<Qualification> presentQualifications = new HashSet<Qualification>();
-		Set<Qualification> missingQualifications = new HashSet<Qualification>();
-		missingQualifications = qualifications;
+		Set<Qualification> missingQualifications = new HashSet<Qualification>(qualifications);
 		for(Worker w : workers){
 			presentQualifications.addAll(w.getQualifications());
 		}
@@ -111,6 +110,14 @@ public class Project {
 	}
 
 	public boolean isHelpful(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
+		for(Qualification mq : getMissingQualifications()){
+			if(worker.getQualifications().contains(mq)){
+				return true;
+			}
+		}
 		return false;
 	}
 

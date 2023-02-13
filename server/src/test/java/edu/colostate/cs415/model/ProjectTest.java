@@ -505,6 +505,68 @@ public class ProjectTest {
         projectWithQuals.addQualification(q2);
         assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
+
+	/***** isHelpful *****/
+	@Test
+	public void testIsHelpfulWithNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		project.isHelpful(null);
+	}
+
+	@Test
+	public void testIsHelpfulWhenHelpful(){
+		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("can read");
+		Qualification q2 = new Qualification("can write");
+		Qualification q3 = new Qualification("can sing");
+		Qualification q4 = new Qualification("can hulahoop");
+		requiredQuals.add(q1);
+		requiredQuals.add(q2);
+		requiredQuals.add(q3);
+		requiredQuals.add(q4);
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		w1Quals.add(q1);
+		w1Quals.add(q2);
+		w1Quals.add(q3);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q4);
+		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Worker w1 = new Worker("w1", w1Quals, 10.0);
+		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		p1.addWorker(w1);
+		for(Qualification mq : p1.getMissingQualifications()){
+			System.out.println(mq);
+		}
+		assertTrue(p1.isHelpful(w2));
+	}
+
+	@Test
+	public void testIsHelpfulWhenNotHelpful(){
+		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("can read");
+		Qualification q2 = new Qualification("can write");
+		Qualification q3 = new Qualification("can sing");
+		Qualification q4 = new Qualification("can hulahoop");
+		requiredQuals.add(q1);
+		requiredQuals.add(q2);
+		requiredQuals.add(q3);
+		requiredQuals.add(q4);
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		w1Quals.add(q1);
+		w1Quals.add(q2);
+		w1Quals.add(q3);
+		w1Quals.add(q4);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q4);
+		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Worker w1 = new Worker("w1", w1Quals, 10.0);
+		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		p1.addWorker(w1);
+		for(Qualification mq : p1.getMissingQualifications()){
+			System.out.println(mq);
+		}
+		assertFalse(p1.isHelpful(w2));
+	}
 	
 	/*** ProjectDTO ***/
 
@@ -530,5 +592,4 @@ public class ProjectTest {
 		assertEquals(projectDTO.getSize(), validProject.getSize());
 		assertEquals(projectDTO.getStatus(), validProject.getStatus());
 	}
-	
 }
