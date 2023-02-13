@@ -110,8 +110,29 @@ public class ProjectTest {
 		String nonProjectObject = "test";
         assertFalse("Project.equals() returns FALSE with non Project object", projectValidName.equals(nonProjectObject));
     }
+
+	/***** HASHCODE *****/
+  
+	@Test
+	public void testHashCodeWithNullString() {
+		thrown.expect( IllegalArgumentException.class );
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+        Project emptyProject = new Project(null, qualifications, size);
+		emptyProject.hashCode();
+	}
+
+	@Test
+	public void testHashCodeWithEmptyString() {
+		assertEquals( "Project.hashCode returns 0 with an empty string", project.hashCode(), 0);
+	}
+
+	@Test
+	public void testHashCodeWithValidString() {
+		Project validProjectName = new Project("projectName",  new HashSet<Qualification>(), size);
+		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
+	}
     
-  /*** toString ***/
+  	/*** toString ***/
 	
 	@Test
 	public void testToStringAllNull() {
@@ -272,27 +293,6 @@ public class ProjectTest {
 	public void testSetStatusNull() {
 		thrown.expect( IllegalArgumentException.class );
 		project.setStatus(null);
-	}
-
-	/***** HASHCODE *****/
-  
-	@Test
-	public void testHashCodeWithNullString() {
-		thrown.expect( IllegalArgumentException.class );
-		Set<Qualification> qualifications = new HashSet<Qualification>();
-        Project emptyProject = new Project(null, qualifications, size);
-		emptyProject.hashCode();
-	}
-
-	@Test
-	public void testHashCodeWithEmptyString() {
-		assertEquals( "Project.hashCode returns 0 with an empty string", project.hashCode(), 0);
-	}
-
-	@Test
-	public void testHashCodeWithValidString() {
-		Project validProjectName = new Project("projectName",  new HashSet<Qualification>(), size);
-		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
 	}
 
 	/***** getWorkers *****/
