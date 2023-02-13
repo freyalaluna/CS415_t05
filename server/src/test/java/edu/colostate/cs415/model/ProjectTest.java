@@ -489,4 +489,18 @@ public class ProjectTest {
 		p1.addWorker(w2);
 		assertTrue("getMissingQualifications return 0 missing qualifications", p1.getMissingQualifications().isEmpty());
 	}
+
+	/***** getRequiredQualifications *****/
+	@Test
+    public void testgetRequiredQualificationsReturnsCorrectNumberOfQuals() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectWithQuals = new Project("", qualifications, size);
+        Qualification q1 = new Qualification("q1");
+        Qualification q2 = new Qualification("q2");
+        projectWithQuals.addQualification(q1);
+        projectWithQuals.addQualification(q2);
+		projectWithQuals.addQualification(q1);
+        projectWithQuals.addQualification(q2);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
+    }
 }
