@@ -110,8 +110,7 @@ public class Project {
 	}
 
 	public boolean isHelpful(Worker worker) {
-		Set<Qualification> missingQuals = new HashSet<Qualification>(getMissingQualifications());
-		for(Qualification mq : missingQuals){
+		for(Qualification mq : getMissingQualifications()){
 			if(worker.getQualifications().contains(mq)){
 				return true;
 			}
