@@ -110,6 +110,9 @@ public class Project {
 	}
 
 	public boolean isHelpful(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
 		for(Qualification mq : getMissingQualifications()){
 			if(worker.getQualifications().contains(mq)){
 				return true;
