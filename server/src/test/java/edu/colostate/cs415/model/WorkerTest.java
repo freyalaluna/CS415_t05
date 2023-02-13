@@ -335,7 +335,7 @@ public class WorkerTest {
         Project p2 = new Project("p2", qualifications, ProjectSize.SMALL);
         Project p3 = new Project("p3", qualifications, ProjectSize.SMALL);
         Project p4 = new Project("p4", qualifications, ProjectSize.SMALL);
-        Project p5 = new Project("p4", qualifications, ProjectSize.SMALL);
+        Project p5 = new Project("p5", qualifications, ProjectSize.SMALL);
         worker.addProject(p1);
         worker.addProject(p2);
         worker.addProject(p3);
@@ -360,7 +360,8 @@ public class WorkerTest {
     }
 
     @Test
-    public void testWillNotOverloadWithSameProject(){
+    public void testWillThrowExceptionWithSameProject(){
+        thrown.expect( IllegalArgumentException.class );
         Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
         Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
         Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
@@ -369,8 +370,7 @@ public class WorkerTest {
         worker.addProject(p2);
         worker.addProject(p3);
         worker.addProject(p4);
-        p4.setStatus(ProjectStatus.FINISHED);
-        assertFalse("adding project overloads worker", worker.willOverload(p4));
+        assertFalse("adding duplicate project throws exception", worker.willOverload(p4));
     }
 
     /**** ISAVAILABLE ****/
