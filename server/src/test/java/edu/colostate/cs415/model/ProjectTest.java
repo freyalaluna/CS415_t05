@@ -506,6 +506,12 @@ public class ProjectTest {
 
 	/***** isHelpful *****/
 	@Test
+	public void testIsHelpfulWithNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		project.isHelpful(null);
+	}
+
+	@Test
 	public void testIsHelpfulWhenHelpful(){
 		Set<Qualification> requiredQuals = new HashSet<Qualification>();
 		Qualification q1 = new Qualification("can read");
