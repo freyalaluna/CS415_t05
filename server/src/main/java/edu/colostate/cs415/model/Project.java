@@ -34,7 +34,7 @@ public class Project {
 
 	@Override
 	public int hashCode() {
-		if (name == null || name.isEmpty()) {
+		if (name.isEmpty()) {
 			return 0;
 		}
 
