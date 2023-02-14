@@ -407,6 +407,24 @@ public class ProjectTest {
         assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
 
+	@Test
+    public void testAddQualificationsEmptyQual() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectWithQuals = new Project("", qualifications, size);
+        Qualification q1 = new Qualification("");
+        projectWithQuals.addQualification(q1);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 1);
+    }
+
+	@Test
+    public void testAddQualificationsNullQual() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectWithQuals = new Project("", qualifications, size);
+        Qualification q1 = new Qualification(null);
+        projectWithQuals.addQualification(q1);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 1);
+    }
+
     @Test
     public void testAddQualificationsWithDuplicateQualsReturnsCorrectNumberOfQuals() {
 		Set<Qualification> qualifications = new HashSet<Qualification>();
@@ -544,6 +562,13 @@ public class ProjectTest {
 		projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q2);
         assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
+    }
+
+	@Test
+    public void testgetRequiredQualificationsEmptyset() {
+		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Project projectWithoutQuals = new Project("", qualifications, size);
+        assertEquals(projectWithoutQuals.getRequiredQualifications().size(), 0);
     }
 
 	/***** isHelpful *****/

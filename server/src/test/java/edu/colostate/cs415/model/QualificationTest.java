@@ -23,7 +23,7 @@ public class QualificationTest {
 		qualificationWithValidDesc = new Qualification("test-description");
     }
 
-	/**** EQUALS *****/
+	/***** EQUALS *****/
 
     @Test
     public void testEqualsReturnsFalseWithNullObject(){
