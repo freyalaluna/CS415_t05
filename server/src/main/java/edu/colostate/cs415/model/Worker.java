@@ -102,7 +102,7 @@ public class Worker {
 			throw new IllegalArgumentException();
 		}
 		if(getProjects().contains(project)){
-			return false;
+			throw new IllegalArgumentException();
 		}
 		return (project.getSize().getValue() + getWorkload()) > MAX_WORKLOAD;
 	}
