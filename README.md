@@ -7,9 +7,9 @@ This software allows a company to manage its employees and projects.
 * Maven
 * NodeJS >= 18
 
-## Departement machines
+## Department machines
 
-You can code on the Linux departements machines by loading the course module.
+You can code on the Linux departments machines by loading the course module.
 
 Run `module load courses/cs415`.
 
