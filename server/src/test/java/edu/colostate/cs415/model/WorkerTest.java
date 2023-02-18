@@ -23,6 +23,8 @@ public class WorkerTest {
     @Before
     public void setUp() throws Exception {
 		qualifications = new HashSet<Qualification>();
+        Qualification q = new Qualification("Test Qualification");
+        qualifications.add(q);
         worker = new Worker("Test", qualifications, 1.0);
     }
 
@@ -79,15 +81,17 @@ public class WorkerTest {
     /***** TOSTRING *****/
     @Test
     public void testToString() {
-       assertEquals("Worker.toString returns Test:0:0:1", worker.toString(), "Test:0:0:1");
+       assertEquals("Worker.toString returns Test:0:1:1", worker.toString(), "Test:0:1:1");
     }
 
     @Test
     public void testToStringWithQuals() {
-       Qualification q = new Qualification("test");
-       qualifications.add(q);
+       Qualification q2 = new Qualification("test2");
+       Qualification q3 = new Qualification("test3");
+       qualifications.add(q2);
+       qualifications.add(q3);
        Worker workerWithName = new Worker("test2", qualifications, 1.0);
-       assertEquals(workerWithName.toString(), "test2:0:1:1");
+       assertEquals("test2:0:3:1", workerWithName.toString());
     }
 
     @Test
@@ -102,7 +106,7 @@ public class WorkerTest {
     @Test
     public void testToStringWithIntSalary() {
        Worker workerWithName = new Worker("name", qualifications, 4);
-       assertEquals(workerWithName.toString(), "name:0:0:4");
+       assertEquals(workerWithName.toString(), "name:0:1:4");
     }
 
     // Test for displaying number of projects when addProjects is done.
@@ -149,8 +153,8 @@ public class WorkerTest {
 
     /*** getQualificiations */
     @Test
-    public void testGetQualificationsReturnsEmptySet() {
-        assertEquals(worker.getQualifications().size(), 0);
+    public void testGetQualificationsReturnsCorrectNumber() {
+        assertEquals(worker.getQualifications().size(), 1);
     }
 
     @Test
@@ -160,7 +164,7 @@ public class WorkerTest {
         qualifications.add(q1);
         qualifications.add(q2);
         Worker workerWithQuals = new Worker("test", qualifications, 1.0);
-        assertEquals(workerWithQuals.getQualifications().size(), 2);
+        assertEquals(workerWithQuals.getQualifications().size(), 3);
     }
 
     /*** addQualifications */
@@ -170,7 +174,7 @@ public class WorkerTest {
         Qualification q2 = new Qualification("q2");
         worker.addQualification(q1);
         worker.addQualification(q2);
-        assertEquals(worker.getQualifications().size(), 2);
+        assertEquals(worker.getQualifications().size(), 3);
     }
 
     @Test
@@ -179,7 +183,7 @@ public class WorkerTest {
         worker = new Worker("test", qualifications, 1.0);
         worker.addQualification(q1);
         worker.addQualification(q1);
-        assertEquals(worker.getQualifications().size(), 1);
+        assertEquals(worker.getQualifications().size(), 2);
     }
 
     @Test
@@ -191,7 +195,7 @@ public class WorkerTest {
         worker.addQualification(q1);
         worker.addQualification(q2);
         worker.addQualification(q2);
-        assertEquals(worker.getQualifications().size(), 2);
+        assertEquals(worker.getQualifications().size(), 3);
     }
 
     @Test
