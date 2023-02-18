@@ -12,12 +12,14 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 public class QualificationTest {
-	private Qualification qualificationWithNullDesc;
-	private Qualification qualificationWithEmptyDesc;
-	private Qualification qualificationWithValidDesc;
+	Qualification qualificationWithNullDesc;
+	Qualification qualificationWithEmptyDesc;
+	Qualification qualificationWithValidDesc;
+	Set<Qualification> qualifications;
 
 	@Before
     public void setUp() throws Exception {
+		qualifications = new HashSet<Qualification>();
         qualificationWithNullDesc = new Qualification(null);
 		qualificationWithEmptyDesc = new Qualification("");
 		qualificationWithValidDesc = new Qualification("test-description");
@@ -101,10 +103,10 @@ public class QualificationTest {
 	 /*** addWorkers */
 	 @Test
 	 public void testAddWorkerReturnsCorrectNumberOfWorkers() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		assertEquals(qualWithWorkers.getWorkers().size(), 2);
@@ -112,20 +114,20 @@ public class QualificationTest {
  
 	 @Test
 	 public void testAddWorkerWithDuplicateWorkersReturnsCorrectNumberOfWorkers() {
-		 Set<Qualification> qualifications = new HashSet<Qualification>();
-		 Worker w1 = new Worker("W1", qualifications, 1.0);
-		 Qualification qualWithWorkers = new Qualification("test");
-		 qualWithWorkers.addWorker(w1);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
+		Worker w1 = new Worker("W1", qualifications, 1.0);
+		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w1);
 		assertEquals(qualWithWorkers.getWorkers().size(), 1);
 	 }
  
 	 @Test
 	 public void testAddWorkerssWithTwoDuplicateWorkersReturnsCorrectNumberOfWorkers() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
@@ -136,7 +138,8 @@ public class QualificationTest {
 	/*** Remove Workers */
 	@Test
 	public void testremoveWorkerWithValidWorkerEmptySet() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Qualification qualWithNoWorkers = new Qualification("test");
 		qualWithNoWorkers.removeWorker((w1));
@@ -145,11 +148,11 @@ public class QualificationTest {
 
 	@Test
 	public void testRemoveWorkerWithValidWorkerLastInSet() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
 		Worker w3 = new Worker("W3", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		qualWithWorkers.addWorker(w3);
@@ -159,11 +162,11 @@ public class QualificationTest {
 
 	@Test
 	public void testRemoveWorkerWithValidWorkerMiddleOfSet() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
 		Worker w3 = new Worker("W3", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		qualWithWorkers.addWorker(w3);
@@ -173,11 +176,11 @@ public class QualificationTest {
 
 	@Test
 	public void testRemoveWorkerWithValidWorkerFirstInSet() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
 		Worker w3 = new Worker("W3", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		qualWithWorkers.addWorker(w3);
@@ -187,11 +190,11 @@ public class QualificationTest {
 
 	@Test
 	public void testRemoveWorkerWithInvalidWorker() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
 		Worker w3 = new Worker("W3", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		qualWithWorkers.removeWorker((w3));
@@ -207,23 +210,23 @@ public class QualificationTest {
  
 	 @Test
 	 public void testGetWorkersReturnsCorrectNumberOfWorkers() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
-		 qualWithWorkers.addWorker(w1);
-		 qualWithWorkers.addWorker(w2);
-		 assertEquals(qualWithWorkers.getWorkers().size(), 2);
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.addWorker(w2);
+		assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
 
 	 /**** toDTO *****/
 
 	@Test
 	public void testtoDTOValidDescriptionFullSet() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
 		Worker w1 = new Worker("W1", qualifications, 1.0);
 		Worker w2 = new Worker("W2", qualifications, 1.0);
-		Qualification qualWithWorkers = new Qualification("test");
 		qualWithWorkers.addWorker(w1);
 		qualWithWorkers.addWorker(w2);
 		assertEquals(qualWithWorkers.toDTO().getDescription(), "test");
