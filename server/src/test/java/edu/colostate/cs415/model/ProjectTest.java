@@ -17,11 +17,13 @@ public class ProjectTest {
 
 	private Project project;
 	private ProjectSize size = ProjectSize.SMALL;
-	
+	Set<Qualification> qualifications;
 	
 	@Before
     public void setUp() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
+		qualifications = new HashSet<Qualification>();
+        Qualification q = new Qualification("Test Qualification");
+        qualifications.add(q);
         project = new Project("", qualifications, size);
     }
 
@@ -161,18 +163,18 @@ public class ProjectTest {
 	@Test
 	public void testToStringAllValidOneWorker() {
 		Project p = new Project("test", new HashSet<Qualification>(), size);
-		Worker w = new Worker("name", new HashSet<Qualification>(), 100);
+		Worker w = new Worker("name", qualifications, 100);
 		p.addWorker(w);
 		assertEquals(p.toString(), "test:1:PLANNED");
 	}
 
 	@Test
 	public void testToStringAllValidMultipleWorkers() {
-		Project p = new Project("Test", new HashSet<Qualification>(), size);
+		Project p = new Project("Test", qualifications, size);
 		p.setStatus(ProjectStatus.SUSPENDED);
-		Worker w1 = new Worker("name one", new HashSet<Qualification>(), 100);
-		Worker w2 = new Worker("name two", new HashSet<Qualification>(), 100);
-		Worker w3 = new Worker("name three", new HashSet<Qualification>(), 100);
+		Worker w1 = new Worker("name one", qualifications, 100);
+		Worker w2 = new Worker("name two", qualifications, 100);
+		Worker w3 = new Worker("name three", qualifications, 100);
 		p.addWorker(w1);
 		p.addWorker(w2);
 		p.addWorker(w3);
@@ -181,16 +183,16 @@ public class ProjectTest {
 		
 	@Test
 	public void testToStringOnlyWorkersEmpty() {
-		Project p = new Project("Test1", new HashSet<Qualification>(), size);
+		Project p = new Project("Test1", qualifications, size);
 		p.setStatus(ProjectStatus.FINISHED);
 		assertEquals(p.toString(), "Test1:0:FINISHED");
 	}
 
 	@Test
 	public void testToStringOnlyNameEmpty() {
-		Project p = new Project("", new HashSet<Qualification>(), size);
-		Worker w1 = new Worker("name one", new HashSet<Qualification>(), 100);
-		Worker w2 = new Worker("name two", new HashSet<Qualification>(), 100);
+		Project p = new Project("", qualifications, size);
+		Worker w1 = new Worker("name one", qualifications, 100);
+		Worker w2 = new Worker("name two", qualifications, 100);
 		p.addWorker(w1);
 		p.addWorker(w2);
 		assertEquals(p.toString(), ":2:PLANNED");
@@ -199,9 +201,9 @@ public class ProjectTest {
 	@Test
 	public void testToStringOnlyStatusNull() {
 		thrown.expect( IllegalArgumentException.class );
-		Project p = new Project("test1", new HashSet<Qualification>(), size);
-		Worker w1 = new Worker("name one", new HashSet<Qualification>(), 100);
-		Worker w2 = new Worker("name two", new HashSet<Qualification>(), 100);
+		Project p = new Project("test1", qualifications, size);
+		Worker w1 = new Worker("name one", qualifications, 100);
+		Worker w2 = new Worker("name two", qualifications, 100);
 		p.addWorker(w1);
 		p.addWorker(w2);
 		// Note, there isn't a way to test status as 'empty' because it is an enum
@@ -214,7 +216,6 @@ public class ProjectTest {
 	@Test
 	public void testGetNameWithNullName() {
 		thrown.expect( IllegalArgumentException.class );
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectNullName = new Project(null, qualifications, size);
 		projectNullName.getName();
 	}
@@ -226,21 +227,18 @@ public class ProjectTest {
 
 	@Test
 	public void testGetNameWithValidNameSingle() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectValidName = new Project("test", qualifications, size);
 		assertEquals("", projectValidName.getName(), "test");
 	}
 
 	@Test
 	public void testGetNameWithValidNameMultiWords() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectValidNameMultiWords = new Project("Test Name", qualifications, size);
 		assertEquals("", projectValidNameMultiWords.getName(), "Test Name");
 	}
 
 	@Test
 	public void testGetNameWithDigits() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectNameDigits = new Project("twentyT00", qualifications, size);
 		assertEquals("", projectNameDigits.getName(), "twentyT00");
 	}
@@ -304,7 +302,6 @@ public class ProjectTest {
 
 	@Test
 	public void testGetWorkersWithMultipleWorkers(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("test1", qualifications, 10);
 		project.addWorker(w1);
 		assertTrue(project.getWorkers().contains(w1));
@@ -314,7 +311,6 @@ public class ProjectTest {
 
 	@Test
 	public void testAddWorkerWithOneWorker(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("test1", qualifications, 10.0);
 		project.addWorker(w1);
 		assertEquals(1, project.getWorkers().size());
@@ -322,7 +318,6 @@ public class ProjectTest {
 
 	@Test
 	public void testAddWorkerWithTwoIdenticalyWorkers(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("test1", qualifications, 10.0);
 		project.addWorker(w1);
 		project.addWorker(w1);
@@ -331,7 +326,6 @@ public class ProjectTest {
 
 	@Test
 	public void testAddWorkersWithMultipleWorkers(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("test1", qualifications, 10.0);
 		Worker w2 = new Worker("Ron Weasley", qualifications, 99.0);
 		project.addWorker(w1);
@@ -355,10 +349,9 @@ public class ProjectTest {
 
 	@Test
 	public void testRemoveAllWorkersWithMultipleWorkers(){
-		Set<Qualification> quals = new HashSet<Qualification>();
-		Worker w1 = new Worker("test1", quals, 1.0);
-		Worker w2 = new Worker("test2", quals, 2.0);
-		Worker w3 = new Worker("test3", quals, 3.0);
+		Worker w1 = new Worker("test1", qualifications, 1.0);
+		Worker w2 = new Worker("test2", qualifications, 2.0);
+		Worker w3 = new Worker("test3", qualifications, 3.0);
 		project.addWorker(w1);
 		project.addWorker(w2);
 		project.addWorker(w3);
@@ -376,7 +369,6 @@ public class ProjectTest {
 
 	@Test
 	public void testRemovingNonExistentWorker(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("test1", qualifications, 5.0);
 		Worker w2 = new Worker("test2", qualifications, 4.0);
 		project.addWorker(w1);
@@ -386,7 +378,6 @@ public class ProjectTest {
 
 	@Test
 	public void testRemovingValidWorker(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Worker w1 = new Worker("test1", qualifications, 10.0);
 		project.addWorker(w1);
 		assertEquals(1, project.getWorkers().size());
@@ -398,46 +389,41 @@ public class ProjectTest {
 	
 	@Test
     public void testAddQualificationsReturnsCorrectNumberOfQuals() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
         projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q2);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 3);
     }
 
 	@Test
     public void testAddQualificationsEmptyQual() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         Qualification q1 = new Qualification("");
         projectWithQuals.addQualification(q1);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 1);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
 
 	@Test
     public void testAddQualificationsNullQual() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         Qualification q1 = new Qualification(null);
         projectWithQuals.addQualification(q1);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 1);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
 
     @Test
     public void testAddQualificationsWithDuplicateQualsReturnsCorrectNumberOfQuals() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         Qualification q1 = new Qualification("q1");
         projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q1);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 1);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
     }
 
     @Test
     public void testAddQualificationsWithTwoDuplicateQualsReturnsCorrectNumberOfQuals() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
@@ -445,12 +431,11 @@ public class ProjectTest {
         projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q2);
         projectWithQuals.addQualification(q2);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 3);
     }
 
     @Test
     public void testAddNullQualificationThrowsException(){
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         thrown.expect( IllegalArgumentException.class );
         projectWithQuals.addQualification(null);
@@ -553,7 +538,6 @@ public class ProjectTest {
 	/***** getRequiredQualifications *****/
 	@Test
     public void testgetRequiredQualificationsReturnsCorrectNumberOfQuals() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithQuals = new Project("", qualifications, size);
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
@@ -561,14 +545,13 @@ public class ProjectTest {
         projectWithQuals.addQualification(q2);
 		projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q2);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
+        assertEquals(projectWithQuals.getRequiredQualifications().size(), 3);
     }
 
 	@Test
     public void testgetRequiredQualificationsEmptyset() {
-		Set<Qualification> qualifications = new HashSet<Qualification>();
 		Project projectWithoutQuals = new Project("", qualifications, size);
-        assertEquals(projectWithoutQuals.getRequiredQualifications().size(), 0);
+        assertEquals(projectWithoutQuals.getRequiredQualifications().size(), 1);
     }
 
 	/***** isHelpful *****/
@@ -657,17 +640,16 @@ public class ProjectTest {
 
 	@Test
 	public void testToDTOAllValid() {
-		Set<Qualification> quals = new HashSet<Qualification>();
 		Qualification qual1 = new Qualification("qualification test-1");
 		Qualification qual2 = new Qualification("qualification test-2");
 
-		quals.add(qual1);
-		quals.add(qual2);
+		qualifications.add(qual1);
+		qualifications.add(qual2);
 
-		Project validProject = new Project("projectName",  quals, size);
+		Project validProject = new Project("projectName",  qualifications, size);
 
-		Worker w1 = new Worker("test1", quals, 5.0);
-		Worker w2 = new Worker("test2", quals, 4.0);
+		Worker w1 = new Worker("test1", qualifications, 5.0);
+		Worker w2 = new Worker("test2", qualifications, 4.0);
 		validProject.addWorker(w1);
 		validProject.addWorker(w2);
 
