@@ -1,7 +1,12 @@
 package edu.colostate.cs415.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -9,13 +14,21 @@ import org.junit.rules.ExpectedException;
 public class CompanyTest {
 
 	private Company company;
+	private Set<Qualification> qualifications;
 
 	@Rule public ExpectedException thrown = ExpectedException.none();
+
+	@Before
+	public void setUp() {
+		company = new Company("test co");
+		qualifications = new HashSet<>();
+		Qualification q = new Qualification("q1");
+		qualifications.add(q);
+	}
 
 	@Test
 	public void testCompanyConstructor() {
 		// add assert name when getName is done
-		company = new Company("test co");
 		// assertEquals("test co", company.getName());
 	}
 
@@ -29,5 +42,20 @@ public class CompanyTest {
 	public void testCompanyConstructorThrowsExceptionWithEmptyName() {
 		thrown.expect(IllegalArgumentException.class);
 		company = new Company("");
+	}
+
+	/* getEmployedWorkers */
+
+	@Test
+	public void testGetEmployedWorkers() {
+		// update to add workers when createWorker is done
+		// company.createWorker("w1", qualifications, 10);
+		// company.createWorker("w2", qualifications, 10);
+		// assertEquals(2, company.getEmployedWorkers());
+	}
+
+	@Test
+	public void testGetEmployedWorkersEmpty() {
+		assertTrue( company.getEmployedWorkers().isEmpty());
 	}
 }
