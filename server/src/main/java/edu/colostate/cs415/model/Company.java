@@ -12,6 +12,10 @@ public class Company {
 	private Set<Qualification> qualifications;
 
 	public Company(String name) {
+		if(name == null || name.isEmpty()){
+			throw new IllegalArgumentException();
+		}
+		this.name = name;
 	}
 
 	@Override
