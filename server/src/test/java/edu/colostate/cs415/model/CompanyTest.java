@@ -1,6 +1,6 @@
 package edu.colostate.cs415.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -12,11 +12,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class CompanyTest {
+	@Rule public ExpectedException thrown = ExpectedException.none();
 
 	private Company company;
 	private Set<Qualification> qualifications;
-
-	@Rule public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setUp() {
@@ -26,6 +25,7 @@ public class CompanyTest {
 		qualifications.add(q);
 	}
 
+/****** CONSTRUCTOR ******/
 	@Test
 	public void testCompanyConstructor() {
 		// add assert name when getName is done
@@ -57,5 +57,13 @@ public class CompanyTest {
 	@Test
 	public void testGetEmployedWorkersEmpty() {
 		assertTrue( company.getEmployedWorkers().isEmpty());
+	}
+
+
+/****** GETNAME ******/
+	@Test
+	public void testGetName(){
+		//Constructor tests for nullness/emptiness.
+		assertEquals(company.getName(), "test co");
 	}
 }
