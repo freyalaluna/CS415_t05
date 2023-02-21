@@ -1,5 +1,6 @@
 package edu.colostate.cs415.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Company {
@@ -16,6 +17,11 @@ public class Company {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
+		employees = new HashSet<>();
+		available = new HashSet<>();
+		assigned = new HashSet<>();
+		projects = new HashSet<>();
+		qualifications = new HashSet<>();
 	}
 
 	@Override
@@ -38,7 +44,7 @@ public class Company {
 	}
 
 	public Set<Worker> getEmployedWorkers() {
-		return null;
+		return employees;
 	}
 
 	public Set<Worker> getAvailableWorkers() {
