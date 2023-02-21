@@ -44,6 +44,37 @@ public class CompanyTest {
 		company = new Company("");
 	}
 
+/****** EQUALS ******/
+	@Test
+	public void testEqualsAllValidAndEqual() {
+
+	}
+
+	@Test
+	public void testEqualsSelfNameEmpty() {
+		
+	}
+
+	@Test
+	public void testEqualsOtherNameNull() {
+		
+	}
+
+	@Test
+	public void testEqualsOtherNameEmpty() {
+		
+	}
+
+	@Test
+	public void testEqualsObjectNotCompany() {
+		
+	}
+
+	@Test
+	public void testEqualsAllValidNotEqual() {
+		
+	}
+
 	/* getEmployedWorkers */
 
 	@Test
