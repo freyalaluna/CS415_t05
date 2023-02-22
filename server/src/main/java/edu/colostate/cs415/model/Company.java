@@ -26,7 +26,10 @@ public class Company {
 
 	@Override
 	public boolean equals(Object other) {
-		return false;
+		if (other == null || other.getClass() != Company.class) {
+			return false;
+		}
+		return this.name.equals(((Company)other).getName());
 	}
 
 	@Override
