@@ -54,19 +54,22 @@ public class CompanyTest {
 	@Test
 	public void testEqualsSelfNameEmpty() {
 		thrown.expect(IllegalArgumentException.class);
-
+		Company c1 = new Company("");
+		c1.equals(company);
 	}
 
 	@Test
 	public void testEqualsOtherNameNull() {
 		thrown.expect(IllegalArgumentException.class);
-
+		Company c2 = new Company("");
+		company.equals(c2);
 	}
 
 	@Test
 	public void testEqualsOtherNameEmpty() {
 		thrown.expect(IllegalArgumentException.class);
-
+		Company c2 = new Company(null);
+		company.equals(c2);
 	}
 
 	@Test
