@@ -60,10 +60,51 @@ public class CompanyTest {
 	}
 
 
-/****** GETNAME ******/
+/****** getName ******/
 	@Test
 	public void testGetName(){
 		//Constructor tests for nullness/emptiness.
 		assertEquals(company.getName(), "test co");
 	}
+
+/***** getUnassignedWorkers  */
+
+	@Test
+	public void testGetUnassignedWorkersEmpty() {
+		assertTrue( company.getUnassignedWorkers().isEmpty());
+	}
+
+	@Test
+	public void testGetEmployedWorkersEmptyDoesntReturnNull() {
+		assertTrue( company.getUnassignedWorkers() != null);
+	}
+
+	@Test
+	public void testGetUnassignedWorkersEmployeesEqualsAssigned() {
+		// add workers and assign all of them
+		assertTrue( company.getUnassignedWorkers().isEmpty());
+	}
+
+	@Test
+	public void testGetUnassignedWorkersNoAssigned() {
+		// add workers and dont assign any
+		assertTrue( company.getUnassignedWorkers().isEmpty());
+	}
+
+	@Test
+	public void testGetUnassignedWorkersEmployeesMoreThanAssigned() {
+		// add workers and assign all but one
+		// assertTrue( company.getUnassignedWorkers().size() == 1);
+	}
+
+	@Test
+	public void testGetUnassignedWorkersAssignedMoreThanEmployedThrowsException() {
+		// This may not be possible to actually test, may want to delete this test but not sure yet
+		// thrown.expect(IllegalArgumentException.class);
+		// try to get to a state where assigned is greater than 
+		// company.getUnassignedWorkers();
+	}
+
+
+
 }
