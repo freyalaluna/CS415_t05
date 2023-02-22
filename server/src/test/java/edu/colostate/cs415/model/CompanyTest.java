@@ -47,32 +47,38 @@ public class CompanyTest {
 /****** EQUALS ******/
 	@Test
 	public void testEqualsAllValidAndEqual() {
-
+		Company company2 = new Company("test co");
+		assertTrue(company.equals(company2));
 	}
 
 	@Test
 	public void testEqualsSelfNameEmpty() {
-		
+		thrown.expect(IllegalArgumentException.class);
+
 	}
 
 	@Test
 	public void testEqualsOtherNameNull() {
-		
+		thrown.expect(IllegalArgumentException.class);
+
 	}
 
 	@Test
 	public void testEqualsOtherNameEmpty() {
-		
+		thrown.expect(IllegalArgumentException.class);
+
 	}
 
 	@Test
 	public void testEqualsObjectNotCompany() {
-		
+		String stringCompany = "test co";
+		assertFalse(company.equals(stringCompany));
 	}
 
 	@Test
 	public void testEqualsAllValidNotEqual() {
-		
+		Company company2 = new Company("test co 2");
+		assertFalse(company.equals(company2));
 	}
 
 	/* getEmployedWorkers */
