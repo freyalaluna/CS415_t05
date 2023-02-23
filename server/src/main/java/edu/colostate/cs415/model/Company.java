@@ -84,7 +84,17 @@ public class Company {
 	}
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
-		return null;
+		if(name == null || name.isEmpty() || salary < 0.0 || qualifications == null || qualifications.isEmpty() || !this.qualifications.containsAll(qualifications)){
+			return null;
+		}
+		
+		Worker worker = new Worker(name, qualifications, salary);
+		employees.add(worker);
+		available.add(worker);
+		for(Qualification wq : qualifications){
+			wq.addWorker(worker);
+		}
+		return worker;
 	}
 
 	public Qualification createQualification(String description) {
