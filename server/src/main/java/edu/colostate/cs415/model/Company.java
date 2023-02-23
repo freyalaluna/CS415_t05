@@ -104,6 +104,16 @@ public class Company {
 	}
 
 	public void start(Project project) {
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
+		ProjectStatus pStatus = project.getStatus();
+		Set<Qualification> missingQuals = project.getMissingQualifications();
+		if(pStatus == ProjectStatus.PLANNED || pStatus == ProjectStatus.SUSPENDED){
+			if(missingQuals.size() == 0){
+				project.setStatus(ProjectStatus.ACTIVE);
+			}
+		}
 	}
 
 	public void finish(Project project) {
