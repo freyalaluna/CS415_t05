@@ -315,8 +315,8 @@ public class WorkerTest {
 
     @Test
     public void testWillOverloadWithNullProject(){
-        thrown.expect(IllegalArgumentException.class);
         worker.willOverload(null);
+        assertFalse(worker.willOverload(null));
     }
 
     @Test
@@ -364,8 +364,7 @@ public class WorkerTest {
     }
 
     @Test
-    public void testWillThrowExceptionWithSameProject(){
-        thrown.expect( IllegalArgumentException.class );
+    public void testWillReturnFalseWithSameProject(){
         Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
         Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
         Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
