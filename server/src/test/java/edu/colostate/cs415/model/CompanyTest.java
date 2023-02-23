@@ -106,4 +106,12 @@ public class CompanyTest {
 		//Constructor tests for nullness/emptiness.
 		assertEquals(company.getName(), "test co");
 	}
+
+/***** createQualification */
+	@Test
+	public void testCreateQualification(){
+		Qualification q1 = new Qualification("valid");
+		assertEquals(company.createQualification("valid"), q1);
+		// add test to check qual was added to 
+	}
 }
