@@ -79,7 +79,15 @@ public class Company {
 	}
 
 	public Qualification createQualification(String description) {
-		return null;
+		if(description == null || description.isEmpty()){
+			return null;
+		}
+		Qualification q = new Qualification(description);
+		if(qualifications.contains(q)){
+			return null;
+		}
+		qualifications.add(q);
+		return q;
 	}
 
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size) {
