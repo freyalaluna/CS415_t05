@@ -80,7 +80,7 @@ public class Company {
 	}
 
 	public Set<Qualification> getQualifications() {
-		return null;
+		return this.qualifications;
 	}
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
