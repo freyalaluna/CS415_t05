@@ -63,7 +63,16 @@ public class Company {
 	}
 
 	public Set<Worker> getUnassignedWorkers() {
-		return null;
+		Set<Worker> unassignedWorkers = new HashSet<>();
+		if((employees.size() < assigned.size())){
+			throw new IllegalArgumentException("Company has more assigned then employed.");
+		}
+		for(Worker w: employees){
+			if(!assigned.contains(w)){
+				unassignedWorkers.add(w);
+			}
+		}
+		return unassignedWorkers;
 	}
 
 	public Set<Project> getProjects() {
