@@ -135,6 +135,67 @@ public class CompanyTest {
 		// add assert to check qual was not added to companies quals
 	}
 
+/***** start ******/
+@Test
+public void testStartAllValid() {
+	ProjectSize size = ProjectSize.SMALL;
+	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
+	Project testProject = new Project("testProj", qualifications, size);
+	Worker testWorker = new Worker("testW", qualifications, 10);
+	testProject.addWorker(testWorker);
+	company.start(testProject);
+	assertEquals(testProject.getStatus(), activeStatus);
+}
+
+@Test
+public void testStartNullProject() {
+	thrown.expect(IllegalArgumentException.class);
+	company.start(null);
+}
+
+@Test
+public void testStartStatusActive() {
+	ProjectSize size = ProjectSize.SMALL;
+	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
+	Project testProject = new Project("testProj", qualifications, size);
+	Worker testWorker = new Worker("testW", qualifications, 10);
+	testProject.addWorker(testWorker);
+	testProject.setStatus(activeStatus);
+	company.start(testProject);
+	assertEquals(testProject.getStatus(), activeStatus);
+}
+
+@Test
+public void testStartStatusSuspended() {
+	ProjectSize size = ProjectSize.SMALL;
+	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
+	Project testProject = new Project("testProj", qualifications, size);
+	Worker testWorker = new Worker("testW", qualifications, 10);
+	testProject.addWorker(testWorker);
+	testProject.setStatus(ProjectStatus.SUSPENDED);
+	company.start(testProject);
+	assertEquals(testProject.getStatus(), activeStatus);
+}
+
+@Test
+public void testStartStatusFinished() {
+	ProjectSize size = ProjectSize.SMALL;
+	Project testProject = new Project("testProj", qualifications, size);
+	Worker testWorker = new Worker("testW", qualifications, 10);
+	testProject.addWorker(testWorker);
+	testProject.setStatus(ProjectStatus.FINISHED);
+	company.start(testProject);
+	assertEquals(testProject.getStatus(), ProjectStatus.FINISHED);
+}
+
+@Test
+public void testStartRequirementsNotMet() {
+	ProjectSize size = ProjectSize.SMALL;
+	Project testProject = new Project("testProj", qualifications, size);
+	company.start(testProject);
+	assertEquals(testProject.getStatus(), ProjectStatus.PLANNED);
+}
+
 /***** getQualifications  *****/
 	@Test
 	public void testGetQualificationsEmpty() {
