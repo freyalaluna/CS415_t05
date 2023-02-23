@@ -248,6 +248,61 @@ public void testStartRequirementsNotMet() {
 		// company.getUnassignedWorkers();
 	}
 
+	/****** createWorker ******/
+	@Test
+	public void testCreateWorkerWithValidInput(){
+		/*This test covers inputs for valid name, non-empty & non-null qulifications, salary > 0.0, and worker's
+			qulifications contained in company qualifications */
+		company.createQualification("q1");
+		company.createQualification("q2");
+		company.createQualification("q3");
+		Qualification wq1 = new Qualification("q1");
+		Qualification wq2 = new Qualification("q3");
+		Set<Qualification> workerQuals = new HashSet<>();
+		workerQuals.add(wq1);
+		workerQuals.add(wq2);
+		assertNotNull(company.createWorker("Barry Allen", workerQuals, 1.0));
+	}
 
+	@Test
+	public void testCreateWorkerWithEmptyName(){
+		assertNull(company.createWorker("", qualifications, 1.0));
+	}
 
+	@Test
+	public void testCreateWorkerWithNullName(){
+		assertNull(company.createWorker(null, qualifications, 1.0));
+	}
+
+	@Test
+	public void testCreateWorkerWithEmptyQualifications(){
+		Set<Qualification> emptySet = new HashSet<>(); 
+		assertNull(company.createWorker("George Costanza", emptySet, 0));
+	}
+
+	@Test
+	public void testCreateWorkerWithNullQualifications(){
+		assertNull(company.createWorker("Dwight Schrute", null, 1.0));
+	}
+
+	@Test
+	public void testCreateWorkerWithSalaryLessThanZero(){
+		assertNull(company.createWorker("SpongeBob", qualifications, -0.1));
+
+	}
+
+	@Test
+	public void testCreateWorkerWithQualificationsNotInCompanyQualifications(){
+		company.createQualification("q1");
+		company.createQualification("q2");
+		company.createQualification("q3");
+		Qualification wq1 = new Qualification("q2");
+		Qualification wq2 = new Qualification("q3");
+		Qualification wq3 = new Qualification("q4");
+		Set<Qualification> workerQuals = new HashSet<>();
+		workerQuals.add(wq1);
+		workerQuals.add(wq2);
+		workerQuals.add(wq3);
+		assertNull(company.createWorker("Barry Allen", workerQuals, 1.0));
+	}
 }
