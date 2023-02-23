@@ -112,6 +112,26 @@ public class CompanyTest {
 	public void testCreateQualification(){
 		Qualification q1 = new Qualification("valid");
 		assertEquals(company.createQualification("valid"), q1);
-		// add test to check qual was added to 
+		// add assert to check qual was added to companies quals
+	}
+
+	@Test
+	public void testCreateQualificationEmptyName(){
+		assertEquals(company.createQualification(""),null);
+		// add assert to check qual was not added to companies quals
+	}
+
+	@Test
+	public void testCreateQualificationNullName(){
+		assertEquals(company.createQualification(null),null);
+		// add assert to check qual was not added to companies quals
+	}
+
+	@Test
+	public void testCreateQualificationWithAlreadyPresentQualName(){
+		Qualification q1 = new Qualification("valid");
+		assertEquals(company.createQualification("valid"),q1);
+		assertEquals(company.createQualification("valid"),null);
+		// add assert to check qual was not added to companies quals
 	}
 }
