@@ -25,7 +25,7 @@ public class CompanyTest {
 		qualifications.add(q);
 	}
 
-/****** CONSTRUCTOR ******/
+/****** Company ******/
 	@Test
 	public void testCompanyConstructor() {
 		// add assert name when getName is done
@@ -44,7 +44,7 @@ public class CompanyTest {
 		company = new Company("");
 	}
 
-/****** EQUALS ******/
+/****** equals ******/
 	@Test
 	public void testEqualsAllValidAndEqual() {
 		Company company2 = new Company("test co");
