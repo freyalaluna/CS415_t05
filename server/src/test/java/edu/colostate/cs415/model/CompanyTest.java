@@ -25,7 +25,7 @@ public class CompanyTest {
 		qualifications.add(q);
 	}
 
-/****** CONSTRUCTOR ******/
+/****** Company ******/
 	@Test
 	public void testCompanyConstructor() {
 		// add assert name when getName is done
@@ -44,7 +44,7 @@ public class CompanyTest {
 		company = new Company("");
 	}
 
-/****** EQUALS ******/
+/****** equals ******/
 	@Test
 	public void testEqualsAllValidAndEqual() {
 		Company company2 = new Company("test co");
@@ -105,6 +105,34 @@ public class CompanyTest {
 	public void testGetName(){
 		//Constructor tests for nullness/emptiness.
 		assertEquals(company.getName(), "test co");
+	}
+
+/***** createQualification */
+	@Test
+	public void testCreateQualification(){
+		Qualification q1 = new Qualification("valid");
+		assertEquals(company.createQualification("valid"), q1);
+		// add assert to check qual was added to companies quals
+	}
+
+	@Test
+	public void testCreateQualificationEmptyName(){
+		assertEquals(company.createQualification(""),null);
+		// add assert to check qual was not added to companies quals
+	}
+
+	@Test
+	public void testCreateQualificationNullName(){
+		assertEquals(company.createQualification(null),null);
+		// add assert to check qual was not added to companies quals
+	}
+
+	@Test
+	public void testCreateQualificationWithAlreadyPresentQualName(){
+		Qualification q1 = new Qualification("valid");
+		assertEquals(company.createQualification("valid"),q1);
+		assertEquals(company.createQualification("valid"),null);
+		// add assert to check qual was not added to companies quals
 	}
 
 /***** getUnassignedWorkers  */
