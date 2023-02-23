@@ -135,6 +135,20 @@ public class CompanyTest {
 		// add assert to check qual was not added to companies quals
 	}
 
+/***** getQualifications  *****/
+	@Test
+	public void testGetQualificationsEmpty() {
+		assertTrue(company.getQualifications().isEmpty());
+	}
+
+	@Test
+	public void testGetQualificationsNotEmpty() {
+		company.createQualification("q1");
+		company.createQualification("q2");
+		assertTrue(!company.getQualifications().isEmpty());
+		assertEquals(company.getQualifications().size(), 2);
+	}
+
 /***** getUnassignedWorkers  */
 
 	@Test
