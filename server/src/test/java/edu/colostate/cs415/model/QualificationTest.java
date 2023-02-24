@@ -20,9 +20,19 @@ public class QualificationTest {
 	@Before
     public void setUp() throws Exception {
 		qualifications = new HashSet<Qualification>();
-        qualificationWithNullDesc = new Qualification(null);
-		qualificationWithEmptyDesc = new Qualification("");
 		qualificationWithValidDesc = new Qualification("test-description");
+    }
+	/***** Qualification ******/
+	@Test
+    public void testQualificationConstructorNullDesc(){
+		thrown.expect(IllegalArgumentException.class);
+		Qualification q = new Qualification(null);
+    }
+
+	@Test
+    public void testQualificationConstructorEmptyDesc(){
+		thrown.expect(IllegalArgumentException.class);
+		Qualification q = new Qualification("");
     }
 
 	/***** equals *****/
@@ -47,17 +57,6 @@ public class QualificationTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-    public void testEqualsSelfNull(){
-		thrown.expect(IllegalArgumentException.class);
-		qualificationWithNullDesc.equals(qualificationWithValidDesc);
-    }
-
-	@Test
-    public void testEqualsSelfEmpty(){
-        assertFalse("equals returns false with null name", qualificationWithEmptyDesc.equals(qualificationWithValidDesc));
-    }
-
-	@Test
     public void testEqualsOtherNull(){
         assertFalse("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithNullDesc));
     }
@@ -70,16 +69,6 @@ public class QualificationTest {
 	
 	/***** hashCode *****/
 	@Test
-	public void testHashCodeWithNullString() {
-		assertEquals("Qualification.hashCode returns 0 with a null string", qualificationWithNullDesc.hashCode(), 0);
-	}
-
-	@Test
-	public void testHashCodeWithEmptyString() {
-		assertEquals( "Qualification.hashCode returns 0 with an empty string", qualificationWithEmptyDesc.hashCode(), 0);
-	}
-
-	@Test
 	public void testHashCodeWithValidString() {
 		assertThat("Qualification.hashCode returns a non 0 code with a valid name", qualificationWithValidDesc.hashCode(), is(not(0)));
 	}
@@ -88,16 +77,6 @@ public class QualificationTest {
 	@Test
 	public void testToStringWithValidString() {
 		assertEquals("Qualification.toString returns the description \"test-description\"", qualificationWithValidDesc.toString(), "test-description");
-	}
-
-	@Test
-	public void testToStringWithEmptyString() {
-		assertEquals( "Qualification.toString returns an empty string", qualificationWithEmptyDesc.toString(), "");
-	}
-
-	@Test
-	public void testToStringWithNullString() {
-		assertEquals("Qualification.toString returns null", qualificationWithNullDesc.toString(), null);
 	}
 
 	 /*** addWorkers */
