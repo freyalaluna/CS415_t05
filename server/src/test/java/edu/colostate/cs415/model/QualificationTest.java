@@ -25,7 +25,7 @@ public class QualificationTest {
 		qualificationWithValidDesc = new Qualification("test-description");
     }
 
-	/***** EQUALS *****/
+	/***** equals *****/
 
     @Test
     public void testEqualsReturnsFalseWithNullObject(){
@@ -68,7 +68,7 @@ public class QualificationTest {
     }
 
 	
-	/***** HASHCODE *****/
+	/***** hashCode *****/
 	@Test
 	public void testHashCodeWithNullString() {
 		assertEquals("Qualification.hashCode returns 0 with a null string", qualificationWithNullDesc.hashCode(), 0);
@@ -84,7 +84,7 @@ public class QualificationTest {
 		assertThat("Qualification.hashCode returns a non 0 code with a valid name", qualificationWithValidDesc.hashCode(), is(not(0)));
 	}
 
-	/***** TOSTRING *****/
+	/***** toString *****/
 	@Test
 	public void testToStringWithValidString() {
 		assertEquals("Qualification.toString returns the description \"test-description\"", qualificationWithValidDesc.toString(), "test-description");
@@ -135,7 +135,7 @@ public class QualificationTest {
 		assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
 
-	/*** Remove Workers */
+	/*** removeWorkers */
 	@Test
 	public void testremoveWorkerWithValidWorkerEmptySet() {
 		Qualification qualWithWorkers = new Qualification("test");
