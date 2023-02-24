@@ -11,16 +11,16 @@ public class Qualification {
 	private Set<Worker> workers;
 
 	public Qualification(String description) {
+		if(description == "" || description ==null){
+			throw new IllegalArgumentException();
+		}
 		this.description = description;
 		this.workers = new HashSet<Worker>();
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		if (this.toString() == null) {
-			throw new IllegalArgumentException();
-		}
-		if(other == null || other.getClass() != Qualification.class || ((Qualification)other).toString() == null){
+		if(other == null || other.getClass() != Qualification.class){
 			return false;
 		}
 		return this.description.equals(((Qualification)other).toString());
@@ -28,9 +28,6 @@ public class Qualification {
  
 	@Override
 	public int hashCode() {
-		if(description == null || description.isEmpty()){
-			return 0;
-		}
 		return description.hashCode();
 	}
 
