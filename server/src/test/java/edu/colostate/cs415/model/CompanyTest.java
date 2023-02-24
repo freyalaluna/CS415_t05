@@ -99,6 +99,27 @@ public class CompanyTest {
 		assertTrue( company.getEmployedWorkers().isEmpty());
 	}
 
+/****** EQUALS ******/
+	@Test
+	public void testGetAvailableWorkersNull() {
+
+	}
+
+	@Test
+	public void testGetAvailableWorkersEmpty() {
+		
+	}
+
+	@Test
+	public void testGetAvailableWorkersOneWorker() {
+		
+	}
+
+	@Test
+	public void testGetAvailableWorkersMoreThanOneWorker() {
+		
+	}
+
 
 /****** getName ******/
 	@Test
