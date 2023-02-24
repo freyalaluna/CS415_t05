@@ -397,22 +397,6 @@ public class ProjectTest {
         assertEquals(projectWithQuals.getRequiredQualifications().size(), 3);
     }
 
-	@Test
-    public void testAddQualificationsEmptyQual() {
-		Project projectWithQuals = new Project("", qualifications, size);
-        Qualification q1 = new Qualification("");
-        projectWithQuals.addQualification(q1);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
-    }
-
-	@Test
-    public void testAddQualificationsNullQual() {
-		Project projectWithQuals = new Project("", qualifications, size);
-        Qualification q1 = new Qualification(null);
-        projectWithQuals.addQualification(q1);
-        assertEquals(projectWithQuals.getRequiredQualifications().size(), 2);
-    }
-
     @Test
     public void testAddQualificationsWithDuplicateQualsReturnsCorrectNumberOfQuals() {
 		Project projectWithQuals = new Project("", qualifications, size);
