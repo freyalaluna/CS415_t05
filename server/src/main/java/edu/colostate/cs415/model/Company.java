@@ -85,7 +85,6 @@ public class Company {
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
 		if(name == null || name.isEmpty() || salary < 0.0 || qualifications == null || qualifications.isEmpty() || !this.qualifications.containsAll(qualifications)){
-			System.out.println("didn't create worker");
 			return null;
 		}
 		
