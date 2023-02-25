@@ -126,6 +126,16 @@ public class QualificationTest {
 	}
 
 	@Test
+	public void testremoveWorkerWithNullWorker() {
+		thrown.expect(IllegalArgumentException.class);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
+		Worker w1 = new Worker("W1", qualifications, 1.0);
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.removeWorker(null);
+	}
+
+	@Test
 	public void testRemoveWorkerWithValidWorkerLastInSet() {
 		Qualification qualWithWorkers = new Qualification("test");
 		qualifications.add(qualWithWorkers);
