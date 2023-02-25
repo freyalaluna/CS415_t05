@@ -541,84 +541,59 @@ public class ProjectTest {
 	/***** isHelpful *****/
 	@Test
 	public void testIsHelpfulWithNullWorker(){
-		thrown.expect(IllegalArgumentException.class);
-		project.isHelpful(null);
+		assertFalse(project.isHelpful(null));
 	}
 
 	@Test
-	public void testIsHelpfulWhenHelpful(){
-		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+	public void testIsHelpfulWithMissingQualifications(){
 		Qualification q1 = new Qualification("can read");
 		Qualification q2 = new Qualification("can write");
 		Qualification q3 = new Qualification("can sing");
 		Qualification q4 = new Qualification("can hulahoop");
-		requiredQuals.add(q1);
-		requiredQuals.add(q2);
-		requiredQuals.add(q3);
-		requiredQuals.add(q4);
+		Set<Qualification> projectQuals = new HashSet<Qualification>();
+		projectQuals.add(q1);
+		projectQuals.add(q2);
+		projectQuals.add(q3);
+		projectQuals.add(q4);
 		Set<Qualification> w1Quals = new HashSet<Qualification>();
 		w1Quals.add(q1);
 		w1Quals.add(q2);
 		w1Quals.add(q3);
 		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		w2Quals.add(q1);
+		w2Quals.add(q2);
+		w2Quals.add(q3);
 		w2Quals.add(q4);
-		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		Project p1 = new Project("testProject", projectQuals, ProjectSize.BIG);
 		Worker w1 = new Worker("w1", w1Quals, 10.0);
-		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		Worker w2 = new Worker("w2", w2Quals, 0.1);
 		p1.addWorker(w1);
 		assertTrue(p1.isHelpful(w2));
 	}
 
 	@Test
-	public void testIsHelpfulWhenNotHelpful(){
-		Set<Qualification> requiredQuals = new HashSet<Qualification>();
+	public void testIsHelpfulWithoutMissingQuals(){
 		Qualification q1 = new Qualification("can read");
 		Qualification q2 = new Qualification("can write");
 		Qualification q3 = new Qualification("can sing");
-		Qualification q4 = new Qualification("can hulahoop");
-		requiredQuals.add(q1);
-		requiredQuals.add(q2);
-		requiredQuals.add(q3);
-		requiredQuals.add(q4);
-		Set<Qualification> w1Quals = new HashSet<Qualification>();
-		w1Quals.add(q1);
-		w1Quals.add(q2);
-		w1Quals.add(q3);
-		w1Quals.add(q4);
-		Set<Qualification> w2Quals = new HashSet<Qualification>();
-		w2Quals.add(q4);
-		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
-		Worker w1 = new Worker("w1", w1Quals, 10.0);
-		Worker w2 = new Worker("w2", w2Quals, 5.0);
-		p1.addWorker(w1);
-		assertFalse(p1.isHelpful(w2));
-	}
-
-	@Test
-	public void testIsHelpfulWithMissingProjectQualificationsButNotHelpfulWorker(){
-		Set<Qualification> requiredQuals = new HashSet<Qualification>();
-		Qualification q1 = new Qualification("can read");
-		Qualification q2 = new Qualification("can write");
-		Qualification q3 = new Qualification("can sing");
-		Qualification q4 = new Qualification("can hulahoop");
-		Qualification q5 = new Qualification("can fly");
-		requiredQuals.add(q1);
-		requiredQuals.add(q2);
-		requiredQuals.add(q3);
-		requiredQuals.add(q4);
+		Set<Qualification> projectQuals = new HashSet<Qualification>();
+		projectQuals.add(q1);
+		projectQuals.add(q2);
+		projectQuals.add(q3);
 		Set<Qualification> w1Quals = new HashSet<Qualification>();
 		w1Quals.add(q1);
 		w1Quals.add(q2);
 		w1Quals.add(q3);
 		Set<Qualification> w2Quals = new HashSet<Qualification>();
-		w2Quals.add(q5);
-		Project p1 = new Project("testProject", requiredQuals, ProjectSize.BIG);
+		w2Quals.add(q1);
+		w2Quals.add(q2);
+		w2Quals.add(q3);
+		Project p1 = new Project("testProject", projectQuals, ProjectSize.BIG);
 		Worker w1 = new Worker("w1", w1Quals, 10.0);
-		Worker w2 = new Worker("w2", w2Quals, 5.0);
+		Worker w2 = new Worker("w1", w2Quals, 0.1);
 		p1.addWorker(w1);
 		assertFalse(p1.isHelpful(w2));
 	}
-
 	
 	/*** ProjectDTO ***/
 
