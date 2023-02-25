@@ -102,22 +102,24 @@ public class CompanyTest {
 /****** EQUALS ******/
 	@Test
 	public void testGetAvailableWorkersNull() {
-
+		thrown.expect(IllegalArgumentException.class);
+		Company c1 = new Company(null);
+		assertTrue(c1.getAvailableWorkers().isEmpty());		
 	}
-
+	
 	@Test
 	public void testGetAvailableWorkersEmpty() {
-		
+		assertTrue(company.getAvailableWorkers().isEmpty());		
 	}
 
 	@Test
 	public void testGetAvailableWorkersOneWorker() {
-		
+		// add test once assign is implemented
 	}
 
 	@Test
 	public void testGetAvailableWorkersMoreThanOneWorker() {
-		
+		// add test once assign is implemented
 	}
 
 
