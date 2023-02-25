@@ -45,6 +45,9 @@ public class Qualification {
 	}
 
 	public void removeWorker(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
 		workers.remove(worker);
 	}
 
