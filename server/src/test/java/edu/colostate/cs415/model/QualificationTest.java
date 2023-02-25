@@ -30,6 +30,13 @@ public class QualificationTest {
     }
 
 	@Test
+	public void testQualificationConstructorWhiteSpace(){
+
+		thrown.expect(IllegalArgumentException.class);
+		Qualification q = new Qualification("    ");
+	}
+
+	@Test
     public void testQualificationConstructorEmptyDesc(){
 		thrown.expect(IllegalArgumentException.class);
 		Qualification q = new Qualification("");
