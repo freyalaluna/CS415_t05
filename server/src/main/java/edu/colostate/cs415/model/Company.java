@@ -65,7 +65,7 @@ public class Company {
 	public Set<Worker> getUnassignedWorkers() {
 		Set<Worker> unassignedWorkers = new HashSet<>();
 		if((employees.size() < assigned.size())){
-			throw new IllegalArgumentException("Company has more assigned then employed.");
+			return null;
 		}
 		for(Worker w: employees){
 			if(!assigned.contains(w)){
@@ -85,6 +85,7 @@ public class Company {
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
 		if(name == null || name.isEmpty() || salary < 0.0 || qualifications == null || qualifications.isEmpty() || !this.qualifications.containsAll(qualifications)){
+			System.out.println("didn't create worker");
 			return null;
 		}
 		
