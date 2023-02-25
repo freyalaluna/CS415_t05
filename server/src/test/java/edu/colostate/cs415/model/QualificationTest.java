@@ -30,6 +30,13 @@ public class QualificationTest {
     }
 
 	@Test
+	public void testQualificationConstructorWhiteSpace(){
+
+		thrown.expect(IllegalArgumentException.class);
+		Qualification q = new Qualification("    ");
+	}
+
+	@Test
     public void testQualificationConstructorEmptyDesc(){
 		thrown.expect(IllegalArgumentException.class);
 		Qualification q = new Qualification("");
@@ -123,6 +130,16 @@ public class QualificationTest {
 		Qualification qualWithNoWorkers = new Qualification("test");
 		qualWithNoWorkers.removeWorker((w1));
 		assertEquals(qualWithNoWorkers.getWorkers().size(), 0);
+	}
+
+	@Test
+	public void testremoveWorkerWithNullWorker() {
+		thrown.expect(IllegalArgumentException.class);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
+		Worker w1 = new Worker("W1", qualifications, 1.0);
+		qualWithWorkers.addWorker(w1);
+		qualWithWorkers.removeWorker(null);
 	}
 
 	@Test
