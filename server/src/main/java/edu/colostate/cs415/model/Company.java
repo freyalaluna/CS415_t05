@@ -51,7 +51,10 @@ public class Company {
 	}
 
 	public Set<Worker> getAvailableWorkers() {
-		return null;
+		if (available == null) {
+			return (new HashSet<>());
+		}
+		return available;
 	}
 
 	public Set<Worker> getUnavailableWorkers() {
