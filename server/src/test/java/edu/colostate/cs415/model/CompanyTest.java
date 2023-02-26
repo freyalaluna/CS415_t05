@@ -16,12 +16,12 @@ public class CompanyTest {
 
 	private Company company;
 	private Set<Qualification> qualifications;
+	Qualification q = new Qualification("q1");
 
 	@Before
 	public void setUp() {
 		company = new Company("test co");
 		qualifications = new HashSet<>();
-		Qualification q = new Qualification("q1");
 		qualifications.add(q);
 	}
 
@@ -208,6 +208,19 @@ public void testStartRequirementsNotMet() {
 		company.createQualification("q2");
 		assertTrue(!company.getQualifications().isEmpty());
 		assertEquals(company.getQualifications().size(), 2);
+	}
+
+	@Test
+	public void testRemoveQualifications() {
+		company.createQualification("q1");
+		Set<Qualification> attemptDamage = company.getQualifications();
+		int qualSize = attemptDamage.size();
+
+		attemptDamage.remove(q);
+		assertEquals(0, attemptDamage.size());
+
+		Set<Qualification> checkUnchanged = company.getQualifications();
+		assertEquals(qualSize, checkUnchanged.size());
 	}
 
 /***** getUnassignedWorkers  */
