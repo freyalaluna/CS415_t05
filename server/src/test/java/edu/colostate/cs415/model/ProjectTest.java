@@ -18,11 +18,12 @@ public class ProjectTest {
 	private Project project;
 	private ProjectSize size = ProjectSize.SMALL;
 	Set<Qualification> qualifications;
+	Qualification q; 
 	
 	@Before
     public void setUp() {
 		qualifications = new HashSet<Qualification>();
-        Qualification q = new Qualification("Test Qualification");
+		q = new Qualification("Test Qualification");
         qualifications.add(q);
         project = new Project("", qualifications, size);
     }
@@ -537,6 +538,18 @@ public class ProjectTest {
 		Project projectWithoutQuals = new Project("", qualifications, size);
         assertEquals(projectWithoutQuals.getRequiredQualifications().size(), 1);
     }
+
+	@Test
+	public void testRemoveQualifications() {
+		Set<Qualification> attemptDamage = project.getRequiredQualifications();
+		int qualSize = attemptDamage.size();
+
+		attemptDamage.remove(q);
+		assertEquals(0, attemptDamage.size());
+
+		Set<Qualification> checkUnchanged = project.getRequiredQualifications();
+		assertEquals(qualSize, checkUnchanged.size());
+	}
 
 	/***** isHelpful *****/
 	@Test
