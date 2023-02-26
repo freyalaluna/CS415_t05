@@ -104,6 +104,7 @@ public class CompanyTest {
 	public void testGetAvailableWorkersNull() {
 		thrown.expect(IllegalArgumentException.class);
 		Company c1 = new Company(null);
+		// need to talk to TA about how to set workers to null to test
 		assertTrue(c1.getAvailableWorkers().isEmpty());		
 	}
 	
