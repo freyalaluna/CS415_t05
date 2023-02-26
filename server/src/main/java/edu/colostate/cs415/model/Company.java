@@ -2,6 +2,7 @@ package edu.colostate.cs415.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Company {
 
@@ -79,8 +80,10 @@ public class Company {
 		return null;
 	}
 
+	// Return a copy of qualifications so there's no reference to the private set
 	public Set<Qualification> getQualifications() {
-		return this.qualifications;
+		Set<Qualification> copy = new HashSet<Qualification>(qualifications);
+		return copy;
 	}
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
