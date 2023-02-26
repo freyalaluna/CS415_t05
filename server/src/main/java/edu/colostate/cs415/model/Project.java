@@ -88,7 +88,8 @@ public class Project {
 	}
 
 	public Set<Qualification> getRequiredQualifications() {
-		return qualifications;
+		Set<Qualification> copy = new HashSet<Qualification>(qualifications);
+		return copy;
 	}
 
 	public void addQualification(Qualification qualification) {
