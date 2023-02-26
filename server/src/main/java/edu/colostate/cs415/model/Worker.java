@@ -57,7 +57,8 @@ public class Worker {
 	}
 
 	public Set<Qualification> getQualifications() {
-		return this.qualifications;
+		Set<Qualification> copy = new HashSet<Qualification>(qualifications);
+		return copy;
 	}
 
 	// NOTE: caller's responsibility to ensure that this qualification is from the company's set of qualifications
