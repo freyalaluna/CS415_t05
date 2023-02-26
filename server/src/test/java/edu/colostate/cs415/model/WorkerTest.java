@@ -19,11 +19,12 @@ import static org.hamcrest.CoreMatchers.*;
 public class WorkerTest {
     private Worker worker;
     private Set<Qualification> qualifications;
+    Qualification q;
 
     @Before
     public void setUp() throws Exception {
 		qualifications = new HashSet<Qualification>();
-        Qualification q = new Qualification("Test Qualification");
+        q = new Qualification("Test Qualification");
         qualifications.add(q);
         worker = new Worker("Test", qualifications, 1.0);
     }
@@ -166,6 +167,18 @@ public class WorkerTest {
         Worker workerWithQuals = new Worker("test", qualifications, 1.0);
         assertEquals(workerWithQuals.getQualifications().size(), 3);
     }
+
+    @Test
+	public void testRemoveQualifications() {
+		Set<Qualification> attemptDamage = worker.getQualifications();
+		int qualSize = attemptDamage.size();
+
+		attemptDamage.remove(q);
+		assertEquals(0, attemptDamage.size());
+
+		Set<Qualification> checkUnchanged = worker.getQualifications();
+		assertEquals(qualSize, checkUnchanged.size());
+	}
 
     /*** addQualifications */
     @Test
