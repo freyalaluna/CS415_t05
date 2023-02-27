@@ -88,10 +88,10 @@ public class CompanyTest {
 
 	@Test
 	public void testGetEmployedWorkers() {
-		// update to add workers when createWorker is done
-		// company.createWorker("w1", qualifications, 10);
-		// company.createWorker("w2", qualifications, 10);
-		// assertEquals(2, company.getEmployedWorkers());
+		company.createQualification("q1");
+		company.createWorker("w1", qualifications, 10);
+		company.createWorker("w2", qualifications, 10);
+		assertEquals(2, company.getEmployedWorkers().size());
 	}
 
 	@Test
