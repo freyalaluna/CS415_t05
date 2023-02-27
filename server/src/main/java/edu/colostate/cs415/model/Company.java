@@ -59,7 +59,8 @@ public class Company {
 	}
 
 	public Set<Worker> getAssignedWorkers() {
-		return null;
+		Set<Worker> assignedClone = new HashSet<>(assigned);
+		return assignedClone;
 	}
 
 	public Set<Worker> getUnassignedWorkers() {
