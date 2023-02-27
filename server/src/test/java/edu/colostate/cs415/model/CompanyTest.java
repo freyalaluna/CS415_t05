@@ -99,6 +99,30 @@ public class CompanyTest {
 		assertTrue( company.getEmployedWorkers().isEmpty());
 	}
 
+/****** getAvailableWorkers ******/
+	@Test
+	public void testGetAvailableWorkerDoesNotChangeThroughReference() {
+		Set<Worker> availableClone = company.getAvailableWorkers();
+		Worker w1 = new Worker("One Worker", qualifications, 1.0);
+		availableClone.add(w1);
+		assertFalse(company.getAssignedWorkers().contains(w1));
+	}
+	
+	@Test
+	public void testGetAvailableWorkersEmpty() {
+		assertTrue(company.getAvailableWorkers().isEmpty());		
+	}
+
+	@Test
+	public void testGetAvailableWorkersOneWorker() {
+		// add test once assign is implemented
+	}
+
+	@Test
+	public void testGetAvailableWorkersMoreThanOneWorker() {
+		// add test once assign is implemented
+	}
+
 
 /****** getName ******/
 	@Test
