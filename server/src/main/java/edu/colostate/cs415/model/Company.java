@@ -51,7 +51,8 @@ public class Company {
 	}
 
 	public Set<Worker> getAvailableWorkers() {
-		return null;
+		Set<Worker> availableClone = new HashSet<>(available);
+		return availableClone;
 	}
 
 	public Set<Worker> getUnavailableWorkers() {
