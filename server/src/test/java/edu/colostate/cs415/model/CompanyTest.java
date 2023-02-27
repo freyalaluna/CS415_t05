@@ -316,6 +316,30 @@ public void testStartRequirementsNotMet() {
 		workerQuals.add(wq1);
 		workerQuals.add(wq2);
 		workerQuals.add(wq3);
-		assertNull(company.createWorker("Barry Allen", workerQuals, 1.0));
+		assertNull(company.createWorker("Rick Snip", workerQuals, 1.0));
+	}
+
+	/***** getAssignedWorkers *****/
+	@Test
+	public void testGetAssignedWorkersEmpty(){
+		assertTrue(company.getAssignedWorkers().isEmpty());
+	}
+
+	/*  Will add once assign is done.
+	@Test
+	public void testGetAssignedWorkersNotEmpty(){
+		Worker w1 = new Worker("Milo", qualifications, 1.0);
+		Project p1 = new Project("Operation Acoustic Kitty", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		assertTrue(company.getAssignedWorkers().contains(w1));
+	}
+	*/
+
+	@Test
+	public void testGetAssignedWorkerDoesNotChangeThroughReference(){
+		Set<Worker> assignedClone = company.getAssignedWorkers();
+		Worker w1 = new Worker("Max Verstappen", qualifications, 1.0);
+		assignedClone.add(w1);
+		assertFalse(company.getAssignedWorkers().contains(w1));
 	}
 }
