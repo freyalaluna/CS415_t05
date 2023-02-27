@@ -2,7 +2,6 @@ package edu.colostate.cs415.model;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Company {
 
