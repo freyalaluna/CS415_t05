@@ -83,8 +83,8 @@ public class Company {
 
 	// Return a copy of qualifications so there's no reference to the private set
 	public Set<Qualification> getQualifications() {
-		Set<Qualification> copy = new HashSet<Qualification>(qualifications);
-		return copy;
+		Set<Qualification> qualificationsClone = new HashSet<Qualification>(qualifications);
+		return qualificationsClone;
 	}
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
