@@ -99,13 +99,13 @@ public class CompanyTest {
 		assertTrue( company.getEmployedWorkers().isEmpty());
 	}
 
-/****** EQUALS ******/
+/****** getAvailableWorkers ******/
 	@Test
-	public void testGetAvailableWorkersNull() {
-		thrown.expect(IllegalArgumentException.class);
-		Company c1 = new Company(null);
-		// need to talk to TA about how to set workers to null to test
-		assertTrue(c1.getAvailableWorkers().isEmpty());		
+	public void testGetAvailableWorkerDoesNotChangeThroughReference() {
+		Set<Worker> availableClone = company.getAvailableWorkers();
+		Worker w1 = new Worker("One Worker", qualifications, 1.0);
+		availableClone.add(w1);
+		assertFalse(company.getAssignedWorkers().contains(w1));
 	}
 	
 	@Test
