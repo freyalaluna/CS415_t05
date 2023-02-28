@@ -123,6 +123,33 @@ public class CompanyTest {
 		// add test once assign is implemented
 	}
 
+/****** getUnavailableWorkers ******/
+	@Test
+	public void testGetUnavailableWorkersSomeUnavailable(){
+		// add test once assign is implemented
+	}
+
+	@Test
+	public void testGetUnavailableWorkersMoreAvailableThanEmployed(){
+		// This may not be possible to actually test, may want to delete this test but not sure yet
+		// thrown.expect(IllegalArgumentException.class);
+		// try to get to a state where available is greater than employees
+	}
+
+	@Test
+	public void testGetUnavailableWorkersNoneAvailable(){
+		// add test once assign is implemented
+	}
+
+	@Test
+	public void testGetUnavailableWorkersAllAvailable(){
+		company.createQualification("q1");
+		company.createWorker("w1", qualifications, 10);
+		company.createWorker("w2", qualifications, 10);
+		company.createWorker("w3", qualifications, 10);
+		company.createWorker("w4", qualifications, 10);
+		assertTrue(company.getUnavailableWorkers().isEmpty());
+	}
 
 /****** getName ******/
 	@Test
