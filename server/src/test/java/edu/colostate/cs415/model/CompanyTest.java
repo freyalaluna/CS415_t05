@@ -285,6 +285,27 @@ public void testStartRequirementsNotMet() {
 		// company.getUnassignedWorkers();
 	}
 
+/***** getProjects  */
+	@Test
+	public void testGetProjectsDoesNotChangeThroughReference() {
+		
+	}
+	
+	@Test
+	public void testProjectsEmpty() {
+				
+	}
+
+	@Test
+	public void testGetProjectsOneProject() {
+		// add test once assign is implemented
+	}
+
+	@Test
+	public void testGetProjectsMoreThanOneProject() {
+		// add test once assign is implemented
+	}
+
 	/****** createWorker ******/
 	@Test
 	public void testCreateWorkerWithValidInput(){
