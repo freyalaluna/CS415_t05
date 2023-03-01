@@ -417,4 +417,38 @@ public void testStartRequirementsNotMet() {
 		assignedClone.add(w1);
 		assertFalse(company.getAssignedWorkers().contains(w1));
 	}
+
+	/***** unassignAll *****/
+	@Test
+	public void testUnassignAllBaseTest(){
+		// waiting for assign and createProject
+	}
+
+	@Test
+	public void testUnassignAllNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		company.unassignAll(null);
+	}
+
+	@Test
+	public void testUnassignAllWorkerHasNoProjects(){
+		// waiting for assign and createProject
+	}
+
+	@Test
+	public void testUnassignAllWorkerWithSuspendedProject(){
+		// waiting for assign and createProject
+	}
+
+	@Test
+	public void testUnassignAllWorkerWithPlannedProject(){
+		// waiting for assign and createProject
+	}
+
+	@Test
+	public void testUnassignAllRemovingWorkerDoesntChangeStatus(){
+		// waiting for assign and createProject
+	}
+
+
 }

@@ -147,5 +147,16 @@ public class Company {
 	}
 
 	public void unassignAll(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
+		for(Project p : worker.getProjects()){
+			p.removeWorker(worker);
+			if(!(p.getMissingQualifications().isEmpty()) && p.getStatus() == ProjectStatus.ACTIVE){
+				p.setStatus(ProjectStatus.SUSPENDED);
+			}
+		}
+		assigned.remove(worker);
+		available.add(worker);
 	}
 }
