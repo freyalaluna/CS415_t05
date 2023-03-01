@@ -88,6 +88,13 @@ public class QualificationTest {
 
 	 /*** addWorkers */
 	 @Test
+	 public void testAddWorkerNullWorker() {
+		thrown.expect(IllegalArgumentException.class);
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
+		qualWithWorkers.addWorker(null);
+	 }
+	 @Test
 	 public void testAddWorkerReturnsCorrectNumberOfWorkers() {
 		Qualification qualWithWorkers = new Qualification("test");
 		qualifications.add(qualWithWorkers);
