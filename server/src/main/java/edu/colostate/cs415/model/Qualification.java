@@ -41,6 +41,9 @@ public class Qualification {
 	}
 
 	public void addWorker(Worker worker) {
+		if(worker == null){
+			throw new IllegalArgumentException();
+		}
 		workers.add(worker);
 	}
 
