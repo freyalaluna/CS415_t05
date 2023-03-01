@@ -84,7 +84,8 @@ public class Company {
 	}
 
 	public Set<Project> getProjects() {
-		return null;
+		Set<Project> projectsClone = new HashSet<Project>(projects);
+		return projectsClone;
 	}
 
 	// Return a copy of qualifications so there's no reference to the private set
