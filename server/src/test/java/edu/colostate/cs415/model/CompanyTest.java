@@ -288,22 +288,25 @@ public void testStartRequirementsNotMet() {
 /***** getProjects  */
 	@Test
 	public void testGetProjectsDoesNotChangeThroughReference() {
-		
+		Set<Project> projectClone = company.getProjects();
+		Project p1 = new Project("Project Z", qualifications, ProjectSize.SMALL);
+		projectClone.add(p1);
+		assertFalse(company.getProjects().contains(p1));
 	}
 	
 	@Test
 	public void testProjectsEmpty() {
-				
+		assertTrue(company.getProjects().isEmpty());		
 	}
 
 	@Test
 	public void testGetProjectsOneProject() {
-		// add test once assign is implemented
+		// add test once createProject is implemented
 	}
 
 	@Test
 	public void testGetProjectsMoreThanOneProject() {
-		// add test once assign is implemented
+		// add test once createProject is implemented
 	}
 
 	/****** createWorker ******/
