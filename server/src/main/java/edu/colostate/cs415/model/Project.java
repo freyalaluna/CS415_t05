@@ -97,7 +97,15 @@ public class Project {
 		if(qualification == null){
 			throw new IllegalArgumentException();
 		}
-		qualifications.add(qualification);
+		if(status == ProjectStatus.ACTIVE){
+			qualifications.add(qualification);
+			if(!getMissingQualifications().isEmpty()){
+				status = ProjectStatus.SUSPENDED;
+			}
+		}
+		else{
+			qualifications.add(qualification);
+		}
 	}
 
 	public Set<Qualification> getMissingQualifications() {
@@ -118,6 +126,9 @@ public class Project {
 		for(Qualification mq : getMissingQualifications()){
 			if(worker.getQualifications().contains(mq)){
 				return true;
+			}
+			else{
+				continue;
 			}
 		}
 		return false;
