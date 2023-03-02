@@ -138,6 +138,24 @@ public class Company {
 	}
 
 	public void finish(Project project) {
+		if(project == null){
+			throw new IllegalArgumentException();
+		}
+		if(project.getStatus() == ProjectStatus.ACTIVE){
+			project.setStatus(ProjectStatus.FINISHED);
+			//iterate through project's set of workers
+			for(Worker w : project.getWorkers()){
+				//removes project from worker's set of projects
+				w.removeProject(project);
+				available.add(w);
+				//checks if this was the worker's only project
+				if(w.getProjects().isEmpty()){
+					assigned.remove(w);
+				}
+			}
+			//clears project's set of workers
+			project.removeAllWorkers();
+		}
 	}
 
 	public void assign(Worker worker, Project project) {
