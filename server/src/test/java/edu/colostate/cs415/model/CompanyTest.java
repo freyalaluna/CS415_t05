@@ -450,5 +450,83 @@ public void testStartRequirementsNotMet() {
 		// waiting for assign and createProject
 	}
 
+	/****** finish ******/
+	/* Will add once createProject and assign is done.
+	@Test
+	public void testFinishValidInputs(){
+		This test covers ProjectStatus = Active, Project != null, 
+			Project.getWorkers != null, Worker.getProjects != null
 
+		//create quals to add into company::qualifications, create project, worker::qualifications, and create workers
+		Qualification q1 = company.createQualification("moon walker");
+		Qualification q2 = company.createQualification("shuttle pilot");
+		Qualification q3 = company.createQualification("commander");
+
+		Set<Qualification> spaceQuals = new HashSet<>();
+		spaceQuals.add(q1);
+		spaceQuals.add(q2);
+		spaceQuals.add(q3);
+
+		//create project to add into company::projects, worker::projects
+		Project moonMission = company.createProject("Moon Mission", spaceQuals, ProjectSize.BIG);
+
+		//create worker to add into company::employees, company::available
+		Set<Qualification> felicetteQuals = new HashSet<>(spaceQuals);
+		felicetteQuals.remove(q3);
+		Worker felicette = company.createWorker("Felicette", spaceQuals, 50);
+		//add project to worker::projects
+		felicette.addProject(moonMission);
+
+		Set<Qualification> albertIIQuals = new HashSet<>();
+		albertIIQuals.add(q3);
+		Worker albertII = company.createWorker("Albert II", albertIIQuals, 50);
+		//add project to worker::projects
+		albertII.addProject(moonMission);
+
+		//add workers to project
+		moonMission.addWorker(felicette);
+		moonMission.addWorker(albertII);
+
+		//add workers to qualifications
+		q1.addWorker(felicette);
+		q2.addWorker(felicette);
+		q3.addWorker(albertII);
+
+		//assign workers to project
+		company.assign(felicette, moonMission);
+		company.assign(albertII, moonMission);
+
+		company.start(moonMission);
+		company.finish(moonMission);
+
+		assertEquals(moonMission.getStatus(), ProjectStatus.FINISHED);
+		assertTrue(felicette.getProjects().isEmpty());
+		assertTrue(albertII.getProjects().isEmpty());
+		assertEquals(company.getAvailableWorkers().size(), 2);
+		assertTrue(company.getAssignedWorkers().isEmpty());
+		assertTrue(moonMission.getWorkers().isEmpty());
+	}
+	*/
+
+	@Test
+	public void testFinishWithWrongStatus(){
+		Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+		company.finish(p1);
+		assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
+		Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+		p2.setStatus(ProjectStatus.SUSPENDED);
+		company.finish(p2);
+		assertEquals(p2.getStatus(), ProjectStatus.SUSPENDED);
+		Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+		p3.setStatus(ProjectStatus.FINISHED);
+		company.finish(p3);
+		assertEquals(p3.getStatus(), ProjectStatus.FINISHED);
+	}
+
+	@Test
+	public void testFinishWithNullProject(){
+		thrown.expect(IllegalArgumentException.class);
+		Project p1 = null;
+		company.finish(p1);
+	}
 }

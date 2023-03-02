@@ -70,7 +70,8 @@ public class Worker {
 	}
 
 	public Set<Project> getProjects() {
-		return this.projects;
+		Set<Project> projectsClone = new HashSet<>(projects);
+		return projectsClone;
 	}
 	
 	// NOTE: caller's responsibility to check if the project can be added to the worker and also to ensure that the worker is added to the project
