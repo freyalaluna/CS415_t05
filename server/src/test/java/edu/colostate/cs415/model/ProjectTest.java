@@ -426,6 +426,51 @@ public class ProjectTest {
         projectWithQuals.addQualification(null);
 	}
 
+	@Test
+	public void testAddQualificationWithActiveStatusAndMissingQuals(){
+		Qualification q1 = new Qualification("q1");
+		qualifications.add(q1);
+		Project p1 = new Project("test", qualifications, size);
+		p1.setStatus(ProjectStatus.ACTIVE);
+		Set<Qualification> wQuals = new HashSet<>(qualifications);
+		wQuals.remove(q1);
+		Worker w1 = new Worker("test", wQuals, 10);
+		p1.addWorker(w1);
+		Qualification newQual = new Qualification("newQual");
+		p1.addQualification(newQual);
+		assertEquals(p1.getStatus(), ProjectStatus.SUSPENDED);
+		assertEquals(p1.getRequiredQualifications().size(),3);
+	}
+
+	@Test
+	public void testAddQualificationsWithNonActiveStatusAndMissingQuals(){
+		Qualification q1 = new Qualification("q1");
+		qualifications.add(q1);
+		Project p1 = new Project("p1", qualifications, size);
+		Set<Qualification> wQuals = new HashSet<>(qualifications);
+		wQuals.remove(q1);
+		Worker w1 = new Worker("test", wQuals, 10);
+		p1.addWorker(w1);
+		Qualification newQual = new Qualification("newQual");
+		p1.addQualification(newQual);
+		assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
+		assertEquals(p1.getRequiredQualifications().size(), 3);
+	}
+
+	@Test
+	public void testAddQualificationsWithActiveStatusAndNoMissingQuals(){
+		Project p1 = new Project("p1", qualifications, size);
+		p1.setStatus(ProjectStatus.ACTIVE);
+		Worker w1 = new Worker("w1", qualifications, 10);
+		Qualification q1 = new Qualification("q1");
+		p1.addWorker(w1);
+		w1.addQualification(q1);
+		p1.addQualification(q1);
+		assertEquals(p1.getStatus(), ProjectStatus.ACTIVE);
+		assertEquals(p1.getMissingQualifications().size(), 0);
+		assertEquals(p1.getRequiredQualifications().size(), 2);
+	}
+
 	/***** getMissingQualifications *****/
 
 	@Test
