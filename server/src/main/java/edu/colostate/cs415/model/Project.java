@@ -80,7 +80,8 @@ public class Project {
 	}
 
 	public Set<Worker> getWorkers() {
-		return this.workers;
+		Set<Worker> workersClone = new HashSet<>(workers);
+		return workersClone;
 	}
 
 	public void removeAllWorkers() {
