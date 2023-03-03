@@ -3,6 +3,8 @@ package edu.colostate.cs415.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import spark.utils.StringUtils;
+
 public class Company {
 
 	private String name;
@@ -121,7 +123,14 @@ public class Company {
 	}
 
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size) {
-		return null;
+		if (name == null || qualifications == null || size == null || name.isEmpty() || StringUtils.isBlank(name) || qualifications.isEmpty()){
+			return null;
+		}
+
+		Project project = new Project(name, qualifications, size);
+		projects.add(project);
+
+		return project;
 	}
 
 	public void start(Project project) {
