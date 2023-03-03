@@ -13,7 +13,7 @@ public class Company {
 	private Set<Qualification> qualifications;
 
 	public Company(String name) {
-		if(name == null || name.isEmpty()){
+		if(name == null || name.trim().isEmpty()){
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
@@ -95,7 +95,7 @@ public class Company {
 	}
 
 	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
-		if(name == null || name.isEmpty() || salary < 0.0 || qualifications == null || qualifications.isEmpty() || !this.qualifications.containsAll(qualifications)){
+		if(name == null || name.trim().isEmpty() || salary < 0.0 || qualifications == null || qualifications.isEmpty() || !this.qualifications.containsAll(qualifications)){
 			return null;
 		}
 		
@@ -109,7 +109,7 @@ public class Company {
 	}
 
 	public Qualification createQualification(String description) {
-		if(description == null || description.isEmpty()){
+		if(description == null || description.trim().isEmpty()){
 			return null;
 		}
 		Qualification q = new Qualification(description);
