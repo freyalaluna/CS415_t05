@@ -124,7 +124,9 @@ public class Project {
 			return false;
 		}
 		for(Qualification mq : getMissingQualifications()){
-			return worker.getQualifications().contains(mq);
+			if(worker.getQualifications().contains(mq)){
+				return true;
+			}
 		}
 		return false;
 	}
