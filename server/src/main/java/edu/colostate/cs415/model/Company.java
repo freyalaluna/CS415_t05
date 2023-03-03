@@ -39,8 +39,12 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return null;
+		if(this.name == null || this.name.isEmpty() || this.available == null || this.projects == null){
+			return null;
+		}
+		return this.name + ":" + this.available.size() + ":" + this.projects.size();
 	}
+ 
 
 	public String getName() {
 		return name;
