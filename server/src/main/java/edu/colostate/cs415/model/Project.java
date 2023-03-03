@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.colostate.cs415.dto.ProjectDTO;
+import spark.utils.StringUtils;
 
 public class Project {
 
@@ -14,7 +15,7 @@ public class Project {
 	private Set<Qualification> qualifications;
 
 	public Project(String name, Set<Qualification> qs, ProjectSize size) throws IllegalArgumentException {
-		if (size == null || name == null || qs == null) {
+		if (name == null || qs == null || size == null || name.isEmpty() || qs.isEmpty() || StringUtils.isBlank(name)) {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;

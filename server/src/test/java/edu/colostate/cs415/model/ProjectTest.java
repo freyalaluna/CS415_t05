@@ -25,7 +25,7 @@ public class ProjectTest {
 		qualifications = new HashSet<Qualification>();
 		q = new Qualification("Test Qualification");
         qualifications.add(q);
-        project = new Project("", qualifications, size);
+        project = new Project("Valid Project", qualifications, size);
     }
 
 	@Rule
@@ -62,6 +62,27 @@ public class ProjectTest {
 	}
 
 	@Test
+	public void testProjectNameEmpty() {
+		thrown.expect(IllegalArgumentException.class);
+		Project invalidProject = new Project("", qualifications, size);
+		invalidProject.getName();
+	}
+
+	@Test
+	public void testProjectQualsEmpty() {
+		thrown.expect(IllegalArgumentException.class);
+		Project invalidProject = new Project("Project Name", new HashSet<Qualification>(), size);
+		invalidProject.getRequiredQualifications();
+	}
+
+	@Test
+	public void testProjectNameBlankSpaces() {
+		thrown.expect(IllegalArgumentException.class);
+		Project invalidProject = new Project("    ", qualifications, size);
+		invalidProject.getName();
+	}
+
+	@Test
 	public void testProjectAllValid() {
 		Set<Qualification> quals = new HashSet<Qualification>();
 		Qualification qual1 = new Qualification("qual1");
@@ -77,40 +98,44 @@ public class ProjectTest {
 	}
 
 	/*** EQUALS ***/
-	private Project projectValidName = new Project("test1", new HashSet<Qualification>(), size);
-	private Project projectEmptyName = new Project("", new HashSet<Qualification>(), size);
-
 	@Test
     public void testEqualsReturnsTrue() {
+		Project projectValidName = new Project("test1", qualifications, size);
 		assertTrue("Project.equals() returns TRUE with a valid description", projectValidName.equals(projectValidName));
     }
 	
     @Test
     public void testEqualsReturnsFalse(){
-		Project projectValidName2 = new Project("test2", new HashSet<Qualification>(), size);
+		Project projectValidName = new Project("test1", qualifications, size);
+		Project projectValidName2 = new Project("test2", qualifications, size);
         assertFalse("Project.equals() returns FALSE with two different project names", projectValidName.equals(projectValidName2));
     }
 
 	@Test
     public void testEqualsReturnsFalseWithEmptyName(){
-		assertFalse("Project.equals() returns FALSE with an empty name", projectValidName.equals(projectEmptyName));
+		thrown.expect(IllegalArgumentException.class);
+		Project projectValidName = new Project("test1", qualifications, size);
+		assertFalse("Project.equals() returns FALSE with an empty name", projectValidName.equals(new Project("", qualifications, size)));
     }
 
 	@Test
 	public void testEqualsReturnsFalseWithNullName(){
 		thrown.expect(IllegalArgumentException.class);
 		Project projectNullName = new Project(null, new HashSet<Qualification>(), size);
+		Project projectValidName = new Project("test1", qualifications, size);
 		projectValidName.equals(projectNullName);
 	}
 
     @Test
     public void testEqualsReturnsFalseWithNullObject(){
+		Project projectValidName = new Project("test1", qualifications, size);
 		assertFalse("Project.equals() returns FALSE with null object", projectValidName.equals(null));
     }
 	
 	@Test
     public void testEqualsReturnsFalseWithNonProjectObject(){
 		String nonProjectObject = "test";
+		Project projectValidName = new Project("test1", qualifications, size);
         assertFalse("Project.equals() returns FALSE with non Project object", projectValidName.equals(nonProjectObject));
     }
 
@@ -126,12 +151,14 @@ public class ProjectTest {
 
 	@Test
 	public void testHashCodeWithEmptyString() {
-		assertEquals( "Project.hashCode returns 0 with an empty string", project.hashCode(), 0);
+		thrown.expect(IllegalArgumentException.class);
+		Project invalidProjectName = new Project("",  new HashSet<Qualification>(), size);
+		assertEquals( "Project.hashCode returns 0 with an empty string", invalidProjectName.hashCode(), 0);
 	}
 
 	@Test
 	public void testHashCodeWithValidString() {
-		Project validProjectName = new Project("projectName",  new HashSet<Qualification>(), size);
+		Project validProjectName = new Project("projectName", qualifications, size);
 		assertThat("Project.hashCode returns a non 0 code with a valid name", validProjectName.hashCode(), is(not(0)));
 	}
     
@@ -156,6 +183,7 @@ public class ProjectTest {
 
 	@Test
 	public void testToStringOnlyStatusValid() {
+		thrown.expect( IllegalArgumentException.class );
 		Project p = new Project("", new HashSet<Qualification>(), size);
 		p.setStatus(ProjectStatus.ACTIVE);
 		assertEquals(p.toString(), ":0:ACTIVE");
@@ -163,7 +191,7 @@ public class ProjectTest {
 
 	@Test
 	public void testToStringAllValidOneWorker() {
-		Project p = new Project("test", new HashSet<Qualification>(), size);
+		Project p = new Project("test", qualifications, size);
 		Worker w = new Worker("name", qualifications, 100);
 		p.addWorker(w);
 		assertEquals(p.toString(), "test:1:PLANNED");
@@ -191,6 +219,7 @@ public class ProjectTest {
 
 	@Test
 	public void testToStringOnlyNameEmpty() {
+		thrown.expect( IllegalArgumentException.class );
 		Project p = new Project("", qualifications, size);
 		Worker w1 = new Worker("name one", qualifications, 100);
 		Worker w2 = new Worker("name two", qualifications, 100);
@@ -223,7 +252,9 @@ public class ProjectTest {
 
 	@Test
 	public void testGetNameWithEmptyName() {
-		assertEquals("", project.getName(), "");
+		thrown.expect( IllegalArgumentException.class );
+		Project invalidProjectName = new Project("", qualifications, size);
+		assertEquals("", invalidProjectName.getName(), "");
 	}
 
 	@Test
@@ -261,13 +292,13 @@ public class ProjectTest {
 
 	@Test
 	public void testGetSizeEmptyMEDIUM() {
-		Project mediumProject = new Project("", new HashSet<Qualification>(), ProjectSize.MEDIUM);
+		Project mediumProject = new Project("test1", qualifications, ProjectSize.MEDIUM);
 		assertEquals(mediumProject.getSize(), ProjectSize.MEDIUM);
 	}
 
 	@Test
 	public void testGetSizeEmptyBIG() {
-		Project bigProject = new Project("", new HashSet<Qualification>(), ProjectSize.BIG);
+		Project bigProject = new Project("test2", qualifications, ProjectSize.BIG);
 		assertEquals(bigProject.getSize(), ProjectSize.BIG);
 	}
 
@@ -390,7 +421,7 @@ public class ProjectTest {
 	
 	@Test
     public void testAddQualificationsReturnsCorrectNumberOfQuals() {
-		Project projectWithQuals = new Project("", qualifications, size);
+		Project projectWithQuals = new Project("p1", qualifications, size);
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
         projectWithQuals.addQualification(q1);
@@ -400,7 +431,7 @@ public class ProjectTest {
 
     @Test
     public void testAddQualificationsWithDuplicateQualsReturnsCorrectNumberOfQuals() {
-		Project projectWithQuals = new Project("", qualifications, size);
+		Project projectWithQuals = new Project("p2", qualifications, size);
         Qualification q1 = new Qualification("q1");
         projectWithQuals.addQualification(q1);
         projectWithQuals.addQualification(q1);
@@ -409,7 +440,7 @@ public class ProjectTest {
 
     @Test
     public void testAddQualificationsWithTwoDuplicateQualsReturnsCorrectNumberOfQuals() {
-		Project projectWithQuals = new Project("", qualifications, size);
+		Project projectWithQuals = new Project("p3", qualifications, size);
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
         projectWithQuals.addQualification(q1);
@@ -421,7 +452,7 @@ public class ProjectTest {
 
     @Test
     public void testAddNullQualificationThrowsException(){
-		Project projectWithQuals = new Project("", qualifications, size);
+		Project projectWithQuals = new Project("p4", qualifications, size);
         thrown.expect( IllegalArgumentException.class );
         projectWithQuals.addQualification(null);
 	}
@@ -568,7 +599,7 @@ public class ProjectTest {
 	/***** getRequiredQualifications *****/
 	@Test
     public void testgetRequiredQualificationsReturnsCorrectNumberOfQuals() {
-		Project projectWithQuals = new Project("", qualifications, size);
+		Project projectWithQuals = new Project("project test", qualifications, size);
         Qualification q1 = new Qualification("q1");
         Qualification q2 = new Qualification("q2");
         projectWithQuals.addQualification(q1);
@@ -580,7 +611,7 @@ public class ProjectTest {
 
 	@Test
     public void testgetRequiredQualificationsEmptyset() {
-		Project projectWithoutQuals = new Project("", qualifications, size);
+		Project projectWithoutQuals = new Project("project test", qualifications, size);
         assertEquals(projectWithoutQuals.getRequiredQualifications().size(), 1);
     }
 
