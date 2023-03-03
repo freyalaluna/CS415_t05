@@ -121,7 +121,14 @@ public class Company {
 	}
 
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size) {
-		return null;
+		if (name == null | name.isEmpty() | qualifications == null | qualifications.isEmpty() | size == null){
+			throw new IllegalArgumentException();
+		}
+
+		Project project = new Project(name, qualifications, size);
+		projects.add(project);
+
+		return project;
 	}
 
 	public void start(Project project) {
