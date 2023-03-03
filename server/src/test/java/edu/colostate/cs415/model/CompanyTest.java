@@ -28,8 +28,7 @@ public class CompanyTest {
 /****** Company ******/
 	@Test
 	public void testCompanyConstructor() {
-		// add assert name when getName is done
-		// assertEquals("test co", company.getName());
+		assertEquals("test co", company.getName());
 	}
 
 	@Test
@@ -82,6 +81,13 @@ public class CompanyTest {
 	public void testEqualsAllValidNotEqual() {
 		Company company2 = new Company("test co 2");
 		assertFalse(company.equals(company2));
+	}
+
+	/* hashCode */
+
+	@Test
+	public void testHashCode() {
+		assertEquals("test co".hashCode(), company.hashCode());
 	}
 
 	/* getEmployedWorkers */
