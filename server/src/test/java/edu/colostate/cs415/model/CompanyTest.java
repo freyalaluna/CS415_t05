@@ -192,6 +192,53 @@ public class CompanyTest {
 		// add assert to check qual was not added to companies quals
 	}
 
+/***** createProject ******/
+@Test
+public void testCreateProjectAllValidSingleQual() {
+
+}
+
+@Test
+public void testCreateProjectNameNull() {
+
+}
+
+@Test
+public void testCreateProjectNameEmpty() {
+
+}
+
+@Test
+public void testCreateProjectQualNull() {
+
+}
+
+@Test
+public void testCreateProjectQualEmpty() {
+
+}
+
+@Test
+public void testCreateProjectAllValidMultiQual() {
+
+}
+
+@Test
+public void testCreateProjectSizeMEDIUM() {
+
+}
+
+@Test
+public void testCreateProjectSizeBIG() {
+
+}
+
+@Test
+public void testCreateProjectSizeNull() {
+
+}
+
+
 /***** start ******/
 @Test
 public void testStartAllValid() {
