@@ -198,43 +198,42 @@ public void testCreateProjectAllValidSingleQual() {
 	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
 	assertEquals(qualifications.size(), 1);
 	assertEquals(company.getProjects().size(), 0);
-	assertEquals(	company.createProject("Manhattan Project", qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.createProject("Manhattan Project", qualifications, ProjectSize.SMALL), project);
 	assertEquals(company.getProjects().size(), 1);
 }
 
 @Test
 public void testCreateProjectNameNull() {
-	thrown.expect(IllegalArgumentException.class);
-	Project project = new Project(null, qualifications, ProjectSize.SMALL);
 	assertEquals(qualifications.size(), 1);
-	assertEquals(company.createProject(null, qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.createProject(null, qualifications, ProjectSize.SMALL), null);
 	assertEquals(company.getProjects().size(), 0);
 }
 
 @Test
 public void testCreateProjectNameEmpty() {
-	thrown.expect(IllegalArgumentException.class);
-	Project project = new Project("", qualifications, ProjectSize.SMALL);
 	assertEquals(qualifications.size(), 1);
-	assertEquals(company.createProject("", qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.createProject("", qualifications, ProjectSize.SMALL), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
+public void testCreateProjectNameBlankSpaces() {
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.createProject("   ", qualifications, ProjectSize.SMALL), null);
 	assertEquals(company.getProjects().size(), 0);
 }
 
 @Test
 public void testCreateProjectQualNull() {
-	thrown.expect(IllegalArgumentException.class);
-	Project project = new Project("Project 4", null, ProjectSize.SMALL);
-	assertEquals(company.createProject("Project 4", null, ProjectSize.SMALL), project);
+	assertEquals(company.createProject("Project 4", null, ProjectSize.SMALL), null);
 	assertEquals(company.getProjects().size(), 0);
 }
 
 @Test
 public void testCreateProjectQualEmpty() {
-	thrown.expect(IllegalArgumentException.class);
 	HashSet<Qualification> quals = new HashSet<Qualification>();
-	Project project = new Project("Project 5", quals, ProjectSize.SMALL);
+	assertEquals(company.createProject("Project 5", quals, ProjectSize.SMALL), null);
 	assertTrue(quals.isEmpty());
-	assertEquals(company.createProject("Project 5", quals, ProjectSize.SMALL), project);
 	assertEquals(company.getProjects().size(), 0);
 }
 
@@ -271,10 +270,8 @@ public void testCreateProjectSizeBIG() {
 
 @Test
 public void testCreateProjectSizeNull() {
-	thrown.expect(IllegalArgumentException.class);
-	Project project = new Project("Project Z", qualifications, null);
 	assertEquals(qualifications.size(), 1);
-	assertEquals(company.createProject("Project Z", qualifications, null), project);
+	assertEquals(company.createProject("Project Z", qualifications, null), null);
 	assertEquals(company.getProjects().size(), 0);
 }
 
