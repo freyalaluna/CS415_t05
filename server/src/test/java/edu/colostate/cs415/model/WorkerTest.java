@@ -51,9 +51,22 @@ public class WorkerTest {
     }
 
     @Test
-    public void testConstructorThrowsExceptionWithZeroSalary() {
+    public void testConstructorThrowsExceptionWithEmptyQuals() {
         thrown.expect( IllegalArgumentException.class );
-        Worker nullWorker = new Worker("Test", qualifications, 0);
+        HashSet<Qualification> emptyQuals = new HashSet<Qualification>();
+        Worker nullWorker = new Worker("Test", emptyQuals, 1);
+    }
+
+    @Test
+    public void testConstructorThrowsExceptionWithNegativeSalary() {
+        thrown.expect( IllegalArgumentException.class );
+        Worker nullWorker = new Worker("Test", qualifications, -1);
+    }
+
+    @Test
+    public void testConstructorThrowsExceptionWithSpacesName() {
+        thrown.expect( IllegalArgumentException.class );
+        Worker nullWorker = new Worker("   ", qualifications, 1);
     }
 
     /**** EQUALS *****/

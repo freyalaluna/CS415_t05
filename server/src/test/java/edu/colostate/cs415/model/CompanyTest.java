@@ -43,6 +43,12 @@ public class CompanyTest {
 		company = new Company("");
 	}
 
+	@Test
+	public void testCompanyConstructorThrowsExceptionWithSpacesName() {
+		thrown.expect(IllegalArgumentException.class);
+		company = new Company("  ");
+	}
+
 /****** equals ******/
 	@Test
 	public void testEqualsAllValidAndEqual() {
