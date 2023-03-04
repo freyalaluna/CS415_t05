@@ -139,7 +139,7 @@ public class Project {
 		Set<String> qualStrings = new HashSet<String>();
 
 		for (Worker w : workers) {
-			workerStrings.add(w.toString());
+			workerStrings.add(w.getName());
 		}
 
 		for (Qualification q : qualifications) {
