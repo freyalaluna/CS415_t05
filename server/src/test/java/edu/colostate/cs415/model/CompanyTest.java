@@ -198,6 +198,90 @@ public class CompanyTest {
 		// add assert to check qual was not added to companies quals
 	}
 
+/***** createProject ******/
+@Test
+public void testCreateProjectAllValidSingleQual() {
+	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Manhattan Project", qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.getProjects().size(), 1);
+}
+
+@Test
+public void testCreateProjectNameNull() {
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.createProject(null, qualifications, ProjectSize.SMALL), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
+public void testCreateProjectNameEmpty() {
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.createProject("", qualifications, ProjectSize.SMALL), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
+public void testCreateProjectNameBlankSpaces() {
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.createProject("   ", qualifications, ProjectSize.SMALL), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
+public void testCreateProjectQualNull() {
+	assertEquals(company.createProject("Project 4", null, ProjectSize.SMALL), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
+public void testCreateProjectQualEmpty() {
+	HashSet<Qualification> quals = new HashSet<Qualification>();
+	assertEquals(company.createProject("Project 5", quals, ProjectSize.SMALL), null);
+	assertTrue(quals.isEmpty());
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
+public void testCreateProjectAllValidMultiQual() {
+	Qualification q1 = new Qualification("Valid Qual 1");
+	Qualification q2 = new Qualification("Valid Qual 2");
+	qualifications.add(q1);
+	qualifications.add(q2);
+	Project project = new Project("GitHub Projects", qualifications, ProjectSize.SMALL);
+	assertEquals(qualifications.size(), 3);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("GitHub Projects", qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.getProjects().size(), 1);
+}
+
+@Test
+public void testCreateProjectSizeMEDIUM() {
+	Project project = new Project("Project X", qualifications, ProjectSize.MEDIUM);
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Project X", qualifications, ProjectSize.MEDIUM), project);
+	assertEquals(company.getProjects().size(), 1);
+}
+
+@Test
+public void testCreateProjectSizeBIG() {
+	Project project = new Project("Project Y", qualifications, ProjectSize.BIG);
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Project Y", qualifications, ProjectSize.BIG), project);
+	assertEquals(company.getProjects().size(), 1);
+}
+
+@Test
+public void testCreateProjectSizeNull() {
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.createProject("Project Z", qualifications, null), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+
 /***** start ******/
 @Test
 public void testStartAllValid() {
