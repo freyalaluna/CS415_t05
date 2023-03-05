@@ -579,6 +579,107 @@ public void testStartRequirementsNotMet() {
 		assertFalse(company.getAssignedWorkers().contains(w1));
 	}
 
+	/***** unassign *****/
+		@Test
+		public void testUnassignValidBaseTest() {
+			Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+			Worker worker = new Worker("Worker 1", qualifications, 0);
+			worker.addProject(project);
+
+			assertTrue(worker.isAvailable());
+
+			project.setStatus(ProjectStatus.SUSPENDED);
+			// waiting for assign to finish
+			// company.unassign(worker, p1);
+		}
+
+		@Test
+		public void testUnassignNullProject() {
+			thrown.expect(IllegalArgumentException.class);
+			Worker w1 = new Worker("Max Verstappen", qualifications, 1.0);
+			company.unassign(w1, null);
+		}
+
+		@Test
+		public void testUnassignProjectStatusFINISHED() {
+			Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+			Worker worker = new Worker("Worker 1", qualifications, 0);
+			worker.addProject(project);
+
+			assertTrue(worker.isAvailable());
+
+			project.setStatus(ProjectStatus.FINISHED);
+			// waiting for assign to finish
+			// company.unassign(worker, p1);
+		}
+
+		@Test
+		public void testUnassignProjectStatusPLANNED() {
+			Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+			Worker worker = new Worker("Worker 1", qualifications, 0);
+			worker.addProject(project);
+
+			assertTrue(worker.isAvailable());
+
+			project.setStatus(ProjectStatus.PLANNED);
+			// waiting for assign to finish
+			// company.unassign(worker, p1);
+		}
+
+		@Test
+		public void testUnassignProjectStatusACTIVE() {
+			Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+			Worker worker = new Worker("Worker 1", qualifications, 0);
+			worker.addProject(project);
+
+			assertTrue(worker.isAvailable());
+
+			project.setStatus(ProjectStatus.ACTIVE);
+			// waiting for assign to finish
+			// company.unassign(worker, p1);
+		}
+
+		@Test
+		public void testUnassignProjectWithMissingQualifications() {
+			
+		}
+
+		@Test
+		public void testUnassignNullWorker() {
+			thrown.expect(IllegalArgumentException.class);
+			Project project = new Project("Project 1", qualifications, ProjectSize.SMALL);
+			company.unassign(null, project);
+		}
+
+		@Test
+		public void testUnassignWorkerNotAvailable() {
+			Project p1 = new Project("Project 1", qualifications, ProjectSize.BIG);
+			Project p2 = new Project("Project 2", qualifications, ProjectSize.BIG);
+			Project p3 = new Project("Project 3", qualifications, ProjectSize.BIG);
+			Project p4 = new Project("Project 4", qualifications, ProjectSize.BIG);
+			Worker worker = new Worker("Worker 1", qualifications, 0);
+			worker.addProject(p1);
+			worker.addProject(p2);
+			worker.addProject(p3);
+			worker.addProject(p4);
+
+			assertFalse(worker.isAvailable());
+
+			p1.setStatus(ProjectStatus.SUSPENDED);
+			// waiting for assign to finish
+			// company.unassign(worker, p1);
+		}
+
+		@Test
+		public void testUnassignWorkerDoesNotContainProject() {
+			
+		}
+
+		@Test
+		public void testUnassignProjectsDoesNotContainProject() {
+			
+		}
+
 	/***** unassignAll *****/
 	@Test
 	public void testUnassignAllBaseTest(){
