@@ -41,8 +41,9 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return null;
+		return this.name + ":" + this.available.size() + ":" + this.projects.size();
 	}
+ 
 
 	public String getName() {
 		return name;

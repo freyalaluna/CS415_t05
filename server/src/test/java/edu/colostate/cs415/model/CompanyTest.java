@@ -96,6 +96,32 @@ public class CompanyTest {
 		assertEquals("test co".hashCode(), company.hashCode());
 	}
 
+	/****** toString ******/
+
+//WAITING FOR CREATE PROJECT
+//@Test
+// public void testToStringAllValid() {
+//	company.createQualification("q1");
+//  company.createWorker("w1", qualifications, 10);
+//  company.createProject("p1", qualifications, 10);
+//  assertEquals(company.toString(), "test co:1:1");
+// }
+
+//WAITING FOR CREATE PROJECT
+// @Test
+// public void testToStringNoWorkers() {
+	//company.createQualification("q1");
+//  company.createProject("p1", qualifications, 10);
+//  assertEquals(company.toString(), "test co:0:1");
+// }
+
+	@Test
+	public void testToStringNoProjects() {
+	company.createQualification("q1");
+	company.createWorker("w1", qualifications, 10);
+	assertEquals(company.toString(), "test co:1:0");
+	}
+
 	/* getEmployedWorkers */
 
 	@Test
