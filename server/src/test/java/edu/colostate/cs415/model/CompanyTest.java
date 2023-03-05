@@ -689,6 +689,7 @@ public void testStartRequirementsNotMet() {
 		company.assign(w1, p2);
 		company.assign(w1, p3);
 		company.assign(w1, p4);
+		assertTrue(!company.getAssignedWorkers().contains(w1));
 		company.assign(w1, p5);
 	}
 
