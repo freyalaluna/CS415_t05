@@ -180,6 +180,23 @@ public class Company {
 	}
 
 	public void unassign(Worker worker, Project project) {
+		if(worker == null || project == null) {
+			throw new IllegalArgumentException();
+		}
+		if(projects.contains(project) && worker.getProjects().contains(project) && project.getStatus() != ProjectStatus.FINISHED) {
+			assigned.remove(worker);
+			worker.removeProject(project);
+
+			if (worker.isAvailable()) {
+				available.add(worker);
+			} else {
+				available.remove(worker);
+			}
+
+			if(!(project.getMissingQualifications().isEmpty()) && project.getStatus() == ProjectStatus.ACTIVE) {
+				project.setStatus(ProjectStatus.SUSPENDED);
+			}
+		}
 	}
 
 	public void unassignAll(Worker worker) {
