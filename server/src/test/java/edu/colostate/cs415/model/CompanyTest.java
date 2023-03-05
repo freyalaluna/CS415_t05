@@ -495,16 +495,18 @@ public void testStartRequirementsNotMet() {
 	public void testGetAssignedWorkersEmpty(){
 		assertTrue(company.getAssignedWorkers().isEmpty());
 	}
-
-	/*  Will add once assign is done.
+	
 	@Test
 	public void testGetAssignedWorkersNotEmpty(){
-		Worker w1 = new Worker("Milo", qualifications, 1.0);
-		Project p1 = new Project("Operation Acoustic Kitty", qualifications, ProjectSize.BIG);
-		company.assign(w1, p1);
-		assertTrue(company.getAssignedWorkers().contains(w1));
+		Company cia = new Company("CIA");
+		Qualification spy = cia.createQualification("Cat Spy");
+		Set<Qualification> spyQuals = new HashSet<>();
+		spyQuals.add(spy);
+		Worker milo = cia.createWorker("Milo", spyQuals, 1000);
+		Project coldWarEspionage = cia.createProject("Cold War Espionage", spyQuals, ProjectSize.BIG);
+		cia.assign(milo, coldWarEspionage);
+		assertTrue(cia.getAssignedWorkers().contains(milo));
 	}
-	*/
 
 	@Test
 	public void testGetAssignedWorkerDoesNotChangeThroughReference(){
@@ -547,16 +549,17 @@ public void testStartRequirementsNotMet() {
 	}
 
 	/****** finish ******/
-	/* Will add once createProject and assign is done.
 	@Test
 	public void testFinishValidInputs(){
-		This test covers ProjectStatus = Active, Project != null, 
-			Project.getWorkers != null, Worker.getProjects != null
+		/*This test covers ProjectStatus = Active, Project != null, 
+			Project.getWorkers != null, Worker.getProjects != null*/
+
+		Company aboveEarth = new Company("Above Earth");
 
 		//create quals to add into company::qualifications, create project, worker::qualifications, and create workers
-		Qualification q1 = company.createQualification("moon walker");
-		Qualification q2 = company.createQualification("shuttle pilot");
-		Qualification q3 = company.createQualification("commander");
+		Qualification q1 = aboveEarth.createQualification("space walker");
+		Qualification q2 = aboveEarth.createQualification("shuttle pilot");
+		Qualification q3 = aboveEarth.createQualification("commander");
 
 		Set<Qualification> spaceQuals = new HashSet<>();
 		spaceQuals.add(q1);
@@ -564,45 +567,31 @@ public void testStartRequirementsNotMet() {
 		spaceQuals.add(q3);
 
 		//create project to add into company::projects, worker::projects
-		Project moonMission = company.createProject("Moon Mission", spaceQuals, ProjectSize.BIG);
+		Project moonMission = aboveEarth.createProject("Moon Mission", spaceQuals, ProjectSize.BIG);
 
 		//create worker to add into company::employees, company::available
 		Set<Qualification> felicetteQuals = new HashSet<>(spaceQuals);
 		felicetteQuals.remove(q3);
-		Worker felicette = company.createWorker("Felicette", spaceQuals, 50);
-		//add project to worker::projects
-		felicette.addProject(moonMission);
+		Worker felicette = aboveEarth.createWorker("Felicette", felicetteQuals, 50);
 
 		Set<Qualification> albertIIQuals = new HashSet<>();
 		albertIIQuals.add(q3);
-		Worker albertII = company.createWorker("Albert II", albertIIQuals, 50);
-		//add project to worker::projects
-		albertII.addProject(moonMission);
-
-		//add workers to project
-		moonMission.addWorker(felicette);
-		moonMission.addWorker(albertII);
-
-		//add workers to qualifications
-		q1.addWorker(felicette);
-		q2.addWorker(felicette);
-		q3.addWorker(albertII);
+		Worker albertII = aboveEarth.createWorker("Albert II", albertIIQuals, 50);
 
 		//assign workers to project
-		company.assign(felicette, moonMission);
-		company.assign(albertII, moonMission);
+		aboveEarth.assign(felicette, moonMission);
+		aboveEarth.assign(albertII, moonMission);
 
-		company.start(moonMission);
-		company.finish(moonMission);
+		aboveEarth.start(moonMission);
+		aboveEarth.finish(moonMission);
 
 		assertEquals(moonMission.getStatus(), ProjectStatus.FINISHED);
 		assertTrue(felicette.getProjects().isEmpty());
 		assertTrue(albertII.getProjects().isEmpty());
-		assertEquals(company.getAvailableWorkers().size(), 2);
-		assertTrue(company.getAssignedWorkers().isEmpty());
+		assertEquals(aboveEarth.getAvailableWorkers().size(), 2);
+		assertTrue(aboveEarth.getAssignedWorkers().isEmpty());
 		assertTrue(moonMission.getWorkers().isEmpty());
 	}
-	*/
 
 	@Test
 	public void testFinishWithWrongStatus(){
