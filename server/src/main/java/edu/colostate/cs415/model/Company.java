@@ -173,12 +173,12 @@ public class Company {
 			|| !project.isHelpful(worker)){
 			throw new IllegalArgumentException();
 		}
-		if((worker.getWorkload() + project.getSize().getValue()) >= 12){
-			available.remove(worker);
-		}
 		assigned.add(worker);
 		project.addWorker(worker);
 		worker.addProject(project);
+		if(worker.getWorkload() >= 12){
+			available.remove(worker);
+		}
 	}
 
 	public void unassign(Worker worker, Project project) {
