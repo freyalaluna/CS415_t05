@@ -679,6 +679,7 @@ public void testStartRequirementsNotMet() {
 	@Test
 	public void testAssignWithWorkerNotInAvailable(){
 		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
 		Worker w1 = company.createWorker("w1", qualifications, 10);
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
 		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
@@ -689,7 +690,7 @@ public void testStartRequirementsNotMet() {
 		company.assign(w1, p2);
 		company.assign(w1, p3);
 		company.assign(w1, p4);
-		assertTrue(!company.getAssignedWorkers().contains(w1));
+		assertFalse(company.getAvailableWorkers().contains(w1));
 		company.assign(w1, p5);
 	}
 
@@ -809,6 +810,16 @@ public void testStartRequirementsNotMet() {
 		Worker w1 = company.createWorker("w1", qualifications, 10);
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
 		w1.addProject(p1);
+		company.assign(w1, p1);
+	}
+
+	@Test
+	public void testAssignWithWorkerInProjectsSetOfWorkers(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		p1.addWorker(w1);
 		company.assign(w1, p1);
 	}
 }
