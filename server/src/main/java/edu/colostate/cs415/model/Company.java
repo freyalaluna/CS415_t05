@@ -93,18 +93,17 @@ public class Company {
 		return qualificationsClone;
 	}
 
-	public Worker createWorker(String name, Set<Qualification> qualifications, double salary) {
-		if(name == null || name.trim().isEmpty() || salary < 0.0 || qualifications == null || qualifications.isEmpty() || !this.qualifications.containsAll(qualifications)){
+	public Worker createWorker(String name, Set<Qualification> qs, double salary) {
+		if(name == null || name.trim().isEmpty() || salary < 0.0 || qs == null || qs.isEmpty() || !qualifications.containsAll(qs)){
 			return null;
 		}
-		
-		Worker worker = new Worker(name, qualifications, salary);
-		employees.add(worker);
-		available.add(worker);
-		for(Qualification wq : qualifications){
-			wq.addWorker(worker);
+		Worker newWorker = new Worker(name, qs, salary);
+		employees.add(newWorker);
+		available.add(newWorker);
+		for(Qualification wq : qs){
+			wq.addWorker(newWorker);
 		}
-		return worker;
+		return newWorker;
 	}
 
 	public Qualification createQualification(String description) {
@@ -165,6 +164,21 @@ public class Company {
 	}
 
 	public void assign(Worker worker, Project project) {
+		if(!available.contains(worker) || !projects.contains(project)
+			|| project.getWorkers().contains(worker)
+			|| (project.getStatus() == ProjectStatus.ACTIVE)
+			|| (project.getStatus() == ProjectStatus.FINISHED)
+			|| (worker.getProjects().contains(project))
+			|| worker.willOverload(project)
+			|| !project.isHelpful(worker)){
+			throw new IllegalArgumentException();
+		}
+		if((worker.getWorkload() + project.getSize().getValue()) >= 12){
+			available.remove(worker);
+		}
+		assigned.add(worker);
+		project.addWorker(worker);
+		worker.addProject(project);
 	}
 
 	public void unassign(Worker worker, Project project) {
