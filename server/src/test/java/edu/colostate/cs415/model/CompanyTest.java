@@ -1,8 +1,6 @@
 package edu.colostate.cs415.model;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +14,8 @@ public class CompanyTest {
 
 	private Company company;
 	private Set<Qualification> qualifications;
-	Qualification q = new Qualification("q1");
+	private Qualification q = new Qualification("q1");
+	private String equalCompQual = "q1"; 
 
 	@Before
 	public void setUp() {
@@ -471,7 +470,7 @@ public void testStartRequirementsNotMet() {
 		Set<Qualification> workerQuals = new HashSet<>();
 		workerQuals.add(wq1);
 		workerQuals.add(wq2);
-		assertNotNull(company.createWorker("Barry Allen", workerQuals, 1.0));
+		Worker w1 = company.createWorker("Barry Allen", workerQuals, 1.0);
 	}
 
 	@Test
@@ -492,7 +491,8 @@ public void testStartRequirementsNotMet() {
 
 	@Test
 	public void testCreateWorkerWithNullQualifications(){
-		assertNull(company.createWorker("Dwight Schrute", null, 1.0));
+		Worker w1 = company.createWorker("Dwight Schrute", null, 1.0);
+		assertNull(w1);
 	}
 
 	@Test
@@ -521,16 +521,18 @@ public void testStartRequirementsNotMet() {
 	public void testGetAssignedWorkersEmpty(){
 		assertTrue(company.getAssignedWorkers().isEmpty());
 	}
-
-	/*  Will add once assign is done.
+	
 	@Test
 	public void testGetAssignedWorkersNotEmpty(){
-		Worker w1 = new Worker("Milo", qualifications, 1.0);
-		Project p1 = new Project("Operation Acoustic Kitty", qualifications, ProjectSize.BIG);
-		company.assign(w1, p1);
-		assertTrue(company.getAssignedWorkers().contains(w1));
+		Company cia = new Company("CIA");
+		Qualification spy = cia.createQualification("Cat Spy");
+		Set<Qualification> spyQuals = new HashSet<>();
+		spyQuals.add(spy);
+		Worker milo = cia.createWorker("Milo", spyQuals, 1000);
+		Project coldWarEspionage = cia.createProject("Cold War Espionage", spyQuals, ProjectSize.BIG);
+		cia.assign(milo, coldWarEspionage);
+		assertTrue(cia.getAssignedWorkers().contains(milo));
 	}
-	*/
 
 	@Test
 	public void testGetAssignedWorkerDoesNotChangeThroughReference(){
@@ -573,16 +575,17 @@ public void testStartRequirementsNotMet() {
 	}
 
 	/****** finish ******/
-	/* Will add once createProject and assign is done.
 	@Test
 	public void testFinishValidInputs(){
-		This test covers ProjectStatus = Active, Project != null, 
-			Project.getWorkers != null, Worker.getProjects != null
+		/*This test covers ProjectStatus = Active, Project != null, 
+			Project.getWorkers != null, Worker.getProjects != null*/
+
+		Company aboveEarth = new Company("Above Earth");
 
 		//create quals to add into company::qualifications, create project, worker::qualifications, and create workers
-		Qualification q1 = company.createQualification("moon walker");
-		Qualification q2 = company.createQualification("shuttle pilot");
-		Qualification q3 = company.createQualification("commander");
+		Qualification q1 = aboveEarth.createQualification("space walker");
+		Qualification q2 = aboveEarth.createQualification("shuttle pilot");
+		Qualification q3 = aboveEarth.createQualification("commander");
 
 		Set<Qualification> spaceQuals = new HashSet<>();
 		spaceQuals.add(q1);
@@ -590,45 +593,31 @@ public void testStartRequirementsNotMet() {
 		spaceQuals.add(q3);
 
 		//create project to add into company::projects, worker::projects
-		Project moonMission = company.createProject("Moon Mission", spaceQuals, ProjectSize.BIG);
+		Project moonMission = aboveEarth.createProject("Moon Mission", spaceQuals, ProjectSize.BIG);
 
 		//create worker to add into company::employees, company::available
 		Set<Qualification> felicetteQuals = new HashSet<>(spaceQuals);
 		felicetteQuals.remove(q3);
-		Worker felicette = company.createWorker("Felicette", spaceQuals, 50);
-		//add project to worker::projects
-		felicette.addProject(moonMission);
+		Worker felicette = aboveEarth.createWorker("Felicette", felicetteQuals, 50);
 
 		Set<Qualification> albertIIQuals = new HashSet<>();
 		albertIIQuals.add(q3);
-		Worker albertII = company.createWorker("Albert II", albertIIQuals, 50);
-		//add project to worker::projects
-		albertII.addProject(moonMission);
-
-		//add workers to project
-		moonMission.addWorker(felicette);
-		moonMission.addWorker(albertII);
-
-		//add workers to qualifications
-		q1.addWorker(felicette);
-		q2.addWorker(felicette);
-		q3.addWorker(albertII);
+		Worker albertII = aboveEarth.createWorker("Albert II", albertIIQuals, 50);
 
 		//assign workers to project
-		company.assign(felicette, moonMission);
-		company.assign(albertII, moonMission);
+		aboveEarth.assign(felicette, moonMission);
+		aboveEarth.assign(albertII, moonMission);
 
-		company.start(moonMission);
-		company.finish(moonMission);
+		aboveEarth.start(moonMission);
+		aboveEarth.finish(moonMission);
 
 		assertEquals(moonMission.getStatus(), ProjectStatus.FINISHED);
 		assertTrue(felicette.getProjects().isEmpty());
 		assertTrue(albertII.getProjects().isEmpty());
-		assertEquals(company.getAvailableWorkers().size(), 2);
-		assertTrue(company.getAssignedWorkers().isEmpty());
+		assertEquals(aboveEarth.getAvailableWorkers().size(), 2);
+		assertTrue(aboveEarth.getAssignedWorkers().isEmpty());
 		assertTrue(moonMission.getWorkers().isEmpty());
 	}
-	*/
 
 	@Test
 	public void testFinishWithWrongStatus(){
@@ -650,5 +639,213 @@ public void testStartRequirementsNotMet() {
 		thrown.expect(IllegalArgumentException.class);
 		Project p1 = null;
 		company.finish(p1);
+	}
+
+	/****** assign ******/
+	@Test
+	public void testAssignWithAllValidInputs_BCC(){
+		Company believers = new Company("Believers Inc.");
+		Qualification wldB = believers.createQualification("Primatologist");
+		Qualification surS = believers.createQualification("Survival Specialist");
+		Qualification camO = believers.createQualification("Camera Operator");
+		//At this point, the company only has 3 qualifications
+
+		Set<Qualification> janeQuals = new HashSet<>();
+		janeQuals.add(wldB);
+		Set<Qualification> bearQuals = new HashSet<>();
+		bearQuals.add(surS);
+		Set<Qualification> joeQuals = new HashSet<>();
+		joeQuals.add(camO);
+
+		Worker janeGoodall = believers.createWorker("Jane Goodall", janeQuals, 10);
+		Worker bearGrylls = believers.createWorker("Bear Grylls", bearQuals, 10);
+		Worker joeRogan = believers.createWorker("Joe Rogan", joeQuals, 10);
+
+		Set<Qualification> prjQuals = new HashSet<>();
+		prjQuals.add(wldB);
+		prjQuals.add(surS);
+		prjQuals.add(camO);
+		Project bigfootHunt = believers.createProject("Find Bigfoot", prjQuals, ProjectSize.BIG);
+
+		believers.assign(janeGoodall, bigfootHunt);
+		believers.assign(bearGrylls, bigfootHunt);
+		believers.assign(joeRogan, bigfootHunt);
+
+		//company tests
+		assertTrue(believers.getEmployedWorkers().contains(janeGoodall));
+		assertTrue(believers.getEmployedWorkers().contains(bearGrylls));
+		assertTrue(believers.getEmployedWorkers().contains(joeRogan));
+
+		assertTrue(believers.getAvailableWorkers().contains(janeGoodall));
+		assertTrue(believers.getAvailableWorkers().contains(bearGrylls));
+		assertTrue(believers.getAvailableWorkers().contains(joeRogan));
+
+		assertTrue(believers.getAssignedWorkers().contains(janeGoodall));
+		assertTrue(believers.getAssignedWorkers().contains(bearGrylls));
+		assertTrue(believers.getAssignedWorkers().contains(joeRogan));
+
+		//project tests
+		assertTrue(bigfootHunt.getWorkers().contains(janeGoodall));
+		assertTrue(bigfootHunt.getWorkers().contains(bearGrylls));
+		assertTrue(bigfootHunt.getWorkers().contains(joeRogan));
+
+		//worker tests
+		assertTrue(janeGoodall.getProjects().contains(bigfootHunt));
+		assertTrue(bearGrylls.getProjects().contains(bigfootHunt));
+		assertTrue(joeRogan.getProjects().contains(bigfootHunt));
+	}
+
+	@Test
+	public void testAssignWithNullCompany(){
+		thrown.expect(NullPointerException.class);
+		company = null;
+		company.createProject("p1", qualifications, ProjectSize.BIG);
+	}
+
+	@Test
+	public void testAssignWithWorkerNotInAvailable(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		Project p3 = company.createProject("p3", qualifications, ProjectSize.BIG);
+		Project p4 = company.createProject("p4", qualifications, ProjectSize.BIG);
+		Project p5 = company.createProject("p5", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.assign(w1, p3);
+		company.assign(w1, p4);
+		assertFalse(company.getAvailableWorkers().contains(w1));
+		company.assign(w1, p5);
+	}
+
+	@Test
+	public void testAssignWithProjectNotInCompanyProjects(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+		Worker w1 = company.createWorker("w1", qualifications, 0);
+		company.assign(w1, p1);
+	}
+
+	@Test
+	public void testAssignWithInvalidName(){
+		thrown.expect(IllegalArgumentException.class);
+		company = new Company("");
+	}
+
+	@Test
+	public void testAssignWithWorkerInAssignedSet(){
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+	}
+
+	@Test
+	public void testAssignWithSuspendedProjectStatus(){
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		p1.setStatus(ProjectStatus.SUSPENDED);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.assign(w1, p1);
+		//company tests
+		assertTrue(company.getEmployedWorkers().contains(w1));
+		assertTrue(company.getAvailableWorkers().contains(w1));
+		assertTrue(company.getAssignedWorkers().contains(w1));
+		
+		//project tests
+		assertTrue(p1.getWorkers().contains(w1));
+
+		//worker tests
+		assertTrue(w1.getProjects().contains(p1));
+	}
+
+	@Test
+	public void testAssignWithActiveProjectStatus(){
+		thrown.expect(IllegalArgumentException.class);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		p1.setStatus(ProjectStatus.ACTIVE);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.assign(w1, p1);
+	}
+
+	@Test
+	public void testAssignWithFinishedProjectStatus(){
+		thrown.expect(IllegalArgumentException.class);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		p1.setStatus(ProjectStatus.FINISHED);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.assign(w1, p1);
+	}
+
+	@Test
+	public void testAssignWithNullProject(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.assign(w1, null);
+	}
+
+	@Test
+	public void testAssignWithUnhelpfulWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Qualification q2 = company.createQualification("q2");
+		Set<Qualification> wQuals = new HashSet<>();
+		wQuals.add(q2);
+		Worker w1 = company.createWorker("w1", wQuals, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+
+	}
+
+	@Test
+	public void testAssignWhenWorkerWillBeOverloaded(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		Project p3 = company.createProject("p3", qualifications, ProjectSize.BIG);
+		Project p4 = company.createProject("p4", qualifications, ProjectSize.SMALL);
+		Project p5 = company.createProject("p5", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.assign(w1, p3);
+		company.assign(w1, p4);
+		company.assign(w1, p5);
+	}
+
+	@Test
+	public void testAssignWithNullWorker(){
+		thrown.expect(IllegalArgumentException.class);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		company.assign(null, p1);
+	}
+
+	@Test
+	public void testAssignWithProjectInWorkersProjects(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		w1.addProject(p1);
+		company.assign(w1, p1);
+	}
+
+	@Test
+	public void testAssignWithWorkerInProjectsSetOfWorkers(){
+		thrown.expect(IllegalArgumentException.class);
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		p1.addWorker(w1);
+		company.assign(w1, p1);
 	}
 }
