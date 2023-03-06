@@ -341,7 +341,7 @@ public void testCreateProjectSizeBIG() {
 
 @Test
 public void testCreateProjectQualificationNotSubsetOfCompany() {
-	Project project = new Project("Project Y", qualifications, ProjectSize.BIG);
+	company.createProject("Project Y", qualifications, ProjectSize.BIG);
 	assertEquals(qualifications.size(), 1);
 	assertEquals(company.getProjects().size(), 0);
 	assertEquals(company.createProject("Project Y", qualifications, ProjectSize.BIG), null);
@@ -389,8 +389,9 @@ public void testCreateProjectMultipleExistingProjects() {
 public void testStartAllValid() {
 	ProjectSize size = ProjectSize.SMALL;
 	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
-	Project testProject = new Project("testProj", qualifications, size);
-	Worker testWorker = new Worker("testW", qualifications, 10);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
+	Worker testWorker = company.createWorker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	company.start(testProject);
 	assertEquals(testProject.getStatus(), activeStatus);
@@ -565,6 +566,7 @@ public void testStartRequirementsNotMet() {
 		workerQuals.add(wq1);
 		workerQuals.add(wq2);
 		Worker w1 = company.createWorker("Barry Allen", workerQuals, 1.0);
+		assertTrue(company.getEmployedWorkers().contains(w1));
 	}
 
 	@Test
