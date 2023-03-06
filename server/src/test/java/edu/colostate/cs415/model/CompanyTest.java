@@ -96,23 +96,20 @@ public class CompanyTest {
 	}
 
 	/****** toString ******/
+	@Test
+	public void testToStringAllValid() {
+		company.createQualification("q1");
+		company.createWorker("w1", qualifications, 10);
+		company.createProject("p1", qualifications, ProjectSize.SMALL);
+		assertEquals(company.toString(), "test co:1:1");
+	}
 
-//WAITING FOR CREATE PROJECT
-//@Test
-// public void testToStringAllValid() {
-//	company.createQualification("q1");
-//  company.createWorker("w1", qualifications, 10);
-//  company.createProject("p1", qualifications, 10);
-//  assertEquals(company.toString(), "test co:1:1");
-// }
-
-//WAITING FOR CREATE PROJECT
-// @Test
-// public void testToStringNoWorkers() {
-	//company.createQualification("q1");
-//  company.createProject("p1", qualifications, 10);
-//  assertEquals(company.toString(), "test co:0:1");
-// }
+	@Test
+	public void testToStringNoWorkers() {
+		company.createQualification("q1");
+		company.createProject("p1", qualifications, ProjectSize.SMALL);
+		assertEquals(company.toString(), "test co:0:1");
+	}
 
 	@Test
 	public void testToStringNoProjects() {
@@ -163,7 +160,18 @@ public class CompanyTest {
 /****** getUnavailableWorkers ******/
 	@Test
 	public void testGetUnavailableWorkersSomeUnavailable(){
-		// add test once assign is implemented
+		company.createQualification("q1");
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.createWorker("w2", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		Project p3 = company.createProject("p3", qualifications, ProjectSize.BIG);
+		Project p4 = company.createProject("p4", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.assign(w1, p3);
+		company.assign(w1, p4);
+		assertEquals(company.getUnavailableWorkers().size(), 1);
 	}
 
 	@Test
@@ -175,7 +183,26 @@ public class CompanyTest {
 
 	@Test
 	public void testGetUnavailableWorkersNoneAvailable(){
-		// add test once assign is implemented
+		company.createQualification("q1");
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Worker w2 = company.createWorker("w2", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		Project p3 = company.createProject("p3", qualifications, ProjectSize.BIG);
+		Project p4 = company.createProject("p4", qualifications, ProjectSize.BIG);
+		Project p5 = company.createProject("p5", qualifications, ProjectSize.BIG);
+		Project p6 = company.createProject("p6", qualifications, ProjectSize.BIG);
+		Project p7 = company.createProject("p7", qualifications, ProjectSize.BIG);
+		Project p8 = company.createProject("p8", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.assign(w1, p3);
+		company.assign(w1, p4);
+		company.assign(w2, p5);
+		company.assign(w2, p6);
+		company.assign(w2, p7);
+		company.assign(w2, p8);
+		assertEquals(company.getUnavailableWorkers().size(), 2);
 	}
 
 	@Test
