@@ -441,7 +441,8 @@ public void testStartStatusFinished() {
 @Test
 public void testStartRequirementsNotMet() {
 	ProjectSize size = ProjectSize.SMALL;
-	Project testProject = new Project("testProj", qualifications, size);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
 	company.start(testProject);
 	assertEquals(testProject.getStatus(), ProjectStatus.PLANNED);
 }
