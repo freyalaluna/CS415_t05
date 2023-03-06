@@ -35,10 +35,6 @@ public class Project {
 
 	@Override
 	public int hashCode() {
-		if (name.isEmpty()) {
-			return 0;
-		}
-
 		return name.hashCode();
 	}
 
