@@ -191,6 +191,7 @@ public class Company {
 			if(!(p.getMissingQualifications().isEmpty()) && p.getStatus() == ProjectStatus.ACTIVE){
 				p.setStatus(ProjectStatus.SUSPENDED);
 			}
+			worker.removeProject(p);
 		}
 		assigned.remove(worker);
 		available.add(worker);

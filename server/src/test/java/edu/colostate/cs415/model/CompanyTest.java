@@ -582,7 +582,34 @@ public void testStartRequirementsNotMet() {
 	/***** unassignAll *****/
 	@Test
 	public void testUnassignAllBaseTest(){
-		// waiting for assign and createProject
+		company.createQualification("q1");
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.start(p1);
+		company.unassignAll(w1);
+		assertEquals(p1.getStatus(), ProjectStatus.SUSPENDED);
+	}
+
+	@Test
+	public void testUnassignAllProjectRemainsActive(){
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("q1");
+		w1Quals.add(q1);
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		Qualification q2 = new Qualification("q2");
+		w2Quals.add(q1);
+		w2Quals.add(q2);
+		company.createQualification("q1");
+		company.createQualification("q2");
+		Worker w1 = company.createWorker("w1", w1Quals, 10);
+		Worker w2 = company.createWorker("w2", w2Quals, 10);
+		Project p1 = company.createProject("p1", w2Quals, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w2, p1);
+		company.start(p1);
+		company.unassignAll(w1);
+		assertEquals(p1.getStatus(), ProjectStatus.ACTIVE);
 	}
 
 	@Test
@@ -593,22 +620,35 @@ public void testStartRequirementsNotMet() {
 
 	@Test
 	public void testUnassignAllWorkerHasNoProjects(){
-		// waiting for assign and createProject
+		company.createQualification("q1");
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.unassignAll(w1);
+		assertEquals(company.getUnassignedWorkers().size(), 1);
 	}
 
 	@Test
 	public void testUnassignAllWorkerWithSuspendedProject(){
-		// waiting for assign and createProject
+		company.createQualification("q1");
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.start(p1);
+		p1.setStatus(ProjectStatus.SUSPENDED);
+		company.unassignAll(w1);
+		assertEquals(company.getUnassignedWorkers().size(), 1);
+		assertEquals(p1.getStatus(), ProjectStatus.SUSPENDED);
 	}
 
 	@Test
 	public void testUnassignAllWorkerWithPlannedProject(){
-		// waiting for assign and createProject
-	}
-
-	@Test
-	public void testUnassignAllRemovingWorkerDoesntChangeStatus(){
-		// waiting for assign and createProject
+		company.createQualification("q1");
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.unassignAll(w1);
+		assertEquals(company.getUnassignedWorkers().size(), 1);
 	}
 
 	/****** finish ******/
