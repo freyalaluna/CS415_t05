@@ -631,11 +631,6 @@ public void testStartRequirementsNotMet() {
 		assertEquals(company.getUnassignedWorkers().size(), 1);
 	}
 
-	@Test
-	public void testUnassignAllRemovingWorkerDoesntChangeStatus(){
-		// waiting for assign and createProject
-	}
-
 	/****** finish ******/
 	@Test
 	public void testFinishValidInputs(){
