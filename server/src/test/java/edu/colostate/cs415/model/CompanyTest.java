@@ -247,6 +247,10 @@ public class CompanyTest {
 @Test
 public void testCreateProjectAllValidSingleQual() {
 	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
+	// make sure the project quals is a subset of the company
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
+	}
 	assertEquals(qualifications.size(), 1);
 	assertEquals(company.getProjects().size(), 0);
 	assertEquals(company.createProject("Manhattan Project", qualifications, ProjectSize.SMALL), project);
@@ -294,6 +298,9 @@ public void testCreateProjectAllValidMultiQual() {
 	Qualification q2 = new Qualification("Valid Qual 2");
 	qualifications.add(q1);
 	qualifications.add(q2);
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
+	}
 	Project project = new Project("GitHub Projects", qualifications, ProjectSize.SMALL);
 	assertEquals(qualifications.size(), 3);
 	assertEquals(company.getProjects().size(), 0);
@@ -304,6 +311,9 @@ public void testCreateProjectAllValidMultiQual() {
 @Test
 public void testCreateProjectSizeMEDIUM() {
 	Project project = new Project("Project X", qualifications, ProjectSize.MEDIUM);
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
+	}
 	assertEquals(qualifications.size(), 1);
 	assertEquals(company.getProjects().size(), 0);
 	assertEquals(company.createProject("Project X", qualifications, ProjectSize.MEDIUM), project);
@@ -313,10 +323,21 @@ public void testCreateProjectSizeMEDIUM() {
 @Test
 public void testCreateProjectSizeBIG() {
 	Project project = new Project("Project Y", qualifications, ProjectSize.BIG);
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
+	}
 	assertEquals(qualifications.size(), 1);
 	assertEquals(company.getProjects().size(), 0);
 	assertEquals(company.createProject("Project Y", qualifications, ProjectSize.BIG), project);
 	assertEquals(company.getProjects().size(), 1);
+}
+
+@Test
+public void testCreateProjectQualificationNotSubsetOfCompany() {
+	Project project = new Project("Project Y", qualifications, ProjectSize.BIG);
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Project Y", qualifications, ProjectSize.BIG), null);
 }
 
 @Test
@@ -824,6 +845,9 @@ public void testStartRequirementsNotMet() {
 
 	@Test
 	public void testAssignWithSuspendedProjectStatus(){
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
 		p1.setStatus(ProjectStatus.SUSPENDED);
 		company.createQualification(equalCompQual);
@@ -844,6 +868,9 @@ public void testStartRequirementsNotMet() {
 	@Test
 	public void testAssignWithActiveProjectStatus(){
 		thrown.expect(IllegalArgumentException.class);
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
 		p1.setStatus(ProjectStatus.ACTIVE);
 		company.createQualification(equalCompQual);
@@ -854,6 +881,9 @@ public void testStartRequirementsNotMet() {
 	@Test
 	public void testAssignWithFinishedProjectStatus(){
 		thrown.expect(IllegalArgumentException.class);
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
 		p1.setStatus(ProjectStatus.FINISHED);
 		company.createQualification(equalCompQual);
