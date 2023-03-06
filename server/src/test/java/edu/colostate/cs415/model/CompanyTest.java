@@ -718,15 +718,36 @@ public void testStartRequirementsNotMet() {
 	}
 
 	@Test
-	public void testFinishWithWrongStatus(){
+	public void testFinishWithProjectsNotContainingProject(){
+		thrown.expect(IllegalArgumentException.class);
 		Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
 		company.finish(p1);
+	}
+
+	@Test
+	public void testFinishProjectWithWorkerOnlyHavingCurrentProject(){
+		company.createQualification(equalCompQual);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.start(p1);
+		company.finish(p1);
+		assertFalse(w1.getProjects().isEmpty());
+	}
+
+	@Test
+	public void testFinishWithWrongStatus(){
+		company.createQualification(equalCompQual);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		company.finish(p1);
 		assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
-		Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
 		p2.setStatus(ProjectStatus.SUSPENDED);
 		company.finish(p2);
 		assertEquals(p2.getStatus(), ProjectStatus.SUSPENDED);
-		Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+		Project p3 = company.createProject("p3", qualifications, ProjectSize.BIG);
 		p3.setStatus(ProjectStatus.FINISHED);
 		company.finish(p3);
 		assertEquals(p3.getStatus(), ProjectStatus.FINISHED);
