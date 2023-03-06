@@ -597,7 +597,8 @@ public void testStartRequirementsNotMet() {
 			assertEquals(worker.getProjects().size(), 1);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
 			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
-			
+			assertTrue(project.getMissingQualifications().isEmpty()); //project does NOT have missing qual
+
 			thisCompany.unassign(worker, project);
 			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
 			assertEquals(worker.getProjects().size(), 0);
@@ -614,12 +615,22 @@ public void testStartRequirementsNotMet() {
 
 		@Test
 		public void testUnassignProjectStatusFINISHED() {
-			Worker worker = company.createWorker("Test Worker", qualifications, 10);
-			Project project = company.createProject("Project 1", qualifications, ProjectSize.MEDIUM);
-			project.setStatus(ProjectStatus.FINISHED);
+			Company thisCompany = new Company("Company Test");
+			Qualification q1 = thisCompany.createQualification("Qual Test");
+	
+			Set<Qualification> quals = new HashSet<>();
+			quals.add(q1);
+
+			Worker worker1 = thisCompany.createWorker("Test Worker", quals, 10);
+			Project project1 = thisCompany.createProject("Project 1", quals, ProjectSize.MEDIUM);
 			
+			thisCompany.assign(worker1, project1);
+
+			project1.setStatus(ProjectStatus.FINISHED);
+			assertEquals(project1.getStatus(), ProjectStatus.FINISHED);
+
 			thrown.expect(IllegalArgumentException.class);
-			company.unassign(worker, project);
+			thisCompany.unassign(worker1, project1);
 		}
 
 		@Test
@@ -640,6 +651,7 @@ public void testStartRequirementsNotMet() {
 			assertEquals(worker.getProjects().size(), 1);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
 			assertEquals(project.getStatus(), ProjectStatus.SUSPENDED);
+			assertTrue(project.getMissingQualifications().isEmpty()); //project does NOT have missing qual
 			
 			thisCompany.unassign(worker, project);
 			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
@@ -650,12 +662,30 @@ public void testStartRequirementsNotMet() {
 
 		@Test
 		public void testUnassignProjectStatusACTIVE() {
-			Worker worker = company.createWorker("Test Worker", qualifications, 10);
-			Project project = company.createProject("Project 1", qualifications, ProjectSize.MEDIUM);
-			project.setStatus(ProjectStatus.ACTIVE);
+			Company thisCompany = new Company("Company Test");
+			Qualification q1 = thisCompany.createQualification("Qual Test");
+	
+			Set<Qualification> quals = new HashSet<>();
+			quals.add(q1);
+
+			Worker worker = thisCompany.createWorker("Test Worker", quals, 10);
+			Project project = thisCompany.createProject("Project 1", quals, ProjectSize.MEDIUM);
 			
-			thrown.expect(IllegalArgumentException.class);
-			company.unassign(worker, project);
+			thisCompany.assign(worker, project);
+			assertTrue(worker.isAvailable());
+			assertEquals(thisCompany.getAssignedWorkers().size(), 1);
+			assertEquals(worker.getProjects().size(), 1);
+			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
+			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
+			assertTrue(project.getMissingQualifications().isEmpty()); //project does NOT have missing qual
+			
+			project.setStatus(ProjectStatus.ACTIVE);
+
+			thisCompany.unassign(worker, project);
+			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
+			assertEquals(worker.getProjects().size(), 0);
+			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
+			assertEquals(project.getStatus(), ProjectStatus.ACTIVE);
 		}
 
 		@Test
@@ -684,6 +714,7 @@ public void testStartRequirementsNotMet() {
 			assertEquals(worker.getProjects().size(), 1);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
 			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
+			assertFalse(project.getMissingQualifications().isEmpty()); //project does have missing qual
 			
 			thisCompany.unassign(worker, project);
 			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
@@ -700,7 +731,7 @@ public void testStartRequirementsNotMet() {
 		}
 
 		@Test
-		public void testUnassignWorkerNotAvailable() {
+		public void testUnassignWorkerAssignedMultipleProjects() {
 			Company thisCompany = new Company("Company Test");
 			Qualification q1 = thisCompany.createQualification("Qual Test");
 	
@@ -708,36 +739,22 @@ public void testStartRequirementsNotMet() {
 			quals.add(q1);
 
 			Worker worker = thisCompany.createWorker("Test Worker", quals, 10);
-			Worker worker2 = thisCompany.createWorker("Test Worker 2", quals, 10);
-
-			Project project = thisCompany.createProject("Project Test", quals, ProjectSize.BIG);
-			Project p1 = thisCompany.createProject("Project 1", quals, ProjectSize.BIG);
-			Project p2 = thisCompany.createProject("Project 2", quals, ProjectSize.BIG);
-			Project p3 = thisCompany.createProject("Project 3", quals, ProjectSize.BIG);
-			Project p4 = thisCompany.createProject("Project 4", quals, ProjectSize.BIG);
+			Project project = thisCompany.createProject("Project 1", quals, ProjectSize.MEDIUM);
+			Project project2 = thisCompany.createProject("Project 2", quals, ProjectSize.MEDIUM);
 			
-			thisCompany.assign(worker, p1);
-			thisCompany.assign(worker, p2);
-			thisCompany.assign(worker, p3);
-			thisCompany.assign(worker, p4);
-			assertFalse(worker.isAvailable());
-			
-			thisCompany.assign(worker2, project);
-			assertTrue(worker2.isAvailable());
-
-			assertEquals(thisCompany.getAssignedWorkers().size(), 2);
-			assertEquals(worker.getProjects().size(), 4);
-			assertEquals(worker2.getProjects().size(), 1);
+			thisCompany.assign(worker, project);
+			thisCompany.assign(worker, project2);
+			assertTrue(worker.isAvailable());
+			assertEquals(thisCompany.getAssignedWorkers().size(), 1);
+			assertEquals(worker.getProjects().size(), 2);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
-			assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
 			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
-			
-			thisCompany.unassign(worker, p1);
-			assertEquals(thisCompany.getAssignedWorkers().size(),1);
-			assertEquals(worker.getProjects().size(), 3);
-			assertEquals(worker2.getProjects().size(), 1);
+			assertTrue(project.getMissingQualifications().isEmpty()); //project does NOT have missing qual
+
+			thisCompany.unassign(worker, project);
+			assertEquals(thisCompany.getAssignedWorkers().size(), 1);
+			assertEquals(worker.getProjects().size(), 1);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
-			assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
 			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
 		}
 
@@ -776,9 +793,24 @@ public void testStartRequirementsNotMet() {
 
 			Worker worker = thisCompany.createWorker("Test Worker", quals, 10);
 			Project project = new Project("Project 1", quals, ProjectSize.MEDIUM);
+
+			thrown.expect(IllegalArgumentException.class);
+			thisCompany.unassign(worker, project);
+		}
+
+		@Test
+		public void testUnassignWorkerNotCompanyEmployee() {
+			Company thisCompany = new Company("Company Test");
+			Qualification q1 = thisCompany.createQualification("Qual Test");
+	
+			Set<Qualification> quals = new HashSet<>();
+			quals.add(q1);
+
+			Worker worker = new Worker("Test Worker", quals, 10);
+			Project project = thisCompany.createProject("Project 1", quals, ProjectSize.MEDIUM);
 			
 			thrown.expect(IllegalArgumentException.class);
-			thisCompany.assign(worker, project);
+			thisCompany.unassign(worker, project);
 		}
 
 	/***** unassignAll *****/
@@ -852,6 +884,15 @@ public void testStartRequirementsNotMet() {
 		company.unassignAll(w1);
 		assertEquals(company.getUnassignedWorkers().size(), 1);
 	}
+
+	@Test
+	public void testUnassignWorkerNotEmployee() {
+		Project project = company.createProject("Project Test", qualifications, ProjectSize.MEDIUM);
+		Worker worker = new Worker("Worker Test", qualifications, 10);
+		thrown.expect(IllegalArgumentException.class);
+		company.unassign(worker, project);
+	}
+
 
 	/****** finish ******/
 	@Test
