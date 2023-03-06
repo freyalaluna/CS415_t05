@@ -111,19 +111,21 @@ public class Worker {
 	}
 
 	public WorkerDTO toDTO() {
-		Set<String> projectStrings = new HashSet<String>();
-		Set<String> qualStrings = new HashSet<String>();
-		
+		Set<String> projectNames = new HashSet<String>();
+		Set<String> qualNames = new HashSet<String>();
+
 		for(Project p : projects){
-			projectStrings.add(p.toString());
+			projectNames.add(p.getName());
 		}
 		for(Qualification q : qualifications){
-			qualStrings.add(q.toString());
+			qualNames.add(q.toString());
 		}
-
-		String[] projArray = projectStrings.toArray(new String[0]);
-		String[] qualArray = qualStrings.toArray(new String[0]);
-		WorkerDTO wDTO = new WorkerDTO(name, salary, getWorkload(), projArray, qualArray);
-		return wDTO;
+		
+		String[] pName = projectNames.toArray(new String[0]);
+		String[] qNames = qualNames.toArray(new String[0]);
+		System.out.println(pName);
+		System.out.println(qNames);
+		WorkerDTO dto = new WorkerDTO(name, salary, getWorkload(), pName, qNames);
+		return dto;
 	}
 }
