@@ -719,14 +719,15 @@ public void testStartRequirementsNotMet() {
 
 	@Test
 	public void testFinishWithWrongStatus(){
-		Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+		company.createQualification(equalCompQual);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
 		company.finish(p1);
 		assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
-		Project p2 = new Project("p2", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
 		p2.setStatus(ProjectStatus.SUSPENDED);
 		company.finish(p2);
 		assertEquals(p2.getStatus(), ProjectStatus.SUSPENDED);
-		Project p3 = new Project("p3", qualifications, ProjectSize.BIG);
+		Project p3 = company.createProject("p3", qualifications, ProjectSize.BIG);
 		p3.setStatus(ProjectStatus.FINISHED);
 		company.finish(p3);
 		assertEquals(p3.getStatus(), ProjectStatus.FINISHED);
