@@ -175,13 +175,6 @@ public class CompanyTest {
 	}
 
 	@Test
-	public void testGetUnavailableWorkersMoreAvailableThanEmployed(){
-		// This may not be possible to actually test, may want to delete this test but not sure yet
-		// thrown.expect(IllegalArgumentException.class);
-		// try to get to a state where available is greater than employees
-	}
-
-	@Test
 	public void testGetUnavailableWorkersNoneAvailable(){
 		company.createQualification("q1");
 		Worker w1 = company.createWorker("w1", qualifications, 10);
