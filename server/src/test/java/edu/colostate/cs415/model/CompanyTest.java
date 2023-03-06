@@ -410,27 +410,44 @@ public void testStartRequirementsNotMet() {
 	@Test
 	public void testGetUnassignedWorkersEmployeesEqualsAssigned() {
 		// add workers and assign all of them
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("q1");
+		w1Quals.add(q1);
+
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		Qualification q2 = new Qualification("q2");
+		w2Quals.add(q2);
+
+		company.createQualification("q1");
+		company.createQualification("q2");
+
+		company.createWorker("w1", w1Quals, 10);
+		company.createWorker("w2", w2Quals, 10);
+
+		Set<Qualification> projectQuals = new HashSet<>();
+		projectQuals.add(q1);
+		projectQuals.add(q2);
+
+		Set<Worker> workers = company.getUnassignedWorkers();
+		Project p1 = company.createProject("p1", projectQuals, ProjectSize.SMALL);
+		for(Worker w : workers){
+			company.assign(w, p1);
+		}
 		assertTrue( company.getUnassignedWorkers().isEmpty());
 	}
 
 	@Test
-	public void testGetUnassignedWorkersNoAssigned() {
-		// add workers and dont assign any
-		assertTrue( company.getUnassignedWorkers().isEmpty());
+	public void testGetUnassignedWorkersCorrectNumberAssigned() {
+		company.createQualification("q1");
+		company.createWorker("w1", qualifications, 10);
+		company.createWorker("w2", qualifications, 10);
+		assertTrue( company.getUnassignedWorkers().size() == 2);
 	}
 
 	@Test
 	public void testGetUnassignedWorkersEmployeesMoreThanAssigned() {
 		// add workers and assign all but one
 		// assertTrue( company.getUnassignedWorkers().size() == 1);
-	}
-
-	@Test
-	public void testGetUnassignedWorkersAssignedMoreThanEmployedThrowsException() {
-		// This may not be possible to actually test, may want to delete this test but not sure yet
-		// thrown.expect(IllegalArgumentException.class);
-		// try to get to a state where assigned is greater than 
-		// company.getUnassignedWorkers();
 	}
 
 /***** getProjects  */
