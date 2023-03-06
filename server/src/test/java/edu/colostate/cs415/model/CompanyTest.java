@@ -252,7 +252,7 @@ public class CompanyTest {
 
 /***** createProject ******/
 @Test
-public void testCreateProjectAllValidBaseTest() {
+public void testCreateProjectAllValidSingleQual() {
 	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
 	// make sure the project quals is a subset of the company
 	for(Qualification q: qualifications){
@@ -420,8 +420,9 @@ public void testStartStatusActive() {
 public void testStartStatusSuspended() {
 	ProjectSize size = ProjectSize.SMALL;
 	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
-	Project testProject = new Project("testProj", qualifications, size);
-	Worker testWorker = new Worker("testW", qualifications, 10);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
+	Worker testWorker = company.createWorker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	testProject.setStatus(ProjectStatus.SUSPENDED);
 	company.start(testProject);
@@ -447,6 +448,14 @@ public void testStartRequirementsNotMet() {
 	Project testProject = company.createProject("testProj", qualifications, size);
 	company.start(testProject);
 	assertEquals(testProject.getStatus(), ProjectStatus.PLANNED);
+}
+
+@Test	
+public void testStartWithProjectNotInProject(){	
+	thrown.expect(IllegalArgumentException.class);	
+	Company c1 = new Company("c1");	
+	Project p1 = new Project("p1", qualifications, ProjectSize.BIG);	
+	c1.start(p1);	
 }
 
 /***** getQualifications  *****/
