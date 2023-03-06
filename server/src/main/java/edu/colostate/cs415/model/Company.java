@@ -143,7 +143,7 @@ public class Company {
 	}
 
 	public void finish(Project project) {
-		if(project == null){
+		if(project == null || !projects.contains(project)){
 			throw new IllegalArgumentException();
 		}
 		if(project.getStatus() == ProjectStatus.ACTIVE){
