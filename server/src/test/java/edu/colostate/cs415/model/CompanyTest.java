@@ -407,20 +407,34 @@ public void testStartRequirementsNotMet() {
 		assertTrue( company.getUnassignedWorkers() != null);
 	}
 
-	// @Test
-	// public void testGetUnassignedWorkersEmployeesEqualsAssigned() {
-	// 	// add workers and assign all of them
-	// 	company.createQualification("q1");
-	// 	company.createWorker("w1", qualifications, 10);
-	// 	company.createWorker("w2", qualifications, 10);
-	// 	Set<Worker> workers = company.getUnassignedWorkers();
-	// 	Project p1 = company.createProject("p1", qualifications, ProjectSize.SMALL);
-	// 	for(Worker w : workers){
-	// 		company.assign(w, p1);
-	// 	}
-	// 	company.assign(null, null);
-	// 	assertTrue( company.getUnassignedWorkers().isEmpty());
-	// }
+	@Test
+	public void testGetUnassignedWorkersEmployeesEqualsAssigned() {
+		// add workers and assign all of them
+		Set<Qualification> w1Quals = new HashSet<Qualification>();
+		Qualification q1 = new Qualification("q1");
+		w1Quals.add(q1);
+
+		Set<Qualification> w2Quals = new HashSet<Qualification>();
+		Qualification q2 = new Qualification("q2");
+		w2Quals.add(q2);
+
+		company.createQualification("q1");
+		company.createQualification("q2");
+
+		company.createWorker("w1", w1Quals, 10);
+		company.createWorker("w2", w2Quals, 10);
+
+		Set<Qualification> projectQuals = new HashSet<>();
+		projectQuals.add(q1);
+		projectQuals.add(q2);
+
+		Set<Worker> workers = company.getUnassignedWorkers();
+		Project p1 = company.createProject("p1", projectQuals, ProjectSize.SMALL);
+		for(Worker w : workers){
+			company.assign(w, p1);
+		}
+		assertTrue( company.getUnassignedWorkers().isEmpty());
+	}
 
 	@Test
 	public void testGetUnassignedWorkersCorrectNumberAssigned() {
