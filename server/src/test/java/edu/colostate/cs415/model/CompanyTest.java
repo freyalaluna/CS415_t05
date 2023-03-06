@@ -118,7 +118,14 @@ public class CompanyTest {
 	assertEquals(company.toString(), "test co:1:0");
 	}
 
-	/* getEmployedWorkers */
+/* getEmployedWorkers */
+	@Test
+	public void testGetEmployedWorkersDoesNotChangeThroughReference() {
+		Set<Worker> employeesClone = company.getEmployedWorkers();
+		Worker w1 = new Worker("One Worker", qualifications, 1.0);
+		employeesClone.add(w1);
+		assertFalse(company.getEmployedWorkers().contains(w1));
+	}
 
 	@Test
 	public void testGetEmployedWorkers() {

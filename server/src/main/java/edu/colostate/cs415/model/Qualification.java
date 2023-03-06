@@ -37,7 +37,8 @@ public class Qualification {
 	}
 
 	public Set<Worker> getWorkers() {
-		return workers;
+		Set<Worker> workersClone = new HashSet<>(workers);
+		return workersClone;
 	}
 
 	public void addWorker(Worker worker) {
