@@ -989,6 +989,17 @@ public void testStartWithProjectNotInProject(){
 		company.unassign(worker, project);
 	}
 
+	@Test	
+	public void testUnassignAllWithWorkerNotInEmployees(){	
+		thrown.expect(IllegalArgumentException.class);	
+		Company c1 = new Company("c1");	
+		Qualification q1 = new Qualification("test");	
+		Set<Qualification> wQuals = new HashSet<>();	
+		wQuals.add(q1);	
+		Worker w1 = new Worker("w1", qualifications, 10);	
+		c1.unassignAll(w1);	
+		assertTrue(w1.getProjects().isEmpty());	
+	}
 
 	/****** finish ******/
 	@Test
