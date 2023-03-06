@@ -123,8 +123,6 @@ public class Worker {
 		
 		String[] pName = projectNames.toArray(new String[0]);
 		String[] qNames = qualNames.toArray(new String[0]);
-		System.out.println(pName);
-		System.out.println(qNames);
 		WorkerDTO dto = new WorkerDTO(name, salary, getWorkload(), pName, qNames);
 		return dto;
 	}
