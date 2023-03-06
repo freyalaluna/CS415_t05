@@ -222,6 +222,17 @@ public class QualificationTest {
 		assertEquals(qualWithWorkers.getWorkers().size(), 2);
 	 }
 
+	 @Test
+	 public void testGetWorkersDoesNotChangeThroughReference() {
+		Qualification qualWithWorkers = new Qualification("test");
+		qualifications.add(qualWithWorkers);
+		Worker worker = new Worker("W1", qualifications, 1.0);
+		Qualification qual = new Qualification("test");
+		Set<Worker> workersClone = qual.getWorkers();
+		workersClone.add(worker);
+		assertFalse(qual.getWorkers().contains(worker));
+	 }
+
 	 /**** toDTO *****/
 
 	@Test
