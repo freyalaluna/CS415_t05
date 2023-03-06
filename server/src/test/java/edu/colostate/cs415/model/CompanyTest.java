@@ -784,6 +784,31 @@ public void testStartRequirementsNotMet() {
 		}
 
 		@Test
+		public void testUnassignWorkerIsNotAssigned() {
+			Company thisCompany = new Company("Company Test");
+			Qualification q1 = thisCompany.createQualification("Qual Test");
+	
+			Set<Qualification> quals = new HashSet<>();
+			quals.add(q1);
+
+			Worker worker = thisCompany.createWorker("Test Worker", quals, 10);
+			Project project = thisCompany.createProject("Project 1", quals, ProjectSize.MEDIUM);
+			worker.addProject(project);
+
+			assertTrue(worker.isAvailable());
+			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
+			assertEquals(worker.getProjects().size(), 1);
+			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
+			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
+
+			thisCompany.unassign(worker, project);
+			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
+			assertEquals(worker.getProjects().size(), 1);
+			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
+			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
+		}
+
+		@Test
 		public void testUnassignProjectsDoesNotContainProject() {
 			Company thisCompany = new Company("Company Test");
 			Qualification q1 = thisCompany.createQualification("Qual Test");

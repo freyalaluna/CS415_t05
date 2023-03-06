@@ -186,7 +186,7 @@ public class Company {
 			|| !employees.contains(worker)) {
 			throw new IllegalArgumentException();
 		}
-		if(worker.getProjects().contains(project)) {
+		if(worker.getProjects().contains(project) && assigned.contains(worker)) {
 			if(!(project.getMissingQualifications().isEmpty())) {
 				project.setStatus(ProjectStatus.SUSPENDED);
 			}
