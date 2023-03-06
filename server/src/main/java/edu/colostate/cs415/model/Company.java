@@ -117,7 +117,9 @@ public class Company {
 	}
 
 	public Project createProject(String name, Set<Qualification> qualifications, ProjectSize size) {
-		if (name == null || qualifications == null || size == null || name.isEmpty() || StringUtils.isBlank(name) || qualifications.isEmpty()){
+		if (name == null || qualifications == null || size == null || name.isEmpty() 
+			|| StringUtils.isBlank(name) || qualifications.isEmpty()
+			|| !this.qualifications.containsAll(qualifications)){
 			return null;
 		}
 
