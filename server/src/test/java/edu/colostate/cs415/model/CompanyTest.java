@@ -718,6 +718,26 @@ public void testStartRequirementsNotMet() {
 	}
 
 	@Test
+	public void testFinishWithProjectsNotContainingProject(){
+		thrown.expect(IllegalArgumentException.class);
+		Project p1 = new Project("p1", qualifications, ProjectSize.BIG);
+		company.finish(p1);
+	}
+
+	@Test
+	public void testFinishProjectWithWorkerOnlyHavingCurrentProject(){
+		company.createQualification(equalCompQual);
+		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
+		Project p2 = company.createProject("p2", qualifications, ProjectSize.BIG);
+		Worker w1 = company.createWorker("w1", qualifications, 10);
+		company.assign(w1, p1);
+		company.assign(w1, p2);
+		company.start(p1);
+		company.finish(p1);
+		assertFalse(w1.getProjects().isEmpty());
+	}
+
+	@Test
 	public void testFinishWithWrongStatus(){
 		company.createQualification(equalCompQual);
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
