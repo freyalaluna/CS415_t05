@@ -59,9 +59,6 @@ public class Company {
 	}
 
 	public Set<Worker> getUnavailableWorkers() {
-		if(employees.size()< available.size()){
-			return null;
-		}
 		Set<Worker> availableClone = new HashSet<>(available);
 		Set<Worker> unavailableWorkers = new HashSet<>(employees);
 		unavailableWorkers.removeAll(availableClone);
