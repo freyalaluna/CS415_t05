@@ -50,7 +50,8 @@ public class Company {
 	}
 
 	public Set<Worker> getEmployedWorkers() {
-		return employees;
+		Set<Worker> employeesClone = new HashSet<>(employees);
+		return employeesClone;
 	}
 
 	public Set<Worker> getAvailableWorkers() {
