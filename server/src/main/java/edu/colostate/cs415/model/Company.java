@@ -206,7 +206,7 @@ public class Company {
 	}
 
 	public void unassignAll(Worker worker) {
-		if(worker == null){
+		if(worker == null || !employees.contains(worker)){
 			throw new IllegalArgumentException();
 		}
 		for(Project p : worker.getProjects()){
