@@ -131,7 +131,7 @@ public class Company {
 	}
 
 	public void start(Project project) {
-		if(project == null){
+		if(project == null || !projects.contains(project)){
 			throw new IllegalArgumentException();
 		}
 		ProjectStatus pStatus = project.getStatus();
