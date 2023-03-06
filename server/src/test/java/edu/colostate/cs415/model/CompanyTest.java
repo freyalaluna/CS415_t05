@@ -407,8 +407,9 @@ public void testStartNullProject() {
 public void testStartStatusActive() {
 	ProjectSize size = ProjectSize.SMALL;
 	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
-	Project testProject = new Project("testProj", qualifications, size);
-	Worker testWorker = new Worker("testW", qualifications, 10);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
+	Worker testWorker = company.createWorker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	testProject.setStatus(activeStatus);
 	company.start(testProject);
