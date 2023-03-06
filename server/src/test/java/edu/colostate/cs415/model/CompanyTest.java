@@ -146,7 +146,7 @@ public class CompanyTest {
 	public void testGetAvailableWorkersEmpty() {
 		assertTrue(company.getAvailableWorkers().isEmpty());		
 	}
-
+	
 	@Test
 	public void testGetAvailableWorkersOneWorker() {
 		// add test once assign is implemented
@@ -245,7 +245,7 @@ public class CompanyTest {
 
 /***** createProject ******/
 @Test
-public void testCreateProjectAllValidSingleQual() {
+public void testCreateProjectAllValidBaseTest() {
 	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
 	// make sure the project quals is a subset of the company
 	for(Qualification q: qualifications){
@@ -341,12 +341,41 @@ public void testCreateProjectQualificationNotSubsetOfCompany() {
 }
 
 @Test
-public void testCreateProjectSizeNull() {
+public void testCreateProjectOneExistingProject() {
+	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
+	// make sure the project quals is a subset of the company
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
+	}
 	assertEquals(qualifications.size(), 1);
-	assertEquals(company.createProject("Project Z", qualifications, null), null);
 	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Manhattan Project", qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.getProjects().size(), 1);
+
+	Project project2 = new Project("Project X", qualifications, ProjectSize.SMALL);
+	assertEquals(company.createProject("Project X", qualifications, ProjectSize.SMALL), project2);
+	assertEquals(company.getProjects().size(), 2);
 }
 
+@Test
+public void testCreateProjectMultipleExistingProjects() {
+	Project project = new Project("Project X", qualifications, ProjectSize.SMALL);
+	Project project2 = new Project("Project Y", qualifications, ProjectSize.SMALL);
+	// make sure the project quals is a subset of the company
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
+	}
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Project X", qualifications, ProjectSize.SMALL), project);
+	assertEquals(company.createProject("Project Y", qualifications, ProjectSize.SMALL), project2);
+	assertEquals(company.getProjects().size(), 2);
+	
+	Project project3 = new Project("Project Z", qualifications, ProjectSize.SMALL);
+	assertEquals(company.createProject("Project Z", qualifications, ProjectSize.SMALL), project3);
+	assertEquals(company.getProjects().size(), 3);
+
+}
 
 /***** start ******/
 @Test
@@ -502,7 +531,7 @@ public void testStartRequirementsNotMet() {
 	
 	@Test
 	public void testProjectsEmpty() {
-		assertTrue(company.getProjects().isEmpty());		
+		assertTrue(company.getProjects().isEmpty());
 	}
 
 	@Test
