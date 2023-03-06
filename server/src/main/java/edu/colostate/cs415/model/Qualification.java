@@ -57,7 +57,7 @@ public class Qualification {
 	public QualificationDTO toDTO() {
 		Set<String> workerStrings = new HashSet<String>();
 		for (Worker w : workers) {
-			workerStrings.add(w.toString());
+			workerStrings.add(w.getName());
 		}
 		String[] workerArray = workerStrings.toArray(new String[0]);
 		QualificationDTO qdto = new QualificationDTO(this.description, workerArray);
