@@ -150,18 +150,40 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetAvailableWorkersEmpty() {
-		assertTrue(company.getAvailableWorkers().isEmpty());		
+	public void testGetAvailableWorkersMoreThanOneWorker() {
+		Worker w1 = new Worker("Worker 1", qualifications, 10);
+		Worker w2 = new Worker("Worker 2", qualifications, 10);
+		Worker w3 = new Worker("Worker 3", qualifications, 10);
+		
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
+		
+		assertEquals(qualifications.size(), 1);
+		assertEquals(company.getAvailableWorkers().size(), 0);
+		assertEquals(company.createWorker("Worker 1", qualifications, 10), w1);
+		assertEquals(company.createWorker("Worker 2", qualifications, 10), w2);
+		assertEquals(company.createWorker("Worker 3", qualifications, 10), w3);
+		assertEquals(company.getAvailableWorkers().size(), 3);
+	}
+		
+	@Test
+	public void testGetAvailableWorkersOneWorker() {
+		Worker worker = new Worker("Worker", qualifications, 10);
+		
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
+		
+		assertEquals(qualifications.size(), 1);
+		assertEquals(company.getAvailableWorkers().size(), 0);
+		assertEquals(company.createWorker("Worker", qualifications, 10), worker);
+		assertEquals(company.getAvailableWorkers().size(), 1);
 	}
 	
 	@Test
-	public void testGetAvailableWorkersOneWorker() {
-		// add test once assign is implemented
-	}
-
-	@Test
-	public void testGetAvailableWorkersMoreThanOneWorker() {
-		// add test once assign is implemented
+	public void testGetAvailableWorkersEmpty() {
+		assertTrue(company.getAvailableWorkers().isEmpty());		
 	}
 
 /****** getUnavailableWorkers ******/
@@ -550,18 +572,38 @@ public void testStartWithProjectNotInProject(){
 	}
 	
 	@Test
-	public void testProjectsEmpty() {
-		assertTrue(company.getProjects().isEmpty());
+	public void testGetProjectsMoreThanOneProject() {;
+		Project p1 = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+		Project p2 = new Project("Project 2", qualifications, ProjectSize.MEDIUM);
+		Project p3 = new Project("Project 3", qualifications, ProjectSize.MEDIUM);
+		
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
+		
+		assertEquals(qualifications.size(), 1);
+		assertEquals(company.getProjects().size(), 0);
+		assertEquals(company.createProject("Project 1", qualifications, ProjectSize.MEDIUM), p1);
+		assertEquals(company.createProject("Project 2", qualifications, ProjectSize.MEDIUM), p2);
+		assertEquals(company.createProject("Project 3", qualifications, ProjectSize.MEDIUM), p3);
+		assertEquals(company.getProjects().size(), 3);
 	}
-
+	
 	@Test
 	public void testGetProjectsOneProject() {
-		// add test once createProject is implemented
+	Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+	for(Qualification q: qualifications){
+		company.createQualification(q.toString());
 	}
-
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.getProjects().size(), 0);
+	assertEquals(company.createProject("Project 1", qualifications, ProjectSize.BIG), project);
+	assertEquals(company.getProjects().size(), 1);
+	}
+	
 	@Test
-	public void testGetProjectsMoreThanOneProject() {
-		// add test once createProject is implemented
+	public void testProjectsEmpty() {
+		assertTrue(company.getProjects().isEmpty());		
 	}
 
 	/****** createWorker ******/
