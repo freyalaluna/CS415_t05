@@ -431,7 +431,8 @@ public void testStartStatusSuspended() {
 @Test
 public void testStartStatusFinished() {
 	ProjectSize size = ProjectSize.SMALL;
-	Project testProject = new Project("testProj", qualifications, size);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
 	Worker testWorker = new Worker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	testProject.setStatus(ProjectStatus.FINISHED);
