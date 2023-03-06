@@ -182,6 +182,26 @@ public class Company {
 	}
 
 	public void unassign(Worker worker, Project project) {
+		if(worker == null || project == null 
+			|| project.getStatus() == ProjectStatus.FINISHED 
+			|| !projects.contains(project)
+			|| !employees.contains(worker)) {
+			throw new IllegalArgumentException();
+		}
+		if(worker.getProjects().contains(project) && assigned.contains(worker)) {
+			if(!(project.getMissingQualifications().isEmpty())) {
+				project.setStatus(ProjectStatus.SUSPENDED);
+			}
+
+			// worker is only assigned to this project (already verfied assigned to project)
+			if(worker.getProjects().size() == 1){
+				assigned.remove(worker);
+			}
+
+			worker.removeProject(project);
+			project.removeWorker(worker);
+			available.add(worker);
+		}
 	}
 
 	public void unassignAll(Worker worker) {
