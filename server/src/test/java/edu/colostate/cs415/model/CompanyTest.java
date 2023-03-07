@@ -166,7 +166,7 @@ public class CompanyTest {
 		assertEquals(company.createWorker("Worker 3", qualifications, 10), w3);
 		assertEquals(company.getAvailableWorkers().size(), 3);
 	}
-		
+	
 	@Test
 	public void testGetAvailableWorkersOneWorker() {
 		Worker worker = new Worker("Worker", qualifications, 10);
