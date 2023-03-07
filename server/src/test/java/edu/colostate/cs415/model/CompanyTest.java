@@ -673,6 +673,25 @@ public void testStartWithProjectNotInProject(){
 		assertNull(company.createWorker("Rick Snip", workerQuals, 1.0));
 	}
 
+	@Test
+	public void testCreateWorkerWithSalaryEqualToZero(){
+		company.createQualification(equalCompQual);
+		Worker w1 = company.createWorker("test", qualifications, 0);
+		assertEquals(w1.getSalary(), 0, .01);
+	}
+
+	@Test
+	public void testCreateWorkerCheckThatWorkerWasAddedToQualification(){
+		Company c1 = new Company("c1");
+		Qualification q1 = c1.createQualification("q1");
+		Set<Qualification> wQuals = new HashSet<>();
+		wQuals.add(q1);
+		c1.createProject("q1", wQuals, ProjectSize.BIG);
+		Worker w1 = c1.createWorker("w1", wQuals, 0);
+		assertTrue(q1.getWorkers().contains(w1));
+
+	}
+
 	/***** getAssignedWorkers *****/
 	@Test
 	public void testGetAssignedWorkersEmpty(){
@@ -1048,6 +1067,32 @@ public void testStartWithProjectNotInProject(){
 		Worker w1 = new Worker("w1", qualifications, 10);	
 		c1.unassignAll(w1);	
 		assertTrue(w1.getProjects().isEmpty());	
+	}
+
+	@Test
+	public void testThatWorkerWasRemovedFromProjectsSetOfWorkers(){
+		Company c1 = new Company("c1");
+		Qualification q1 = c1.createQualification("q1");
+		Set<Qualification> quals = new HashSet<>();
+		quals.add(q1);
+		Project p1 = c1.createProject("p1", quals, ProjectSize.BIG);
+		Worker w1 = c1.createWorker("w1", quals, 0);
+		c1.assign(w1, p1);
+		c1.unassign(w1, p1);
+		assertFalse(p1.getWorkers().contains(w1));
+	}
+
+	@Test
+	public void testUnassignAllProjectIsRemovedFromWorkersSetOfProjects(){
+		Company c1 = new Company("c1");
+		Qualification q1 = c1.createQualification("q1");
+		Set<Qualification> quals = new HashSet<>();
+		quals.add(q1);
+		Project p1 = c1.createProject("p1", quals, ProjectSize.BIG);
+		Worker w1 = c1.createWorker("w1", quals, 0);
+		c1.assign(w1, p1);
+		c1.unassignAll(w1);
+		assertTrue(w1.getProjects().isEmpty());
 	}
 
 	/****** finish ******/
