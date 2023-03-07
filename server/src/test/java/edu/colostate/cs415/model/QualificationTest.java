@@ -26,20 +26,20 @@ public class QualificationTest {
 	@Test
     public void testQualificationConstructorNullDesc(){
 		thrown.expect(IllegalArgumentException.class);
-		Qualification q = new Qualification(null);
+		qualificationWithNullDesc = new Qualification(null);
     }
 
 	@Test
 	public void testQualificationConstructorWhiteSpace(){
 
 		thrown.expect(IllegalArgumentException.class);
-		Qualification q = new Qualification("    ");
+		qualificationWithEmptyDesc = new Qualification("    ");
 	}
 
 	@Test
     public void testQualificationConstructorEmptyDesc(){
 		thrown.expect(IllegalArgumentException.class);
-		Qualification q = new Qualification("");
+		qualificationWithEmptyDesc = new Qualification("");
     }
 
 	/***** equals *****/
