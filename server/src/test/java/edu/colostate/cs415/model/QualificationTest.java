@@ -17,6 +17,9 @@ public class QualificationTest {
 	Qualification qualificationWithValidDesc;
 	Set<Qualification> qualifications;
 
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
 	@Before
     public void setUp() throws Exception {
 		qualifications = new HashSet<Qualification>();
@@ -60,9 +63,6 @@ public class QualificationTest {
         assertTrue("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithValidDesc));
     }
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
-
 	@Test
     public void testEqualsOtherNull(){
         assertFalse("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithNullDesc));
@@ -72,6 +72,12 @@ public class QualificationTest {
     public void testEqualsOtherEmpty(){
         assertFalse("equals returns false with null name", qualificationWithValidDesc.equals(qualificationWithEmptyDesc));
     }
+
+	@Test
+	public void testEqualsWithTwoObjectsReturnsTrue(){
+		Qualification q1 = new Qualification("test");
+		assertFalse(qualificationWithValidDesc.equals(q1));
+	}
 
 	
 	/***** hashCode *****/
