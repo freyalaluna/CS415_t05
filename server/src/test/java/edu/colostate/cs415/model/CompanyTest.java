@@ -338,6 +338,13 @@ public void testCreateProjectAllValidMultiQual() {
 }
 
 @Test
+public void testCreateProjectSizeNull() {
+	assertEquals(qualifications.size(), 1);
+	assertEquals(company.createProject("Project", qualifications, null), null);
+	assertEquals(company.getProjects().size(), 0);
+}
+
+@Test
 public void testCreateProjectSizeMEDIUM() {
 	Project project = new Project("Project X", qualifications, ProjectSize.MEDIUM);
 	for(Qualification q: qualifications){
