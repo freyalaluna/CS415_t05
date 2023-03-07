@@ -252,7 +252,7 @@ public class CompanyTest {
 
 /***** createProject ******/
 @Test
-public void testCreateProjectAllValidBaseTest() {
+public void testCreateProjectAllValidSingleQual() {
 	Project project = new Project("Manhattan Project", qualifications, ProjectSize.SMALL);
 	// make sure the project quals is a subset of the company
 	for(Qualification q: qualifications){
@@ -341,7 +341,7 @@ public void testCreateProjectSizeBIG() {
 
 @Test
 public void testCreateProjectQualificationNotSubsetOfCompany() {
-	Project project = new Project("Project Y", qualifications, ProjectSize.BIG);
+	company.createProject("Project Y", qualifications, ProjectSize.BIG);
 	assertEquals(qualifications.size(), 1);
 	assertEquals(company.getProjects().size(), 0);
 	assertEquals(company.createProject("Project Y", qualifications, ProjectSize.BIG), null);
@@ -389,8 +389,9 @@ public void testCreateProjectMultipleExistingProjects() {
 public void testStartAllValid() {
 	ProjectSize size = ProjectSize.SMALL;
 	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
-	Project testProject = new Project("testProj", qualifications, size);
-	Worker testWorker = new Worker("testW", qualifications, 10);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
+	Worker testWorker = company.createWorker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	company.start(testProject);
 	assertEquals(testProject.getStatus(), activeStatus);
@@ -406,8 +407,9 @@ public void testStartNullProject() {
 public void testStartStatusActive() {
 	ProjectSize size = ProjectSize.SMALL;
 	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
-	Project testProject = new Project("testProj", qualifications, size);
-	Worker testWorker = new Worker("testW", qualifications, 10);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
+	Worker testWorker = company.createWorker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	testProject.setStatus(activeStatus);
 	company.start(testProject);
@@ -418,8 +420,9 @@ public void testStartStatusActive() {
 public void testStartStatusSuspended() {
 	ProjectSize size = ProjectSize.SMALL;
 	ProjectStatus activeStatus = ProjectStatus.ACTIVE;
-	Project testProject = new Project("testProj", qualifications, size);
-	Worker testWorker = new Worker("testW", qualifications, 10);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
+	Worker testWorker = company.createWorker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	testProject.setStatus(ProjectStatus.SUSPENDED);
 	company.start(testProject);
@@ -429,7 +432,8 @@ public void testStartStatusSuspended() {
 @Test
 public void testStartStatusFinished() {
 	ProjectSize size = ProjectSize.SMALL;
-	Project testProject = new Project("testProj", qualifications, size);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
 	Worker testWorker = new Worker("testW", qualifications, 10);
 	testProject.addWorker(testWorker);
 	testProject.setStatus(ProjectStatus.FINISHED);
@@ -440,9 +444,18 @@ public void testStartStatusFinished() {
 @Test
 public void testStartRequirementsNotMet() {
 	ProjectSize size = ProjectSize.SMALL;
-	Project testProject = new Project("testProj", qualifications, size);
+	company.createQualification(equalCompQual);
+	Project testProject = company.createProject("testProj", qualifications, size);
 	company.start(testProject);
 	assertEquals(testProject.getStatus(), ProjectStatus.PLANNED);
+}
+
+@Test	
+public void testStartWithProjectNotInProject(){	
+	thrown.expect(IllegalArgumentException.class);	
+	Company c1 = new Company("c1");	
+	Project p1 = new Project("p1", qualifications, ProjectSize.BIG);	
+	c1.start(p1);	
 }
 
 /***** getQualifications  *****/
@@ -565,6 +578,7 @@ public void testStartRequirementsNotMet() {
 		workerQuals.add(wq1);
 		workerQuals.add(wq2);
 		Worker w1 = company.createWorker("Barry Allen", workerQuals, 1.0);
+		assertTrue(company.getEmployedWorkers().contains(w1));
 	}
 
 	@Test
@@ -975,6 +989,17 @@ public void testStartRequirementsNotMet() {
 		company.unassign(worker, project);
 	}
 
+	@Test	
+	public void testUnassignAllWithWorkerNotInEmployees(){	
+		thrown.expect(IllegalArgumentException.class);	
+		Company c1 = new Company("c1");	
+		Qualification q1 = new Qualification("test");	
+		Set<Qualification> wQuals = new HashSet<>();	
+		wQuals.add(q1);	
+		Worker w1 = new Worker("w1", qualifications, 10);	
+		c1.unassignAll(w1);	
+		assertTrue(w1.getProjects().isEmpty());	
+	}
 
 	/****** finish ******/
 	@Test

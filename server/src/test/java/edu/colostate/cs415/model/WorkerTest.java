@@ -35,38 +35,38 @@ public class WorkerTest {
     @Test
     public void testConstructorThrowsExceptionWithNullName() {
         thrown.expect( IllegalArgumentException.class );
-        Worker nullWorker = new Worker(null, qualifications, 1);
+        worker = new Worker(null, qualifications, 1);
     }
 
     @Test
     public void testConstructorThrowsExceptionWithEmptyName() {
         thrown.expect( IllegalArgumentException.class );
-        Worker nullWorker = new Worker("", qualifications, 1);
+        worker = new Worker("", qualifications, 1);
     }
 
     @Test
     public void testConstructorThrowsExceptionWithNullQuals() {
         thrown.expect( IllegalArgumentException.class );
-        Worker nullWorker = new Worker("Test", null, 1);
+        worker = new Worker("Test", null, 1);
     }
 
     @Test
     public void testConstructorThrowsExceptionWithEmptyQuals() {
         thrown.expect( IllegalArgumentException.class );
         HashSet<Qualification> emptyQuals = new HashSet<Qualification>();
-        Worker nullWorker = new Worker("Test", emptyQuals, 1);
+        worker = new Worker("Test", emptyQuals, 1);
     }
 
     @Test
     public void testConstructorThrowsExceptionWithNegativeSalary() {
         thrown.expect( IllegalArgumentException.class );
-        Worker nullWorker = new Worker("Test", qualifications, -1);
+        worker = new Worker("Test", qualifications, -1);
     }
 
     @Test
     public void testConstructorThrowsExceptionWithSpacesName() {
         thrown.expect( IllegalArgumentException.class );
-        Worker nullWorker = new Worker("   ", qualifications, 1);
+        worker = new Worker("   ", qualifications, 1);
     }
 
     /**** EQUALS *****/
