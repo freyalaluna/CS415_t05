@@ -591,14 +591,14 @@ public void testStartWithProjectNotInProject(){
 	
 	@Test
 	public void testGetProjectsOneProject() {
-	Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
-	for(Qualification q: qualifications){
-		company.createQualification(q.toString());
-	}
-	assertEquals(qualifications.size(), 1);
-	assertEquals(company.getProjects().size(), 0);
-	assertEquals(company.createProject("Project 1", qualifications, ProjectSize.BIG), project);
-	assertEquals(company.getProjects().size(), 1);
+		Project project = new Project("Project 1", qualifications, ProjectSize.MEDIUM);
+		for(Qualification q: qualifications){
+			company.createQualification(q.toString());
+		}
+		assertEquals(qualifications.size(), 1);
+		assertEquals(company.getProjects().size(), 0);
+		assertEquals(company.createProject("Project 1", qualifications, ProjectSize.BIG), project);
+		assertEquals(company.getProjects().size(), 1);
 	}
 	
 	@Test
