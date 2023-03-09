@@ -1,6 +1,7 @@
 # Eckstazi
 
 hartford:~/414/t05/server$ mvn ekstazi:ekstazi
+
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] ---------------< edu.colostate.cs415:company_management >---------------
@@ -107,5 +108,5 @@ hartford:~/414/t05/server$ mvn ekstazi:ekstazi
 [INFO] Total time:  2.353 s
 [INFO] Finished at: 2023-03-09T07:11:40-07:00
 [INFO] ------------------------------------------------------------------------
-
+''' 
 # Clover
