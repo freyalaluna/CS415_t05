@@ -1,4 +1,4 @@
-# Eckstazi
+# Ekstazi
 
 hartford:~/414/t05/server$ mvn ekstazi:ekstazi
 
