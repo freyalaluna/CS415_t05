@@ -56,6 +56,12 @@ public class CompanyTest {
 	}
 
 	@Test
+	public void testEqualsNull() {
+		//thrown.expect(IllegalArgumentException.class);
+		assertFalse(company.equals(null));
+	}
+
+	@Test
 	public void testEqualsSelfNameEmpty() {
 		thrown.expect(IllegalArgumentException.class);
 		Company c1 = new Company("");
