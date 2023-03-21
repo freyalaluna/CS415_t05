@@ -50,7 +50,7 @@ public class Worker {
 	}
 
 	public void setSalary(double salary) {
-		if(salary <= 0){
+		if(salary < 0){
 			throw new IllegalArgumentException();
 		}
 		this.salary = salary;
