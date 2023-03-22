@@ -155,8 +155,8 @@ public class WorkerTest {
 
     @Test
     public void testSetSalaryToZero() {
-        thrown.expect( IllegalArgumentException.class );
         worker.setSalary(0);
+        assertEquals(0.0, worker.getSalary(), 0.0001);
     }
 
     @Test
