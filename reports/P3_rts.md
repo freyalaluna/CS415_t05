@@ -111,4 +111,4 @@ hartford:~/414/t05/server$ mvn ekstazi:ekstazi.
 ''' 
 # Clover
 
-[Screenshot 2023-03-23 150730](https://user-images.githubusercontent.com/98073413/227361955-d6180b50-ca24-4c08-b63f-309486b8180c.png)
+![Screenshot 2023-03-23 150730](https://user-images.githubusercontent.com/98073413/227362578-4824507c-85c4-4cf7-923f-1689ba445bd1.png)
