@@ -72,6 +72,10 @@
 					<version>3.7.1</version>
 				</plugin>
 				<plugin>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>3.3.0</version>
+				</plugin>
+				<plugin>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
 					<version>3.0.0</version>
 				</plugin>
@@ -120,6 +124,11 @@
 							</goals>
     				    </execution>
     				</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>3.13.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
