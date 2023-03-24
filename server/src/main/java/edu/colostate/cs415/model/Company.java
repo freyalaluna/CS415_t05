@@ -167,9 +167,9 @@ public class Company {
 	public void assign(Worker worker, Project project) {
 		if(!available.contains(worker) || !projects.contains(project)
 			|| project.getWorkers().contains(worker)
-			|| project.getStatus() == ProjectStatus.ACTIVE
-			|| project.getStatus() == ProjectStatus.FINISHED
-			|| worker.getProjects().contains(project)
+			|| (project.getStatus() == ProjectStatus.ACTIVE)
+			|| (project.getStatus() == ProjectStatus.FINISHED)
+			|| (worker.getProjects().contains(project))
 			|| worker.willOverload(project)
 			|| !project.isHelpful(worker)){
 			throw new IllegalArgumentException();
