@@ -5,7 +5,7 @@ public enum ProjectSize {
 
     private final int value;
 
-    ProjectSize(int value) {
+    private ProjectSize(int value) {
         this.value = value;
     }
 
