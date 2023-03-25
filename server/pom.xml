@@ -147,6 +147,9 @@
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
+					<configuration>
+						<htmlOutput>true</htmlOutput>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
