@@ -136,10 +136,8 @@ public class Company {
 		}
 		ProjectStatus pStatus = project.getStatus();
 		Set<Qualification> missingQuals = project.getMissingQualifications();
-		if(pStatus == ProjectStatus.PLANNED || pStatus == ProjectStatus.SUSPENDED){
-			if(missingQuals.size() == 0){
-				project.setStatus(ProjectStatus.ACTIVE);
-			}
+		if((pStatus == ProjectStatus.PLANNED || pStatus == ProjectStatus.SUSPENDED) && missingQuals.size() == 0){
+			project.setStatus(ProjectStatus.ACTIVE);
 		}
 	}
 
