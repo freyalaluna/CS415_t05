@@ -19,7 +19,8 @@ public class Project {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
-		this.qualifications = qs;
+		Set<Qualification> qualClone = new HashSet<>(qs);
+		this.qualifications = qualClone;
 		this.size = size;
 		this.status = ProjectStatus.PLANNED;
 		this.workers = new HashSet<>();
