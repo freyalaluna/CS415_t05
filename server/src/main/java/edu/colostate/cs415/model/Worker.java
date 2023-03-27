@@ -18,7 +18,8 @@ public class Worker {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
-		this.qualifications = qualifications;
+		Set<Qualification> qualClone = new HashSet<>(qualifications);
+		this.qualifications = qualClone;
 		this.salary = salary;
 		this.projects = new HashSet<Project>();
 	}
