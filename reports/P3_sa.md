@@ -3,7 +3,7 @@
 ![PMD Results1024_1](https://user-images.githubusercontent.com/98073413/227048819-39bd2072-2719-4daa-bcaa-5e90fb366b35.jpg)
 ![PMD Results1024_2](https://user-images.githubusercontent.com/98073413/227048824-afe8846d-f884-4ea0-874b-d7bcb1b599e6.jpg)
 
-# We decided to fix the CollapsibleIfStatements and UselessParentheses issues in Company.java as well as the UnnecessaryModifier issue in ProjectSize.java
+ We decided to fix the CollapsibleIfStatements and UselessParentheses issues in Company.java as well as the UnnecessaryModifier issue in ProjectSize.java
 
 ## PMD and CPD after refactoring
 ![image](https://user-images.githubusercontent.com/97856149/228036600-09577833-0423-4173-b0cd-7cb163504b97.png)
