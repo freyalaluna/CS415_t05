@@ -20,7 +20,7 @@ public class Qualification {
 
 	@Override
 	public boolean equals(Object other) {
-		if(other == null || other.getClass() != Qualification.class){
+		if(other == null || other.getClass() != this.getClass()){
 			return false;
 		}
 		return this.description.equals(((Qualification)other).toString());
