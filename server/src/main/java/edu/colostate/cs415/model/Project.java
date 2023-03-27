@@ -28,7 +28,7 @@ public class Project {
 
 	@Override
 	public boolean equals(Object other) {
-		if (other == null || other.getClass() != Project.class) {
+		if (other == null || other.getClass() != this.getClass()) {
 			return false;
 		}
 		return this.name.equals(((Project)other).getName());
