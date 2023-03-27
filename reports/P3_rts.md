@@ -1,7 +1,5 @@
 # Ekstazi
 
-## Initial Runs:
-
 hartford:~/414/t05/server$ mvn ekstazi:ekstazi
 
 [INFO] Scanning for projects...  
@@ -119,3 +117,7 @@ hartford:~/414/t05/server$ mvn ekstazi:ekstazi.
 # Clover
 
 ![Screenshot 2023-03-23 150730](https://user-images.githubusercontent.com/98073413/227362578-4824507c-85c4-4cf7-923f-1689ba445bd1.png)
+
+## After refactoring code:
+
+![cloverAfter](https://user-images.githubusercontent.com/98073413/228048038-ed350b92-d343-4a37-aba1-95f370595081.png)
