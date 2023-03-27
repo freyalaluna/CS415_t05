@@ -1,5 +1,7 @@
 # Ekstazi
 
+## Initial Runs:
+
 hartford:~/414/t05/server$ mvn ekstazi:ekstazi
 
 [INFO] Scanning for projects...  
@@ -109,6 +111,11 @@ hartford:~/414/t05/server$ mvn ekstazi:ekstazi.
 [INFO] Finished at: 2023-03-09T07:11:40-07:00. 
 [INFO] ------------------------------------------------------------------------  
 ''' 
+
+## After refactors/fixes:
+![Screen Shot 2023-03-27 at 12 35 08 PM](https://user-images.githubusercontent.com/58609154/228035634-b33b9896-61b0-472a-b2a5-eb066ba468e3.png)
+![Screen Shot 2023-03-27 at 12 36 28 PM](https://user-images.githubusercontent.com/58609154/228035682-31247190-2868-45b7-a810-82bb428ef9fe.png)
+
 # Clover
 
 ![Screenshot 2023-03-23 150730](https://user-images.githubusercontent.com/98073413/227362578-4824507c-85c4-4cf7-923f-1689ba445bd1.png)
