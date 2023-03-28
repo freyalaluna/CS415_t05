@@ -865,6 +865,44 @@ public void testStartWithProjectNotInProject(){
 			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
 			assertEquals(worker.getProjects().size(), 0);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
+			assertEquals(project.getStatus(), ProjectStatus.PLANNED);
+		}
+
+		@Test
+		public void testUnassignProjectWithMissingQualificationsAndACTIVE() {
+			Company thisCompany = new Company("Company Test");
+			Qualification q1 = thisCompany.createQualification("Qual 1 Test");
+			Qualification q2 = thisCompany.createQualification("Qual 2 Test");
+			Qualification q3 = thisCompany.createQualification("Qual 3 Test");
+	
+			Set<Qualification> requiredQuals = new HashSet<>();
+			requiredQuals.add(q1);
+			requiredQuals.add(q2);
+			requiredQuals.add(q3);
+
+			Set<Qualification> wQuals = new HashSet<Qualification>();
+			wQuals.add(q1);
+
+			Worker worker = thisCompany.createWorker("Worker Test", wQuals, 10);
+			Project project = thisCompany.createProject("Project", requiredQuals, ProjectSize.MEDIUM);
+
+			assertFalse(project.getMissingQualifications().isEmpty());
+
+			thisCompany.assign(worker, project);
+			assertTrue(worker.isAvailable());
+			assertEquals(thisCompany.getAssignedWorkers().size(), 1);
+			assertEquals(worker.getProjects().size(), 1);
+			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
+
+			project.setStatus(ProjectStatus.ACTIVE);
+
+			assertEquals(project.getStatus(), ProjectStatus.ACTIVE);
+			assertFalse(project.getMissingQualifications().isEmpty()); //project does have missing qual
+			
+			thisCompany.unassign(worker, project);
+			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
+			assertEquals(worker.getProjects().size(), 0);
+			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
 			assertEquals(project.getStatus(), ProjectStatus.SUSPENDED);
 		}
 
