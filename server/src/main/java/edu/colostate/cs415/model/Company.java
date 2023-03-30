@@ -188,7 +188,7 @@ public class Company {
 			throw new IllegalArgumentException();
 		}
 		if(worker.getProjects().contains(project) && assigned.contains(worker)) {
-			if(!(project.getMissingQualifications().isEmpty())) {
+			if(!(project.getMissingQualifications().isEmpty()) && project.getStatus() == ProjectStatus.ACTIVE) {
 				project.setStatus(ProjectStatus.SUSPENDED);
 			}
 
