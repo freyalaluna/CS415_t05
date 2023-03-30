@@ -43,9 +43,20 @@
 		<dependency>
 			<groupId>evosuite</groupId>
 			<artifactId>evosuite</artifactId>
-			<version>1.0</version>
+			<version>1.0.6</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/tools/evosuite-1.0.6.jar</systemPath>
+			<systemPath>${pom.basedir}/tools/evosuite-1.0.6.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>4.11.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5-fluent</artifactId>
+			<version>5.1.3</version>
 		</dependency>
 	</dependencies>
 	<build>
