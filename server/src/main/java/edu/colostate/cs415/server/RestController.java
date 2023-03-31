@@ -95,6 +95,14 @@ public class RestController {
 		return OK;
 	}
 
+	private ProjectDTO getProject(String name){
+
+	}
+
+	private String createProject(Request request){
+
+	}
+
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
 		log.info(request.requestMethod() + " " + request.pathInfo() + "\nREQUEST:\n" + request.body() + "\nRESPONSE:\n"
