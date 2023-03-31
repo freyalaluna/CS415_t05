@@ -65,6 +65,12 @@ public class RestController {
 						gson::toJson);
 				post("/:description", (req, res) -> createQualification(req));
 			});
+
+			path("/projects", () -> {
+				get("/:name", (req, res) -> getProject(req.params("name")),
+						gson::toJson);
+				post("/:name", (req, res) -> createProject(req));
+			});
 		});
 	}
 
@@ -96,7 +102,12 @@ public class RestController {
 	}
 
 	private ProjectDTO getProject(String name){
-
+		for(Project p : company.getProjects()){
+			if(p.getName() == name){
+				return p.toDTO();
+			}
+		}
+		return null;
 	}
 
 	private String createProject(Request request){
