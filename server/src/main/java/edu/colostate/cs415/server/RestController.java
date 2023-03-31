@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
+import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.dto.QualificationDTO;
 import edu.colostate.cs415.model.Company;
 import spark.Request;
@@ -111,7 +112,13 @@ public class RestController {
 	}
 
 	private String createProject(Request request){
-
+		ProjectDTO assignmentDTO = gson.fromJson(request.body(), ProjectDTO.class);
+		if(request.params("name").equals(assignmentDTO.getName())){
+			company.createProject(assignmentDTO.getName(), assignmentDTO.getQualifications(), assignmentDTO.getSize());
+		} else {
+			throw new RuntimeException("Project descriptions do not match");
+		}
+		return OK;
 	}
 
 	// Logs every request received
