@@ -104,7 +104,6 @@ public class RestController {
 			index++;
 		}
 		
-		System.out.println(projectsDTO);
 		return projectsDTO;
 	}
 
