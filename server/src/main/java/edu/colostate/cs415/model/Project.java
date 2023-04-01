@@ -113,7 +113,6 @@ public class Project {
 			presentQualifications.addAll(w.getQualifications());
 		}
 		missingQualifications.removeAll(presentQualifications);
-		System.out.println(missingQualifications);
 		return missingQualifications;
 	}
 
