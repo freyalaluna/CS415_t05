@@ -11,13 +11,16 @@ import static spark.Spark.redirect;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.QualificationDTO;
+import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.model.Company;
+import edu.colostate.cs415.model.Project;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -65,6 +68,10 @@ public class RestController {
 						gson::toJson);
 				post("/:description", (req, res) -> createQualification(req));
 			});
+
+			path("/projects", () -> {
+				get("", (req, res) -> getProjects(), gson::toJson);
+			});
 		});
 	}
 
@@ -84,6 +91,21 @@ public class RestController {
 	private QualificationDTO getQualification(String description) {
 		// TODO: write actual implementation
 		return new QualificationDTO("JavaScript", new String[] { "John Walker" });
+	}
+
+	private ProjectDTO[] getProjects() {
+		Company company = dbConnector.loadCompanyData();
+		Set<Project> projects = company.getProjects();
+		ProjectDTO[] projectsDTO = new ProjectDTO[projects.size()];
+		
+		int index = 0;
+		for(Project project: projects){
+			projectsDTO[index] = project.toDTO();
+			index++;
+		}
+		
+		System.out.println(projectsDTO);
+		return projectsDTO;
 	}
 
 	private String createQualification(Request request) {
