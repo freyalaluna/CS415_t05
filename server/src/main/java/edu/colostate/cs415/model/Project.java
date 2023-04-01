@@ -113,7 +113,7 @@ public class Project {
 			presentQualifications.addAll(w.getQualifications());
 		}
 		missingQualifications.removeAll(presentQualifications);
-		
+		System.out.println(missingQualifications);
 		return missingQualifications;
 	}
 
@@ -145,8 +145,15 @@ public class Project {
 
 		String[] workersArray = workerStrings.toArray(new String[0]);
 		String[] qualArray = qualStrings.toArray(new String[0]);
-		String[] missingQualArray = getMissingQualifications().toArray(new String[0]);
-
+		Set<Qualification> quals = getMissingQualifications();
+		
+		String[] missingQualArray = new String[quals.size()];
+		int index = 0;
+		for(Qualification qual: quals){
+				missingQualArray[index] = qual.toString();
+				index++;
+		}
+		
 		ProjectDTO pdto = new ProjectDTO(name, size, status, workersArray, qualArray, missingQualArray);
 		
 		return pdto;
