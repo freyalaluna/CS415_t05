@@ -93,6 +93,15 @@ public class RestController {
 		return new QualificationDTO("JavaScript", new String[] { "John Walker" });
 	}
 
+	private String createQualification(Request request) {
+		QualificationDTO assignmentDTO = gson.fromJson(request.body(), QualificationDTO.class);
+		if (request.params("description").equals(assignmentDTO.getDescription())) {
+			company.createQualification(assignmentDTO.getDescription());
+		} else
+			throw new RuntimeException("Qualification descriptions do not match.");
+		return OK;
+	}
+
 	private ProjectDTO[] getProjects() {
 		Company company = dbConnector.loadCompanyData();
 		Set<Project> projects = company.getProjects();
@@ -107,14 +116,6 @@ public class RestController {
 		return projectsDTO;
 	}
 
-	private String createQualification(Request request) {
-		QualificationDTO assignmentDTO = gson.fromJson(request.body(), QualificationDTO.class);
-		if (request.params("description").equals(assignmentDTO.getDescription())) {
-			company.createQualification(assignmentDTO.getDescription());
-		} else
-			throw new RuntimeException("Qualification descriptions do not match.");
-		return OK;
-	}
 
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
