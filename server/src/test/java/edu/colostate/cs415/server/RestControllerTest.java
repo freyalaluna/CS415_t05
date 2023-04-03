@@ -61,5 +61,18 @@ public class RestControllerTest {
             assertEquals(0, projects[0].getWorkers().length);
     }
 
+    @Test
+    public void testGetProjects2() throws IOException {
+        // No projects returns empty list
+            company = new Company("Company 1");
+            restController.start();
+            
+            ProjectDTO[] projects = gson.fromJson(
+                            Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                            ProjectDTO[].class);
+            
+            assertEquals(0, projects.length);
+    }
+
 
 }
