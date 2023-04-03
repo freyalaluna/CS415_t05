@@ -172,17 +172,17 @@ public class RestController {
 private String start(Request request) {
 	ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
-	if (!request.params("name").equals(projectDTO.getName()))
-		throw new RuntimeException("Names do not match.");
+	if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
+		throw new IllegalArgumentException("Name is empty or null");
 
-	String[] quals = projectDTO.getQualifications();
-	Set<Qualification> projectQualifications = new HashSet<>();
-	for(int i = 0; i < quals.length; i++){
-		Qualification qualification = new Qualification(quals[i]);
-		projectQualifications.add(qualification);
+	Set<Project> projects = company.getProjects();
+	Project matchingProject = null;
+	for (Project project : projects) {
+		if(project.getName() == projectDTO.getName()){
+			matchingProject = project;
+		}
 	}
-
-	company.start(company.createProject(projectDTO.getName(), projectQualifications, projectDTO.getSize()));
+	company.start(matchingProject);
 	return OK;
 }
 
