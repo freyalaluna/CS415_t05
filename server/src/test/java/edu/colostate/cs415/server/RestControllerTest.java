@@ -17,7 +17,6 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.ProjectDTO;
-import edu.colostate.cs415.dto.WorkerDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
 import edu.colostate.cs415.model.ProjectSize;
@@ -133,13 +132,7 @@ public class RestControllerTest {
         assertEquals("C", projects[0].getMissingQualifications()[0]);
         assertEquals(3, projects[0].getQualifications().length);
         assertEquals(2, projects[0].getWorkers().length);
-
     }
-
-
-
-
-
 
     @Test
     public void testGetProjects5() throws IOException {
@@ -176,5 +169,4 @@ public class RestControllerTest {
         assertEquals(3, projects[0].getQualifications().length);
         assertEquals(2, projects[0].getWorkers().length);
     }
-
 }
