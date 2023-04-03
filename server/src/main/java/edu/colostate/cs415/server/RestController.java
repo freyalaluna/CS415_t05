@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.QualificationDTO;
 import edu.colostate.cs415.dto.WorkerDTO;
+import edu.colostate.cs415.dto.AssignmentDTO;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
@@ -86,6 +87,10 @@ public class RestController {
 			});
 
 			// Company
+			path("/assign", () -> {
+				put("", (req,res) -> assign(req));
+			});
+
 			path("/start", () -> {
 				put("", (req,res) -> start(req));
 			});
@@ -153,6 +158,36 @@ public class RestController {
 		company.createWorker(workerDTO.getName(), workerQualifications, workerDTO.getSalary());
 		return OK;
 	}
+
+	private String assign(Request request) {
+		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
+
+		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
+			assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty()){
+			throw new IllegalArgumentException("Project or worker are empty or null");
+		}
+
+		Set<Worker> companyWorkers = company.getEmployedWorkers();
+		Set<Project> companyProjects = company.getProjects();
+		Worker worker = null;
+		Project project = null;
+
+		for (Project p : companyProjects) {
+			if(p.getName() == assignmentDTO.getProject()){
+				project = p;
+			}
+		}
+
+		for (Worker w : companyWorkers) {
+			if(w.getName() == assignmentDTO.getWorker()){
+				worker = w;
+			}
+		}
+
+		company.assign(worker, project);
+		return OK;
+	}
+
 // Url: /api/workers/:name
 // Request type: POST
 // Body type: JSON
