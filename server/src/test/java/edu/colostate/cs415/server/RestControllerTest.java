@@ -151,7 +151,52 @@ public class RestControllerTest {
 
     }
 
-    
 
+
+
+
+
+    @Test
+    public void testGetProjects5() throws IOException {
+        // Multiple workers assigned to project, no missing qualifications
+
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Qualification python = company.createQualification("Python");
+        Qualification c = company.createQualification("C");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        quals.add(python);
+        quals.add(c);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        company.createProject("Teleportation", quals, ProjectSize.BIG);
+        
+        Worker worker = new Worker("w1", new HashSet<Qualification>(Arrays.asList(java, c)), 10);
+        Worker worker2 = new Worker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
+
+        Project project =company.getProjects().iterator().next();
+        
+        company.start(project);
+        company.createWorker("w1", new HashSet<Qualification>(Arrays.asList(java, c)), 10);
+        company.createWorker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
+
+        company.assign(worker, project);
+        company.assign(worker2, project);
+    
+        restController.start();
+        
+        ProjectDTO[] projects = gson.fromJson(
+                        Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                        ProjectDTO[].class);
+        
+        assertEquals(2, projects.length);
+        assertEquals("Moon mission", projects[0].getName());
+        assertEquals("Teleportation", projects[1].getName());
+        assertEquals(ProjectSize.BIG, projects[0].getSize());
+        assertEquals(ProjectStatus.PLANNED, projects[0].getStatus());
+        assertEquals(0, projects[0].getMissingQualifications().length);
+        assertEquals(3, projects[0].getQualifications().length);
+        assertEquals(2, projects[0].getWorkers().length);
+    }
 
 }
