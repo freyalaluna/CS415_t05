@@ -45,9 +45,7 @@ public class RestControllerTest {
             Set<Qualification> quals = new HashSet<Qualification>();
             quals.add(java);
             company.createProject("Moon mission", quals, ProjectSize.BIG);
-        
             restController.start();
-            
             ProjectDTO[] projects = gson.fromJson(
                             Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
                             ProjectDTO[].class);
@@ -66,7 +64,6 @@ public class RestControllerTest {
         // No projects returns empty list
             company = new Company("Company 1");
             restController.start();
-            
             ProjectDTO[] projects = gson.fromJson(
                             Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
                             ProjectDTO[].class);
@@ -82,16 +79,12 @@ public class RestControllerTest {
             Set<Qualification> quals = new HashSet<Qualification>();
             quals.add(java);
             company.createProject("Moon mission", quals, ProjectSize.BIG);
-            
             Worker worker = new Worker("w1", quals, 10);
             Project project =company.getProjects().iterator().next();
             company.start(project);
             company.createWorker("w1", quals, 10);
-
             company.assign(worker, project);
-        
             restController.start();
-            
             ProjectDTO[] projects = gson.fromJson(
                             Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
                             ProjectDTO[].class);
@@ -119,21 +112,15 @@ public class RestControllerTest {
         quals.add(c);
         company.createProject("Moon mission", quals, ProjectSize.BIG);
         company.createProject("Teleportation", quals, ProjectSize.BIG);
-        
         Worker worker = new Worker("w1", new HashSet<Qualification>(Arrays.asList(java)), 10);
         Worker worker2 = new Worker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
-
         Project project =company.getProjects().iterator().next();
-        
         company.start(project);
         company.createWorker("w1", new HashSet<Qualification>(Arrays.asList(java)), 10);
         company.createWorker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
-
         company.assign(worker, project);
         company.assign(worker2, project);
-    
         restController.start();
-        
         ProjectDTO[] projects = gson.fromJson(
                         Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
                         ProjectDTO[].class);
@@ -157,7 +144,6 @@ public class RestControllerTest {
     @Test
     public void testGetProjects5() throws IOException {
         // Multiple workers assigned to project, no missing qualifications
-
         company = new Company("Company 1");
         Qualification java = company.createQualification("Java");
         Qualification python = company.createQualification("Python");
@@ -168,21 +154,15 @@ public class RestControllerTest {
         quals.add(c);
         company.createProject("Moon mission", quals, ProjectSize.BIG);
         company.createProject("Teleportation", quals, ProjectSize.BIG);
-        
         Worker worker = new Worker("w1", new HashSet<Qualification>(Arrays.asList(java, c)), 10);
         Worker worker2 = new Worker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
-
         Project project =company.getProjects().iterator().next();
-        
         company.start(project);
         company.createWorker("w1", new HashSet<Qualification>(Arrays.asList(java, c)), 10);
         company.createWorker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
-
         company.assign(worker, project);
         company.assign(worker2, project);
-    
         restController.start();
-        
         ProjectDTO[] projects = gson.fromJson(
                         Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
                         ProjectDTO[].class);
