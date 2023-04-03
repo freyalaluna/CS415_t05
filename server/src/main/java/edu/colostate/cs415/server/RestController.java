@@ -11,6 +11,7 @@ import static spark.Spark.redirect;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -18,9 +19,12 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.QualificationDTO;
+import edu.colostate.cs415.dto.WorkerDTO;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
+import edu.colostate.cs415.model.Qualification;
+import edu.colostate.cs415.model.Worker;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -69,6 +73,12 @@ public class RestController {
 				post("/:description", (req, res) -> createQualification(req));
 			});
 
+			// Workers
+			path("/workers", () -> {
+				post("/:name", (req, res) -> createWorker(req));
+			});
+
+			// Projects
 			path("/projects", () -> {
 				get("", (req, res) -> getProjects(), gson::toJson);
 			});
@@ -103,7 +113,6 @@ public class RestController {
 	}
 
 	private ProjectDTO[] getProjects() {
-		Company company = dbConnector.loadCompanyData();
 		Set<Project> projects = company.getProjects();
 		ProjectDTO[] projectsDTO = new ProjectDTO[projects.size()];
 		
@@ -116,6 +125,27 @@ public class RestController {
 		return projectsDTO;
 	}
 
+	private String createWorker(Request request) {
+		WorkerDTO workerDTO = gson.fromJson(request.body(), WorkerDTO.class);
+
+		if (!request.params("name").equals(workerDTO.getName()))
+			throw new RuntimeException("Names do not match.");
+
+		if (workerDTO.getQualifications() == null
+			|| workerDTO.getQualifications().length == 0
+		 	|| workerDTO.getName() == null
+		  	|| !request.body().contains("salary"))
+			throw new IllegalArgumentException("Required fields not supplied");
+
+		String[] quals = workerDTO.getQualifications();
+		Set<Qualification> workerQualifications = new HashSet<>();
+		for(int i = 0; i < quals.length; i++){
+			Qualification qualification = new Qualification(quals[i]);
+			workerQualifications.add(qualification);
+		}
+		company.createWorker(workerDTO.getName(), workerQualifications, workerDTO.getSalary());
+		return OK;
+	}
 
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
