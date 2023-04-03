@@ -87,8 +87,6 @@ public class RestControllerTest {
             Project project =company.getProjects().iterator().next();
             company.start(project);
             company.createWorker("w1", quals, 10);
-            System.out.println("proj:" + project);
-
 
             company.assign(worker, project);
         
