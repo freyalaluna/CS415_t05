@@ -188,38 +188,38 @@ public class RestController {
 		return OK;
 	}
 
-// Url: /api/workers/:name
-// Request type: POST
-// Body type: JSON
-// Body value: WorkerDTO
-// Body required fields: name, qualifications, salary
-// Return type: String
-// Return value: OK
+	// Url: /api/workers/:name
+	// Request type: POST
+	// Body type: JSON
+	// Body value: WorkerDTO
+	// Body required fields: name, qualifications, salary
+	// Return type: String
+	// Return value: OK
 
-// Url: /api/start
-// Request type: PUT
-// Body type: JSON
-// Body value: ProjectDTO
-// Body required fields: name
-// Return type: String
-// Return value: OK
+	// Url: /api/start
+	// Request type: PUT
+	// Body type: JSON
+	// Body value: ProjectDTO
+	// Body required fields: name
+	// Return type: String
+	// Return value: OK
 
-private String start(Request request) {
-	ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
+	private String start(Request request) {
+		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
-	if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
-		throw new IllegalArgumentException("Name is empty or null");
+		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
+			throw new IllegalArgumentException("Name is empty or null");
 
-	Set<Project> projects = company.getProjects();
-	Project matchingProject = null;
-	for (Project project : projects) {
-		if(project.getName() == projectDTO.getName()){
-			matchingProject = project;
+		Set<Project> projects = company.getProjects();
+		Project matchingProject = null;
+		for (Project project : projects) {
+			if(project.getName() == projectDTO.getName()){
+				matchingProject = project;
+			}
 		}
+		company.start(matchingProject);
+		return OK;
 	}
-	company.start(matchingProject);
-	return OK;
-}
 
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
