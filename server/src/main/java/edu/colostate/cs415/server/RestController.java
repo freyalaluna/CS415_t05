@@ -7,10 +7,12 @@ import static spark.Spark.options;
 import static spark.Spark.path;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.put;
 import static spark.Spark.redirect;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.ObjectOutputStream.PutField;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -82,6 +84,11 @@ public class RestController {
 			path("/projects", () -> {
 				get("", (req, res) -> getProjects(), gson::toJson);
 			});
+
+			// Company
+			path("/start", () -> {
+				put("", (req,res) -> start(req));
+			});
 		});
 	}
 
@@ -146,6 +153,38 @@ public class RestController {
 		company.createWorker(workerDTO.getName(), workerQualifications, workerDTO.getSalary());
 		return OK;
 	}
+// Url: /api/workers/:name
+// Request type: POST
+// Body type: JSON
+// Body value: WorkerDTO
+// Body required fields: name, qualifications, salary
+// Return type: String
+// Return value: OK
+
+// Url: /api/start
+// Request type: PUT
+// Body type: JSON
+// Body value: ProjectDTO
+// Body required fields: name
+// Return type: String
+// Return value: OK
+
+private String start(Request request) {
+	ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
+
+	if (!request.params("name").equals(projectDTO.getName()))
+		throw new RuntimeException("Names do not match.");
+
+	String[] quals = projectDTO.getQualifications();
+	Set<Qualification> projectQualifications = new HashSet<>();
+	for(int i = 0; i < quals.length; i++){
+		Qualification qualification = new Qualification(quals[i]);
+		projectQualifications.add(qualification);
+	}
+
+	company.start(company.createProject(projectDTO.getName(), projectQualifications, projectDTO.getSize()));
+	return OK;
+}
 
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
