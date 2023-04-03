@@ -74,5 +74,38 @@ public class RestControllerTest {
             assertEquals(0, projects.length);
     }
 
+    @Test
+    public void testGetProjects3() throws IOException {
+        // Project with worker, no missing qualifications
+            company = new Company("Company 1");
+            Qualification java = company.createQualification("Java");
+            Set<Qualification> quals = new HashSet<Qualification>();
+            quals.add(java);
+            company.createProject("Moon mission", quals, ProjectSize.BIG);
+            
+            Worker worker = new Worker("w1", quals, 10);
+            Project project =company.getProjects().iterator().next();
+            company.start(project);
+            company.createWorker("w1", quals, 10);
+            System.out.println("proj:" + project);
+
+
+            company.assign(worker, project);
+        
+            restController.start();
+            
+            ProjectDTO[] projects = gson.fromJson(
+                            Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                            ProjectDTO[].class);
+            
+            assertEquals(1, projects.length);
+            assertEquals("Moon mission", projects[0].getName());
+            assertEquals(ProjectSize.BIG, projects[0].getSize());
+            assertEquals(ProjectStatus.PLANNED, projects[0].getStatus());
+            assertEquals(0, projects[0].getMissingQualifications().length);
+            assertEquals("Java", projects[0].getQualifications()[0]);
+            assertEquals("w1", projects[0].getWorkers()[0]);
+    }
+
 
 }
