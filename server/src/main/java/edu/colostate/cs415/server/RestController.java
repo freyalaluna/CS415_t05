@@ -96,7 +96,7 @@ public class RestController {
 			});
 
 			path("/finish", () -> {
-				put("", (req,res) -> start(req));
+				put("", (req,res) -> finish(req));
 			});
 		});
 	}
