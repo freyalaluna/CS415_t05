@@ -9,9 +9,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.hc.client5.http.HttpResponseException;
 import org.apache.hc.client5.http.fluent.Request;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.google.gson.Gson;
 
@@ -30,6 +33,8 @@ public class RestControllerTest {
     private static DBConnector dbConnector = mock(DBConnector.class);
     private static RestController restController = new RestController(4567, dbConnector);
     private static Company company;
+
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
     @BeforeClass
     public static void init(){
@@ -168,5 +173,183 @@ public class RestControllerTest {
         assertEquals(0, projects[0].getMissingQualifications().length);
         assertEquals(3, projects[0].getQualifications().length);
         assertEquals(2, projects[0].getWorkers().length);
+    }
+
+    @Test
+    public void testPostWorker1() throws IOException {
+        // Valid worker returns OK
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0," +
+            "\"qualifications\": [\"Java\"]}";
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/workers/Daisy")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        
+        assertEquals("OK", response);
+        assertEquals("Daisy", company.getEmployedWorkers().iterator().next().getName());
+    }
+
+
+    @Test
+    public void testPostWorker2() throws IOException {
+        // Param name doesn't match body name
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0," +
+            "\"qualifications\": [\"Java\"]}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/aisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+    }
+
+    @Test
+    public void testPostWorker3() throws IOException {
+        // Salary not supplied, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\"," +
+            "\"qualifications\": [\"Java\"]}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+    }
+
+
+    @Test
+    public void testPostWorker4() throws IOException {
+        // Quals not supplied, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+    }
+
+    @Test
+    public void testPostWorker5() throws IOException {
+        // Quals supplied but empty, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0," +
+            "\"qualifications\": []}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                    .bodyByteArray(body.getBytes())
+                    .execute().returnContent().asString();
+
+        assertEquals(0, company.getEmployedWorkers().size());
+    }
+
+    @Test
+    public void testPostWorker6() throws IOException {
+        // Salary negative, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": -150000.0," +
+            "\"qualifications\": [\"Java\"]}";
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+
+        assertEquals(0, company.getEmployedWorkers().size());
+    }
+
+    @Test
+    public void testPostWorker7() throws IOException {
+        // null name, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"null\", \"salary\": -150000.0," +
+            "\"qualifications\": [\"Java\"]}";
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/null")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+
+        assertEquals(0, company.getEmployedWorkers().size());
+    }
+
+    @Test
+    public void testPostWorker8() throws IOException {
+        // null quals, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0," +
+            "\"qualifications\": null}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+    }
+
+    @Test
+    public void testPostWorker9() throws IOException {
+        // null salary
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": null," +
+            "\"qualifications\": null}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+    }
+
+    @Test
+    public void testPostWorker10() throws IOException {
+        // null salary
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"Daisy\", \"salary\": \"null\"," +
+            "\"qualifications\": null}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/Daisy")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
     }
 }
