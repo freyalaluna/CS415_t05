@@ -94,6 +94,10 @@ public class RestController {
 			path("/start", () -> {
 				put("", (req,res) -> start(req));
 			});
+
+			path("/finish", () -> {
+				put("", (req,res) -> start(req));
+			});
 		});
 	}
 
