@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.QualificationDTO;
 import edu.colostate.cs415.dto.WorkerDTO;
+import edu.colostate.cs415.dto.AssignmentDTO;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
@@ -86,6 +87,10 @@ public class RestController {
 			});
 
 			// Company
+			path("/assign", () -> {
+				put("", (req,res) -> assign(req));
+			});
+
 			path("/start", () -> {
 				put("", (req,res) -> start(req));
 			});
@@ -153,38 +158,68 @@ public class RestController {
 		company.createWorker(workerDTO.getName(), workerQualifications, workerDTO.getSalary());
 		return OK;
 	}
-// Url: /api/workers/:name
-// Request type: POST
-// Body type: JSON
-// Body value: WorkerDTO
-// Body required fields: name, qualifications, salary
-// Return type: String
-// Return value: OK
 
-// Url: /api/start
-// Request type: PUT
-// Body type: JSON
-// Body value: ProjectDTO
-// Body required fields: name
-// Return type: String
-// Return value: OK
+	private String assign(Request request) {
+		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
 
-private String start(Request request) {
-	ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
-
-	if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
-		throw new IllegalArgumentException("Name is empty or null");
-
-	Set<Project> projects = company.getProjects();
-	Project matchingProject = null;
-	for (Project project : projects) {
-		if(project.getName() == projectDTO.getName()){
-			matchingProject = project;
+		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
+			assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty()){
+			throw new IllegalArgumentException("Project or worker are empty or null");
 		}
+
+		Set<Worker> companyWorkers = company.getEmployedWorkers();
+		Set<Project> companyProjects = company.getProjects();
+		Worker worker = null;
+		Project project = null;
+
+		for (Project p : companyProjects) {
+			if(p.getName() == assignmentDTO.getProject()){
+				project = p;
+			}
+		}
+
+		for (Worker w : companyWorkers) {
+			if(w.getName() == assignmentDTO.getWorker()){
+				worker = w;
+			}
+		}
+
+		company.assign(worker, project);
+		return OK;
 	}
-	company.start(matchingProject);
-	return OK;
-}
+
+	// Url: /api/workers/:name
+	// Request type: POST
+	// Body type: JSON
+	// Body value: WorkerDTO
+	// Body required fields: name, qualifications, salary
+	// Return type: String
+	// Return value: OK
+
+	// Url: /api/start
+	// Request type: PUT
+	// Body type: JSON
+	// Body value: ProjectDTO
+	// Body required fields: name
+	// Return type: String
+	// Return value: OK
+
+	private String start(Request request) {
+		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
+
+		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
+			throw new IllegalArgumentException("Name is empty or null");
+
+		Set<Project> projects = company.getProjects();
+		Project matchingProject = null;
+		for (Project project : projects) {
+			if(project.getName() == projectDTO.getName()){
+				matchingProject = project;
+			}
+		}
+		company.start(matchingProject);
+		return OK;
+	}
 
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
