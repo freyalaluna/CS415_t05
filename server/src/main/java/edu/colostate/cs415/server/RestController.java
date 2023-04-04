@@ -209,6 +209,23 @@ public class RestController {
 		return OK;
 	}
 
+	private String finish(Request request) {
+		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
+
+		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
+			throw new IllegalArgumentException("Name is empty or null");
+
+		Set<Project> projects = company.getProjects();
+		Project matchingProject = null;
+		for (Project project : projects) {
+			if(project.getName() == projectDTO.getName()){
+				matchingProject = project;
+			}
+		}
+		company.finish(matchingProject);
+		return OK;
+	}
+
 	// Logs every request received
 	private void logRequest(Request request, Response response) {
 		log.info(request.requestMethod() + " " + request.pathInfo() + "\nREQUEST:\n" + request.body() + "\nRESPONSE:\n"
