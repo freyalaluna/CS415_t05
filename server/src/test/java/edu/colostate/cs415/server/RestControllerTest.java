@@ -192,7 +192,7 @@ public class RestControllerTest {
                         .execute().returnContent().asString(), String.class);
         
         assertEquals("OK", response);
-        assertEquals("Daisy", company.getEmployedWorkers().iterator().next());
+        assertEquals("Daisy", company.getEmployedWorkers().iterator().next().getName());
     }
 
 
@@ -223,12 +223,11 @@ public class RestControllerTest {
         company.createProject("Moon mission", quals, ProjectSize.BIG);
         String body = "{ \"name\": \"Daisy\"," +
             "\"qualifications\": [\"Java\"]}";
+        thrown.expect(HttpResponseException.class);
         restController.start();
         Request.post("http://localhost:4567/api/workers/Daisy")
                 .bodyByteArray(body.getBytes())
                 .execute().returnContent().asString();
-
-        assertEquals(0, company.getEmployedWorkers().size());
     }
 
 
@@ -241,12 +240,11 @@ public class RestControllerTest {
         quals.add(java);
         company.createProject("Moon mission", quals, ProjectSize.BIG);
         String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0";
+        thrown.expect(HttpResponseException.class);
         restController.start();
         Request.post("http://localhost:4567/api/workers/Daisy")
                 .bodyByteArray(body.getBytes())
                 .execute().returnContent().asString();
-
-        assertEquals(0, company.getEmployedWorkers().size());
     }
 
     @Test
@@ -259,6 +257,7 @@ public class RestControllerTest {
         company.createProject("Moon mission", quals, ProjectSize.BIG);
         String body = "{ \"name\": \"Daisy\", \"salary\": 150000.0," +
             "\"qualifications\": []}";
+        thrown.expect(HttpResponseException.class);
         restController.start();
         Request.post("http://localhost:4567/api/workers/Daisy")
                     .bodyByteArray(body.getBytes())
