@@ -94,6 +94,10 @@ public class RestController {
 			path("/start", () -> {
 				put("", (req,res) -> start(req));
 			});
+
+			path("/finish", () -> {
+				put("", (req,res) -> finish(req));
+			});
 		});
 	}
 
@@ -188,22 +192,6 @@ public class RestController {
 		return OK;
 	}
 
-	// Url: /api/workers/:name
-	// Request type: POST
-	// Body type: JSON
-	// Body value: WorkerDTO
-	// Body required fields: name, qualifications, salary
-	// Return type: String
-	// Return value: OK
-
-	// Url: /api/start
-	// Request type: PUT
-	// Body type: JSON
-	// Body value: ProjectDTO
-	// Body required fields: name
-	// Return type: String
-	// Return value: OK
-
 	private String start(Request request) {
 		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
@@ -218,6 +206,23 @@ public class RestController {
 			}
 		}
 		company.start(matchingProject);
+		return OK;
+	}
+
+	private String finish(Request request) {
+		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
+
+		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
+			throw new IllegalArgumentException("Name is empty or null");
+
+		Set<Project> projects = company.getProjects();
+		Project matchingProject = null;
+		for (Project project : projects) {
+			if(project.getName() == projectDTO.getName()){
+				matchingProject = project;
+			}
+		}
+		company.finish(matchingProject);
 		return OK;
 	}
 
