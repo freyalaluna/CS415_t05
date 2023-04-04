@@ -284,4 +284,22 @@ public class RestControllerTest {
 
         assertEquals(0, company.getEmployedWorkers().size());
     }
+
+    @Test
+    public void testPostWorker7() throws IOException {
+        // null name, no worker created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        String body = "{ \"name\": \"null\", \"salary\": -150000.0," +
+            "\"qualifications\": [\"Java\"]}";
+        restController.start();
+        Request.post("http://localhost:4567/api/workers/null")
+                .bodyByteArray(body.getBytes())
+                .execute().returnContent().asString();
+
+        assertEquals(0, company.getEmployedWorkers().size());
+    }
 }
