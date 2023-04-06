@@ -84,7 +84,10 @@ public class RestController {
 			// Projects
 			path("/projects", () -> {
 				get("", (req, res) -> getProjects(), gson::toJson);
+        get("/:name", (req, res) -> getProject(req.params("name")),
+						gson::toJson);
 				post("/:name", (req, res) -> createProject(req));
+
 			});
 
 			// Company
@@ -140,6 +143,15 @@ public class RestController {
 		}
 		
 		return projectsDTO;
+	}
+	
+	private ProjectDTO getProject(String name){
+		for(Project p : company.getProjects()){
+			if(p.getName().equals(name)){
+				return p.toDTO();
+			}
+		}
+		return null;
 	}
 
 	private String createProject(Request request){
