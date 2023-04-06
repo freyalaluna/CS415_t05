@@ -84,8 +84,10 @@ public class RestController {
 			// Projects
 			path("/projects", () -> {
 				get("", (req, res) -> getProjects(), gson::toJson);
-				get("/:name", (req, res) -> getProject(req.params("name")),
+        get("/:name", (req, res) -> getProject(req.params("name")),
 						gson::toJson);
+				post("/:name", (req, res) -> createProject(req));
+
 			});
 
 			// Company
@@ -150,6 +152,31 @@ public class RestController {
 			}
 		}
 		return null;
+	}
+
+	private String createProject(Request request){
+		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
+
+		if(projectDTO.getName() == null 
+			|| projectDTO.getName().length() == 0
+			|| projectDTO.getQualifications() == null
+			|| projectDTO.getQualifications().length == 0 
+			|| projectDTO.getSize() == null){
+			throw new RuntimeException("Required fields not supplied");
+		}
+		
+		if(!request.params("name").equals(projectDTO.getName())){
+			throw new RuntimeException("Names do not match");
+		}
+
+		String[] quals = projectDTO.getQualifications();
+		Set<Qualification> projectQualifications = new HashSet<>();
+		for(String q : quals){
+			Qualification newQ = new Qualification(q);
+			projectQualifications.add(newQ);
+		}
+		company.createProject(projectDTO.getName(), projectQualifications, projectDTO.getSize());
+		return OK;
 	}
 
 	private String createWorker(Request request) {
