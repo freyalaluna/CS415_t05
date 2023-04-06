@@ -153,10 +153,8 @@ public class RestController {
 			throw new RuntimeException("Required fields not supplied");
 		}
 		
-		if(!request.params("name").equals(projectDTO.getName())
-			|| !request.params("qualifications").equals(projectDTO.getQualifications())
-			|| !request.params("size").equals(projectDTO.getSize())){
-			throw new RuntimeException("Project contents do not match");
+		if(!request.params("name").equals(projectDTO.getName())){
+			throw new RuntimeException("Names do not match");
 		}
 
 		String[] quals = projectDTO.getQualifications();
