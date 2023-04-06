@@ -145,7 +145,7 @@ public class RestController {
 	
 	private ProjectDTO getProject(String name){
 		for(Project p : company.getProjects()){
-			if(p.getName() == name){
+			if(p.getName().equals(name)){
 				return p.toDTO();
 			}
 		}
