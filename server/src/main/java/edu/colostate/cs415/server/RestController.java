@@ -96,7 +96,7 @@ public class RestController {
 			});
 
 			path("/start", () -> {
-				put("", (req,res) -> start(req));
+				put("", (req,res) -> startProj(req));
 			});
 
 			path("/finish", () -> {
@@ -230,7 +230,7 @@ public class RestController {
 		return OK;
 	}
 
-	private String start(Request request) {
+	private String startProj(Request request) {
 		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
 		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
@@ -239,7 +239,7 @@ public class RestController {
 		Set<Project> projects = company.getProjects();
 		Project matchingProject = null;
 		for (Project project : projects) {
-			if(project.getName() == projectDTO.getName()){
+			if(project.getName().equals(projectDTO.getName())){
 				matchingProject = project;
 			}
 		}
