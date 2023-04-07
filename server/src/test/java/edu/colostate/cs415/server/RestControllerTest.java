@@ -352,4 +352,27 @@ public class RestControllerTest {
                 .bodyByteArray(body.getBytes())
                 .execute().returnContent().asString();
     }
+
+    @Test
+    public void testPutStart() throws IOException {
+        // Valid project returns OK
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        String body = "{ \"name\": \"Moon mission\"}";
+        //p1.toDTO().toString();
+        restController.start();
+        String response = gson.fromJson(
+                        Request.put("http://localhost:4567/api/start")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        
+        assertEquals("OK", response);
+        assertEquals(ProjectStatus.ACTIVE, company.getProjects().iterator().next().getStatus());
+        
+    }
 }
