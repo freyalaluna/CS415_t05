@@ -235,7 +235,32 @@ public class RestController {
 	}
 
 	private String unassign(Request request) {
-		
+		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
+
+		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
+			assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty()){
+			throw new IllegalArgumentException("Project or worker are empty or null");
+		}
+
+		Set<Worker> companyWorkers = company.getEmployedWorkers();
+		Set<Project> companyProjects = company.getProjects();
+		Worker worker = null;
+		Project project = null;
+
+		for (Project p : companyProjects) {
+			if(p.getName() == assignmentDTO.getProject()){
+				project = p;
+			}
+		}
+
+		for (Worker w : companyWorkers) {
+			if(w.getName() == assignmentDTO.getWorker()){
+				worker = w;
+			}
+		}
+
+		company.unassign(worker, project);
+
 		return OK;
 	}
 
