@@ -95,6 +95,10 @@ public class RestController {
 				put("", (req,res) -> assign(req));
 			});
 
+			path("/unassign", () -> {
+				put("", (req,res) -> unassign(req));
+			});
+
 			path("/start", () -> {
 				put("", (req,res) -> start(req));
 			});
@@ -227,6 +231,11 @@ public class RestController {
 		}
 
 		company.assign(worker, project);
+		return OK;
+	}
+
+	private String unassign(Request request) {
+		
 		return OK;
 	}
 
