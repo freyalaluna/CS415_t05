@@ -12,7 +12,6 @@ import static spark.Spark.redirect;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.ObjectOutputStream.PutField;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -84,7 +83,7 @@ public class RestController {
 			// Projects
 			path("/projects", () -> {
 				get("", (req, res) -> getProjects(), gson::toJson);
-        get("/:name", (req, res) -> getProject(req.params("name")),
+        		get("/:name", (req, res) -> getProject(req.params("name")),
 						gson::toJson);
 				post("/:name", (req, res) -> createProject(req));
 
@@ -207,9 +206,8 @@ public class RestController {
 
 	private String assign(Request request) {
 		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
-
 		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
-			assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty()){
+			assignmentDTO.getProject() == null || assignmentDTO.getProject().isEmpty()){
 			throw new IllegalArgumentException("Project or worker are empty or null");
 		}
 
@@ -219,13 +217,13 @@ public class RestController {
 		Project project = null;
 
 		for (Project p : companyProjects) {
-			if(p.getName() == assignmentDTO.getProject()){
+			if(p.getName().equals(assignmentDTO.getProject())){
 				project = p;
 			}
 		}
 
 		for (Worker w : companyWorkers) {
-			if(w.getName() == assignmentDTO.getWorker()){
+			if(w.getName().equals(assignmentDTO.getWorker())){
 				worker = w;
 			}
 		}
@@ -248,13 +246,13 @@ public class RestController {
 		Project project = null;
 
 		for (Project p : companyProjects) {
-			if(p.getName() == assignmentDTO.getProject()){
+			if(p.getName().equals(assignmentDTO.getProject())){
 				project = p;
 			}
 		}
 
 		for (Worker w : companyWorkers) {
-			if(w.getName() == assignmentDTO.getWorker()){
+			if(w.getName().equals(assignmentDTO.getWorker())){
 				worker = w;
 			}
 		}
@@ -273,7 +271,7 @@ public class RestController {
 		Set<Project> projects = company.getProjects();
 		Project matchingProject = null;
 		for (Project project : projects) {
-			if(project.getName() == projectDTO.getName()){
+			if(project.getName().equals(projectDTO.getName())){
 				matchingProject = project;
 			}
 		}
@@ -290,7 +288,7 @@ public class RestController {
 		Set<Project> projects = company.getProjects();
 		Project matchingProject = null;
 		for (Project project : projects) {
-			if(project.getName() == projectDTO.getName()){
+			if(project.getName().equals(projectDTO.getName())){
 				matchingProject = project;
 			}
 		}
