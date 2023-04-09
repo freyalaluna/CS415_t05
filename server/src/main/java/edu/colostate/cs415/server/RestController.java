@@ -238,7 +238,7 @@ public class RestController {
 		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
 
 		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
-			assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty()){
+			assignmentDTO.getProject() == null || assignmentDTO.getProject().isEmpty()){
 			throw new IllegalArgumentException("Project or worker are empty or null");
 		}
 
