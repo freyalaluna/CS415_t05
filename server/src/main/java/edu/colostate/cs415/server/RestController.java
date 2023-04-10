@@ -117,13 +117,28 @@ public class RestController {
 	}
 
 	private QualificationDTO[] getQualifications() {
-		// TODO: write actual implementation
-		return new QualificationDTO[] { new QualificationDTO("JavaScript", new String[] { "John Walker" }) };
+		Set<Qualification> quals = company.getQualifications();
+		QualificationDTO[] qualDtos = new QualificationDTO[quals.size()];
+
+		int index = 0;
+		for(Qualification q: quals){
+			qualDtos[index] = q.toDTO();
+			index++;
+		}
+		return qualDtos;
 	}
 
 	private QualificationDTO getQualification(String description) {
-		// TODO: write actual implementation
-		return new QualificationDTO("JavaScript", new String[] { "John Walker" });
+		Set<Qualification> quals = company.getQualifications();
+		if(description == null || description.isEmpty()){
+			throw new RuntimeException("Description must not be null or empty.");
+		}
+		for(Qualification q: quals){
+			if(q.toString().equals(description)){
+				return q.toDTO();
+			}
+		}
+		return null;
 	}
 
 	private String createQualification(Request request) {
