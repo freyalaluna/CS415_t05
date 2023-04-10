@@ -377,7 +377,7 @@ public class RestControllerTest {
 
     @Test
     public void testPutStart1() throws IOException {
-        // blank project name
+        // project names dont match
         company = new Company("Company 1");
         Qualification java = company.createQualification("Java");
         Set<Qualification> quals = new HashSet<Qualification>();
@@ -385,8 +385,6 @@ public class RestControllerTest {
         Worker w1 = company.createWorker("w", quals, 10);
         Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
         company.assign(w1, p1);
-        company.start(p1);
-        company.finish(p1);
         String body = "{ \"name\": \"Moon\"}";
         thrown.expect(HttpResponseException.class);
         restController.start();
@@ -405,8 +403,6 @@ public class RestControllerTest {
         Worker w1 = company.createWorker("w", quals, 10);
         Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
         company.assign(w1, p1);
-        company.start(p1);
-        company.finish(p1);
         String body = "{ \"name\": \"\"}";
         thrown.expect(HttpResponseException.class);
         restController.start();
@@ -425,8 +421,21 @@ public class RestControllerTest {
         Worker w1 = company.createWorker("w", quals, 10);
         Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
         company.assign(w1, p1);
-        company.start(p1);
-        company.finish(p1);
+        String body = "{ \"name\": null}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/start")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
+
+    @Test
+    public void testPutStart4() throws IOException {
+        // company has no projects
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
         String body = "{ \"name\": null}";
         thrown.expect(HttpResponseException.class);
         restController.start();
