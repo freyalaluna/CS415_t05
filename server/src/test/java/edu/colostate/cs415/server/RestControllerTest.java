@@ -360,18 +360,29 @@ public class RestControllerTest {
         assertEquals(0, company.getQualifications().size());
         Qualification java = company.createQualification("Java");
         restController.start();
-        Request.get("http://localhost:4567/api/qualifications")
+        String response = Request.get("http://localhost:4567/api/qualifications")
                             .execute().returnContent().asString();
-
         assertEquals(1, company.getQualifications().size());
         assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
+        assertEquals("[{\"description\":\"Java\",\"workers\":[]}]", response);
     }
 
     @Test
     public void testGetQuals2() throws IOException {
         company = new Company("Company 1");
         restController.start();
-        Request.get("http://localhost:4567/api/qualifications")
+        String response = Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+
+        assertEquals(0, company.getQualifications().size());
+        assertEquals("[]", response);
+    }
+
+    @Test
+    public void testGetQuals3() throws IOException {
+        company = new Company("Company 1");
+        restController.start();
+        Request.get("http://localhost:4567/api/qualifications/q1")
                             .execute().returnContent().asString();
 
         assertEquals(0, company.getQualifications().size());
