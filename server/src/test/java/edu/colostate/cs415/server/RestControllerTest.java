@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.ProjectDTO;
+import edu.colostate.cs415.dto.QualificationDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
 import edu.colostate.cs415.model.ProjectSize;
@@ -351,5 +352,18 @@ public class RestControllerTest {
         Request.post("http://localhost:4567/api/workers/Daisy")
                 .bodyByteArray(body.getBytes())
                 .execute().returnContent().asString();
+    }
+
+    @Test
+    public void testGetQuals1() throws IOException {
+        company = new Company("Company 1");
+        assertEquals(0, company.getQualifications().size());
+        Qualification java = company.createQualification("Java");
+        restController.start();
+        Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+
+        assertEquals(1, company.getQualifications().size());
+        assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
     }
 }
