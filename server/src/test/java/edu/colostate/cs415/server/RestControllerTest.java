@@ -366,4 +366,14 @@ public class RestControllerTest {
         assertEquals(1, company.getQualifications().size());
         assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
     }
+
+    @Test
+    public void testGetQuals2() throws IOException {
+        company = new Company("Company 1");
+        restController.start();
+        Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+
+        assertEquals(0, company.getQualifications().size());
+    }
 }
