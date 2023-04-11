@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.ProjectDTO;
+import edu.colostate.cs415.dto.QualificationDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
 import edu.colostate.cs415.model.ProjectSize;
@@ -354,6 +355,55 @@ public class RestControllerTest {
     }
 
     @Test
+    public void testGetQuals1() throws IOException {
+        company = new Company("Company 1");
+        assertEquals(0, company.getQualifications().size());
+        Qualification java = company.createQualification("Java");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+        assertEquals(1, company.getQualifications().size());
+        assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
+        assertEquals("[{\"description\":\"Java\",\"workers\":[]}]", response);
+    }
+
+    @Test
+    public void testGetQuals2() throws IOException {
+        company = new Company("Company 1");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+
+        assertEquals(0, company.getQualifications().size());
+        assertEquals("[]", response);
+    }
+
+    @Test
+    public void testGetQuals3() throws IOException {
+        company = new Company("Company 1");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications/q1")
+                            .execute().returnContent().asString();
+
+                            System.out.println(response);
+        assertEquals(0, company.getQualifications().size());
+        assertEquals("null", response);
+    }
+
+    @Test
+    public void testGetQuals4() throws IOException {
+        company = new Company("Company 1");
+        assertEquals(0, company.getQualifications().size());
+        Qualification java = company.createQualification("Java");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications/Java")
+                            .execute().returnContent().asString();
+        System.out.println(response);
+        assertEquals(1, company.getQualifications().size());
+        assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
+        assertEquals("{\"description\":\"Java\",\"workers\":[]}", response);
+    }
+    
     public void testPutStart() throws IOException {
         // Valid project returns OK
         company = new Company("Company 1");
