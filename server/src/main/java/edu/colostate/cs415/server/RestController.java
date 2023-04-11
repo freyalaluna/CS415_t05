@@ -12,7 +12,6 @@ import static spark.Spark.redirect;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.ObjectOutputStream.PutField;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -84,7 +83,7 @@ public class RestController {
 			// Projects
 			path("/projects", () -> {
 				get("", (req, res) -> getProjects(), gson::toJson);
-        get("/:name", (req, res) -> getProject(req.params("name")),
+        		get("/:name", (req, res) -> getProject(req.params("name")),
 						gson::toJson);
 				post("/:name", (req, res) -> createProject(req));
 
@@ -93,6 +92,10 @@ public class RestController {
 			// Company
 			path("/assign", () -> {
 				put("", (req,res) -> assign(req));
+			});
+
+			path("/unassign", () -> {
+				put("", (req,res) -> unassign(req));
 			});
 
 			path("/start", () -> {
@@ -114,13 +117,28 @@ public class RestController {
 	}
 
 	private QualificationDTO[] getQualifications() {
-		// TODO: write actual implementation
-		return new QualificationDTO[] { new QualificationDTO("JavaScript", new String[] { "John Walker" }) };
+		Set<Qualification> quals = company.getQualifications();
+		QualificationDTO[] qualDtos = new QualificationDTO[quals.size()];
+
+		int index = 0;
+		for(Qualification q: quals){
+			qualDtos[index] = q.toDTO();
+			index++;
+		}
+		return qualDtos;
 	}
 
 	private QualificationDTO getQualification(String description) {
-		// TODO: write actual implementation
-		return new QualificationDTO("JavaScript", new String[] { "John Walker" });
+		Set<Qualification> quals = company.getQualifications();
+		if(description == null || description.isEmpty()){
+			throw new RuntimeException("Description must not be null or empty.");
+		}
+		for(Qualification q: quals){
+			if(q.toString().equals(description)){
+				return q.toDTO();
+			}
+		}
+		return null;
 	}
 
 	private String createQualification(Request request) {
@@ -203,9 +221,8 @@ public class RestController {
 
 	private String assign(Request request) {
 		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
-
 		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
-			assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty()){
+			assignmentDTO.getProject() == null || assignmentDTO.getProject().isEmpty()){
 			throw new IllegalArgumentException("Project or worker are empty or null");
 		}
 
@@ -215,13 +232,13 @@ public class RestController {
 		Project project = null;
 
 		for (Project p : companyProjects) {
-			if(p.getName() == assignmentDTO.getProject()){
+			if(p.getName().equals(assignmentDTO.getProject())){
 				project = p;
 			}
 		}
 
 		for (Worker w : companyWorkers) {
-			if(w.getName() == assignmentDTO.getWorker()){
+			if(w.getName().equals(assignmentDTO.getWorker())){
 				worker = w;
 			}
 		}
@@ -230,7 +247,39 @@ public class RestController {
 		return OK;
 	}
 
-	private String startProj(Request request) {
+
+	private String unassign(Request request) {
+		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
+
+		if(assignmentDTO.getWorker() == null || assignmentDTO.getWorker().isEmpty() ||
+			assignmentDTO.getProject() == null || assignmentDTO.getProject().isEmpty()){
+			throw new IllegalArgumentException("Project or worker are empty or null");
+		}
+
+		Set<Worker> companyWorkers = company.getEmployedWorkers();
+		Set<Project> companyProjects = company.getProjects();
+		Worker worker = null;
+		Project project = null;
+
+		for (Project p : companyProjects) {
+			if(p.getName().equals(assignmentDTO.getProject())){
+				project = p;
+			}
+		}
+
+		for (Worker w : companyWorkers) {
+			if(w.getName().equals(assignmentDTO.getWorker())){
+				worker = w;
+			}
+		}
+
+		company.unassign(worker, project);
+
+		return OK;
+	}
+
+		private String startProj(Request request) {
+
 		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
 		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
@@ -256,7 +305,7 @@ public class RestController {
 		Set<Project> projects = company.getProjects();
 		Project matchingProject = null;
 		for (Project project : projects) {
-			if(project.getName() == projectDTO.getName()){
+			if(project.getName().equals(projectDTO.getName())){
 				matchingProject = project;
 			}
 		}
