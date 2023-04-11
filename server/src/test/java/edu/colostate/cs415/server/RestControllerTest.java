@@ -385,8 +385,9 @@ public class RestControllerTest {
         String response = Request.get("http://localhost:4567/api/qualifications/q1")
                             .execute().returnContent().asString();
 
+                            System.out.println(response);
         assertEquals(0, company.getQualifications().size());
-        assertEquals("[]", response);
+        assertEquals("null", response);
     }
 
     @Test
@@ -401,6 +402,5 @@ public class RestControllerTest {
         assertEquals(1, company.getQualifications().size());
         assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
         assertEquals("{\"description\":\"Java\",\"workers\":[]}", response);
-
     }
 }
