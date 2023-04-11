@@ -99,7 +99,7 @@ public class RestController {
 			});
 
 			path("/start", () -> {
-				put("", (req,res) -> start(req));
+				put("", (req,res) -> startProj(req));
 			});
 
 			path("/finish", () -> {
@@ -247,6 +247,7 @@ public class RestController {
 		return OK;
 	}
 
+
 	private String unassign(Request request) {
 		AssignmentDTO assignmentDTO = gson.fromJson(request.body(), AssignmentDTO.class);
 
@@ -277,7 +278,8 @@ public class RestController {
 		return OK;
 	}
 
-	private String start(Request request) {
+		private String startProj(Request request) {
+
 		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
 		if (projectDTO.getName() == null || projectDTO.getName().isEmpty())
