@@ -590,6 +590,8 @@ public class RestControllerTest {
         
         assertEquals("OK", response);
         assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
+        assertEquals(0, company.getAssignedWorkers().size());
+        assertEquals(0, company.getProjects().iterator().next().getWorkers().size());
     }
 
     @Test
@@ -666,7 +668,7 @@ public class RestControllerTest {
 
     @Test
     public void testPutFinished5() throws IOException {
-        // project already started 
+        // project already finished
         company = new Company("Company 1");
         Qualification java = company.createQualification("Java");
         Set<Qualification> quals = new HashSet<Qualification>();
