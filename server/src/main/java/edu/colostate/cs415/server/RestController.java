@@ -77,6 +77,7 @@ public class RestController {
 
 			// Workers
 			path("/workers", () -> {
+				get("", (req, res) -> getWorkers(), gson::toJson);
 				post("/:name", (req, res) -> createWorker(req));
 			});
 
@@ -148,6 +149,17 @@ public class RestController {
 		} else
 			throw new RuntimeException("Qualification descriptions do not match.");
 		return OK;
+	}
+
+	private WorkerDTO[] getWorkers() {
+		Set<Worker> workers = company.getEmployedWorkers();
+		WorkerDTO[] workersDTO = new WorkerDTO[workers.size()];
+		int index = 0;
+		for(Worker worker : workers){
+			workersDTO[index] = worker.toDTO();
+			index++;
+		}
+		return workersDTO;
 	}
 
 	private ProjectDTO[] getProjects() {
