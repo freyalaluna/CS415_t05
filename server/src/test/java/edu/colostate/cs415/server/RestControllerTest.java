@@ -629,4 +629,23 @@ public class RestControllerTest {
         .bodyByteArray(body.getBytes())
         .execute().returnContent();
     }
+
+    @Test
+    public void testPutFinish3() throws IOException {
+        // null project
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        String body = "{ \"name\": null}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/finish")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
 }
