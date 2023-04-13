@@ -648,4 +648,19 @@ public class RestControllerTest {
         .bodyByteArray(body.getBytes())
         .execute().returnContent();
     }
+
+    @Test
+    public void testPutFinish4() throws IOException {
+        // company has no projects
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{ \"name\": \"Moon mission\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/finish")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
 }
