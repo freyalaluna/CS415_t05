@@ -686,4 +686,34 @@ public class RestControllerTest {
         assertEquals("OK", response);
         assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
     }
+
+    @Test
+    public void testPutFinish6() throws IOException {
+        // suspended project
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Qualification python = company.createQualification("Python");
+        Set<Qualification> qualsW1 = new HashSet<Qualification>();
+        qualsW1.add(java);
+        Set<Qualification> qualsW2 = new HashSet<Qualification>();
+        qualsW2.add(python);
+        Set<Qualification> qualsProj = new HashSet<Qualification>();
+        qualsProj.add(python);
+        qualsProj.add(java);
+        Worker w1 = company.createWorker("w1", qualsW1, 10);
+        Worker w2 = company.createWorker("w2", qualsW2, 10);
+        Project p1 = company.createProject("Moon mission", qualsProj, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.assign(w2, p1);
+        company.start(p1);
+        company.unassign(w2, p1);
+        String body = "{ \"name\": \"Moon mission\"}";
+        restController.start();
+        String response = gson.fromJson(
+                        Request.put("http://localhost:4567/api/finish")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        assertEquals("OK", response);
+        assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
+    }
 }
