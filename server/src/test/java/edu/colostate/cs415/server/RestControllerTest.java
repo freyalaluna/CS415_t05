@@ -1,6 +1,7 @@
 package edu.colostate.cs415.server;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +22,7 @@ import com.google.gson.Gson;
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.dto.QualificationDTO;
+import edu.colostate.cs415.dto.WorkerDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
 import edu.colostate.cs415.model.ProjectSize;
@@ -570,6 +572,54 @@ public class RestControllerTest {
         assertEquals(ProjectStatus.ACTIVE, company.getProjects().iterator().next().getStatus());
     }
 
+    @Test
+    public void testGetWorkers1() throws IOException {
+        //One worker with project and qualification
+        company = new Company("Jedi Order");
+        Qualification q1 = company.createQualification("jedi master");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(q1);
+        Worker Obi_Wan = company.createWorker("Obi-Wan Kenobi", quals, 8);
+        Project impossible = company.createProject("Save Anikan", quals, ProjectSize.BIG);
+        Obi_Wan.addProject(impossible);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(1, workers.length);
+        assertEquals("Obi-Wan Kenobi", workers[0].getName());
+        assertEquals(8, workers[0].getSalary(), 0.0001);
+        assertEquals("jedi master", workers[0].getQualifications()[0]);
+        assertEquals("Save Anikan", workers[0].getProjects()[0]);
+    }
+
+    @Test
+    public void testGetWorkers2() throws IOException{
+        //No workers returns empy list
+        company = new Company("The Daily Planet");
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(0, workers.length);
+    }
+
+    @Test
+    public void testGetWorkers3() throws IOException{
+        //Worker with no projects
+        company = new Company("Tesla");
+        Qualification q1 = company.createQualification("born rich");
+        Set<Qualification> quals = new HashSet<>();
+        quals.add(q1);
+        company.createWorker("Elon", quals, 100000);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(1, workers.length);
+        assertEquals(0, workers[0].getProjects().length);
+    }
+    
     public void testPutFinish() throws IOException {
         // Valid project returns OK
         company = new Company("Company 1");
