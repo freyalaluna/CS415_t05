@@ -663,4 +663,27 @@ public class RestControllerTest {
         .bodyByteArray(body.getBytes())
         .execute().returnContent();
     }
+
+    @Test
+    public void testPutFinished5() throws IOException {
+        // project already started 
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        company.finish(p1);
+        String body = "{ \"name\": \"Moon mission\"}";
+        restController.start();
+        Request.put("http://localhost:4567/api/start");
+        String response = gson.fromJson(
+                        Request.put("http://localhost:4567/api/finish")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        assertEquals("OK", response);
+        assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
+    }
 }
