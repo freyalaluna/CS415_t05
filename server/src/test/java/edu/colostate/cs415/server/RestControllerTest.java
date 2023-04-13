@@ -1,6 +1,7 @@
 package edu.colostate.cs415.server;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +22,7 @@ import com.google.gson.Gson;
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.dto.QualificationDTO;
+import edu.colostate.cs415.dto.WorkerDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
 import edu.colostate.cs415.model.ProjectSize;
@@ -569,4 +571,194 @@ public class RestControllerTest {
         assertEquals("OK", response);
         assertEquals(ProjectStatus.ACTIVE, company.getProjects().iterator().next().getStatus());
     }
+
+
+
+
+    @Test
+    public void testGetWorkers1() throws IOException {
+        //One worker with project and qualification
+        company = new Company("Jedi Order");
+        Qualification q1 = company.createQualification("jedi master");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(q1);
+        Worker Obi_Wan = company.createWorker("Obi-Wan Kenobi", quals, 8);
+        Project impossible = company.createProject("Save Anikan", quals, ProjectSize.BIG);
+        Obi_Wan.addProject(impossible);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(1, workers.length);
+        assertEquals("Obi-Wan Kenobi", workers[0].getName());
+        assertEquals(8, workers[0].getSalary(), 0.0001);
+        assertEquals("jedi master", workers[0].getQualifications()[0]);
+        assertEquals("Save Anikan", workers[0].getProjects()[0]);
+    }
+
+    @Test
+    public void testGetWorkers2() throws IOException{
+        //No workers returns empy list
+        company = new Company("The Daily Planet");
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(0, workers.length);
+    }
+
+    @Test
+    public void testGetWorkers3() throws IOException{
+        //Worker with no projects
+        company = new Company("Tesla");
+        Qualification q1 = company.createQualification("born rich");
+        Set<Qualification> quals = new HashSet<>();
+        quals.add(q1);
+        company.createWorker("Elon", quals, 100000);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(1, workers.length);
+        assertEquals(0, workers[0].getProjects().length);
+    }
+
+    /*@Test
+    public void testGetProjects1() throws IOException {
+        // No workers assigned to project, has missing qualifications
+            company = new Company("Company 1");
+            Qualification java = company.createQualification("Java");
+            Set<Qualification> quals = new HashSet<Qualification>();
+            quals.add(java);
+            company.createProject("Moon mission", quals, ProjectSize.BIG);
+            restController.start();
+            ProjectDTO[] projects = gson.fromJson(
+                            Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                            ProjectDTO[].class);
+
+            assertEquals(1, projects.length);
+            assertEquals("Moon mission", projects[0].getName());
+            assertEquals(ProjectSize.BIG, projects[0].getSize());
+            assertEquals(ProjectStatus.PLANNED, projects[0].getStatus());
+            assertEquals("Java", projects[0].getMissingQualifications()[0]);
+            assertEquals("Java", projects[0].getQualifications()[0]);
+            assertEquals(0, projects[0].getWorkers().length);
+    }
+
+    @Test
+    public void testGetProjects2() throws IOException {
+        // No projects returns empty list
+            company = new Company("Company 1");
+            restController.start();
+            ProjectDTO[] projects = gson.fromJson(
+                            Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                            ProjectDTO[].class);
+            
+            assertEquals(0, projects.length);
+    }
+
+    @Test
+    public void testGetProjects3() throws IOException {
+        // Project with worker, no missing qualifications
+            company = new Company("Company 1");
+            Qualification java = company.createQualification("Java");
+            Set<Qualification> quals = new HashSet<Qualification>();
+            quals.add(java);
+            company.createProject("Moon mission", quals, ProjectSize.BIG);
+            Worker worker = new Worker("w1", quals, 10);
+            Project project =company.getProjects().iterator().next();
+            company.start(project);
+            company.createWorker("w1", quals, 10);
+            company.assign(worker, project);
+            restController.start();
+            ProjectDTO[] projects = gson.fromJson(
+                            Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                            ProjectDTO[].class);
+            
+            assertEquals(1, projects.length);
+            assertEquals("Moon mission", projects[0].getName());
+            assertEquals(ProjectSize.BIG, projects[0].getSize());
+            assertEquals(ProjectStatus.PLANNED, projects[0].getStatus());
+            assertEquals(0, projects[0].getMissingQualifications().length);
+            assertEquals("Java", projects[0].getQualifications()[0]);
+            assertEquals("w1", projects[0].getWorkers()[0]);
+    }
+
+
+    @Test
+    public void testGetProjects4() throws IOException {
+        // Workers assigned to project, has missing qualifications, multiple projects
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Qualification python = company.createQualification("Python");
+        Qualification c = company.createQualification("C");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        quals.add(python);
+        quals.add(c);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        company.createProject("Teleportation", quals, ProjectSize.BIG);
+        Worker worker = new Worker("w1", new HashSet<Qualification>(Arrays.asList(java)), 10);
+        Worker worker2 = new Worker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
+        Project project =company.getProjects().iterator().next();
+        company.start(project);
+        company.createWorker("w1", new HashSet<Qualification>(Arrays.asList(java)), 10);
+        company.createWorker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
+        company.assign(worker, project);
+        company.assign(worker2, project);
+        restController.start();
+        ProjectDTO[] projects = gson.fromJson(
+                        Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                        ProjectDTO[].class);
+        
+        assertEquals(2, projects.length);
+        assertEquals("Moon mission", projects[0].getName());
+        assertEquals("Teleportation", projects[1].getName());
+        assertEquals(ProjectSize.BIG, projects[0].getSize());
+        assertEquals(ProjectStatus.PLANNED, projects[0].getStatus());
+        assertEquals("C", projects[0].getMissingQualifications()[0]);
+        assertEquals(3, projects[0].getQualifications().length);
+        assertEquals(2, projects[0].getWorkers().length);
+    }
+
+    @Test
+    public void testGetProjects5() throws IOException {
+        // Multiple workers assigned to project, no missing qualifications
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Qualification python = company.createQualification("Python");
+        Qualification c = company.createQualification("C");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        quals.add(python);
+        quals.add(c);
+        company.createProject("Moon mission", quals, ProjectSize.BIG);
+        company.createProject("Teleportation", quals, ProjectSize.BIG);
+        Worker worker = new Worker("w1", new HashSet<Qualification>(Arrays.asList(java, c)), 10);
+        Worker worker2 = new Worker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
+        Project project =company.getProjects().iterator().next();
+        company.start(project);
+        company.createWorker("w1", new HashSet<Qualification>(Arrays.asList(java, c)), 10);
+        company.createWorker("w2", new HashSet<Qualification>(Arrays.asList(python)), 10);
+        company.assign(worker, project);
+        company.assign(worker2, project);
+        restController.start();
+        ProjectDTO[] projects = gson.fromJson(
+                        Request.get("http://localhost:4567/api/projects").execute().returnContent().asString(),
+                        ProjectDTO[].class);
+        
+        assertEquals(2, projects.length);
+        assertEquals("Moon mission", projects[0].getName());
+        assertEquals("Teleportation", projects[1].getName());
+        assertEquals(ProjectSize.BIG, projects[0].getSize());
+        assertEquals(ProjectStatus.PLANNED, projects[0].getStatus());
+        assertEquals(0, projects[0].getMissingQualifications().length);
+        assertEquals(3, projects[0].getQualifications().length);
+        assertEquals(2, projects[0].getWorkers().length);
+    }
+    */
+
+
+
+
 }
