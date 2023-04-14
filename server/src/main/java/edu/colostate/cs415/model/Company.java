@@ -163,15 +163,20 @@ public class Company {
 	}
 
 	public void assign(Worker worker, Project project) {
-		if(!available.contains(worker) || !projects.contains(project)
+		if(!projects.contains(project)
 			|| project.getWorkers().contains(worker)
-			|| project.getStatus() == ProjectStatus.ACTIVE
-			|| project.getStatus() == ProjectStatus.FINISHED
-			|| worker.getProjects().contains(project)
-			|| worker.willOverload(project)
-			|| !project.isHelpful(worker)){
+			|| worker.getProjects().contains(project)){
 			throw new IllegalArgumentException();
 		}
+
+		if(!available.contains(worker)
+		|| project.getStatus() == ProjectStatus.ACTIVE
+		|| project.getStatus() == ProjectStatus.FINISHED
+		|| worker.willOverload(project)
+		|| !project.isHelpful(worker)){
+			return;
+		}
+
 		assigned.add(worker);
 		project.addWorker(worker);
 		worker.addProject(project);
