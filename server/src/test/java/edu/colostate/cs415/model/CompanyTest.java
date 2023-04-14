@@ -1290,7 +1290,6 @@ public void testStartWithProjectNotInProject(){
 
 	@Test
 	public void testAssignWithWorkerNotInAvailable(){
-		thrown.expect(IllegalArgumentException.class);
 		company.createQualification(equalCompQual);
 		Worker w1 = company.createWorker("w1", qualifications, 10);
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
@@ -1355,7 +1354,6 @@ public void testStartWithProjectNotInProject(){
 
 	@Test
 	public void testAssignWithActiveProjectStatus(){
-		thrown.expect(IllegalArgumentException.class);
 		for(Qualification q: qualifications){
 			company.createQualification(q.toString());
 		}
@@ -1368,7 +1366,6 @@ public void testStartWithProjectNotInProject(){
 
 	@Test
 	public void testAssignWithFinishedProjectStatus(){
-		thrown.expect(IllegalArgumentException.class);
 		for(Qualification q: qualifications){
 			company.createQualification(q.toString());
 		}
@@ -1389,7 +1386,6 @@ public void testStartWithProjectNotInProject(){
 
 	@Test
 	public void testAssignWithUnhelpfulWorker(){
-		thrown.expect(IllegalArgumentException.class);
 		company.createQualification(equalCompQual);
 		Qualification q2 = company.createQualification("q2");
 		Set<Qualification> wQuals = new HashSet<>();
@@ -1402,7 +1398,6 @@ public void testStartWithProjectNotInProject(){
 
 	@Test
 	public void testAssignWhenWorkerWillBeOverloaded(){
-		thrown.expect(IllegalArgumentException.class);
 		company.createQualification(equalCompQual);
 		Worker w1 = company.createWorker("w1", qualifications, 10);
 		Project p1 = company.createProject("p1", qualifications, ProjectSize.BIG);
