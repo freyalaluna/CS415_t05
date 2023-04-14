@@ -78,6 +78,8 @@ public class RestController {
 			// Workers
 			path("/workers", () -> {
 				get("", (req, res) -> getWorkers(), gson::toJson);
+				get("/:name", (req, res) -> getWorker(req.params("name")), 
+						gson::toJson);
 				post("/:name", (req, res) -> createWorker(req));
 			});
 
@@ -160,6 +162,15 @@ public class RestController {
 			index++;
 		}
 		return workersDTO;
+	}
+
+	private WorkerDTO getWorker(String name){
+		for(Worker w : company.getEmployedWorkers()){
+			if(w.getName().equals(name)){
+				return w.toDTO();
+			}
+		}
+		return null;
 	}
 
 	private ProjectDTO[] getProjects() {
