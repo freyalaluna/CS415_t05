@@ -435,41 +435,173 @@ public class RestControllerTest {
     @Test
     public void testPutAssign1() throws IOException {
         // project name does not match
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO(worker.getName(), "Joe's");
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign2() throws IOException {
         // project name is blank
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO(worker.getName(), "   ");
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign3() throws IOException {
         // project name is empty
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO(worker.getName(), "");
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign4() throws IOException {
         // project name is null
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO(worker.getName(), "null");
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign5() throws IOException {
         // worker name does not match
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+        Project project = company.createProject("Joe's Java", quals, ProjectSize.SMALL);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO("Joseph", project.getName());
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign6() throws IOException {
         // worker name is blank
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+        Project project = company.createProject("Joe's Java", quals, ProjectSize.SMALL);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO("   ", project.getName());
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign7() throws IOException {
         // worker name is empty
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+        Project project = company.createProject("Joe's Java", quals, ProjectSize.SMALL);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO("", project.getName());
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
     public void testPutAssign8() throws IOException {
         // worker name null
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+        Project project = company.createProject("Joe's Java", quals, ProjectSize.SMALL);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO("null", project.getName());
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        thrown.expect(HttpResponseException.class);
+        Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
     }
 
     @Test
