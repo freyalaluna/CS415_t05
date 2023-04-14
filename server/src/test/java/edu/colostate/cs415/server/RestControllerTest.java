@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import edu.colostate.cs415.db.DBConnector;
 import edu.colostate.cs415.dto.AssignmentDTO;
 import edu.colostate.cs415.dto.ProjectDTO;
+import edu.colostate.cs415.dto.QualificationDTO;
+import edu.colostate.cs415.dto.WorkerDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
 import edu.colostate.cs415.model.ProjectSize;
@@ -554,6 +556,55 @@ public class RestControllerTest {
     }
 
     @Test
+    public void testGetQuals1() throws IOException {
+        company = new Company("Company 1");
+        assertEquals(0, company.getQualifications().size());
+        Qualification java = company.createQualification("Java");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+        assertEquals(1, company.getQualifications().size());
+        assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
+        assertEquals("[{\"description\":\"Java\",\"workers\":[]}]", response);
+    }
+
+    @Test
+    public void testGetQuals2() throws IOException {
+        company = new Company("Company 1");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications")
+                            .execute().returnContent().asString();
+
+        assertEquals(0, company.getQualifications().size());
+        assertEquals("[]", response);
+    }
+
+    @Test
+    public void testGetQuals3() throws IOException {
+        company = new Company("Company 1");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications/q1")
+                            .execute().returnContent().asString();
+
+                            System.out.println(response);
+        assertEquals(0, company.getQualifications().size());
+        assertEquals("null", response);
+    }
+
+    @Test
+    public void testGetQuals4() throws IOException {
+        company = new Company("Company 1");
+        assertEquals(0, company.getQualifications().size());
+        Qualification java = company.createQualification("Java");
+        restController.start();
+        String response = Request.get("http://localhost:4567/api/qualifications/Java")
+                            .execute().returnContent().asString();
+        System.out.println(response);
+        assertEquals(1, company.getQualifications().size());
+        assertEquals(java.toString(), company.getQualifications().iterator().next().toString());
+        assertEquals("{\"description\":\"Java\",\"workers\":[]}", response);
+    }    
+
     public void testPutStart() throws IOException {
         // Valid project returns OK
         company = new Company("Company 1");
@@ -718,5 +769,202 @@ public class RestControllerTest {
                         .execute().returnContent().asString(), String.class);
         assertEquals("OK", response);
         assertEquals(ProjectStatus.ACTIVE, company.getProjects().iterator().next().getStatus());
+    }
+
+    @Test
+    public void testGetWorkers1() throws IOException {
+        //One worker with project and qualification
+        company = new Company("Jedi Order");
+        Qualification q1 = company.createQualification("jedi master");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(q1);
+        Worker Obi_Wan = company.createWorker("Obi-Wan Kenobi", quals, 8);
+        Project impossible = company.createProject("Save Anikan", quals, ProjectSize.BIG);
+        Obi_Wan.addProject(impossible);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(1, workers.length);
+        assertEquals("Obi-Wan Kenobi", workers[0].getName());
+        assertEquals(8, workers[0].getSalary(), 0.0001);
+        assertEquals("jedi master", workers[0].getQualifications()[0]);
+        assertEquals("Save Anikan", workers[0].getProjects()[0]);
+    }
+
+    @Test
+    public void testGetWorkers2() throws IOException{
+        //No workers returns empy list
+        company = new Company("The Daily Planet");
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(0, workers.length);
+    }
+
+    @Test
+    public void testGetWorkers3() throws IOException{
+        //Worker with no projects
+        company = new Company("Tesla");
+        Qualification q1 = company.createQualification("born rich");
+        Set<Qualification> quals = new HashSet<>();
+        quals.add(q1);
+        company.createWorker("Elon", quals, 100000);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                        Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                        WorkerDTO[].class);
+        assertEquals(1, workers.length);
+        assertEquals(0, workers[0].getProjects().length);
+    }
+    
+    public void testPutFinish() throws IOException {
+        // Valid project returns OK
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        String body = "{ \"name\": \"Moon mission\"}";
+        company.start(p1);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.put("http://localhost:4567/api/finish")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        
+        assertEquals("OK", response);
+        assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
+        assertEquals(0, company.getAssignedWorkers().size());
+        assertEquals(0, company.getProjects().iterator().next().getWorkers().size());
+    }
+
+    @Test
+    public void testPutFinish1() throws IOException {
+        // project names dont match
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        String body = "{ \"name\": \"Moon\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/finish")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
+
+    @Test
+    public void testPutFinish2() throws IOException {
+        // blank project name
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        String body = "{ \"name\": \"\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/finish")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
+
+    @Test
+    public void testPutFinish3() throws IOException {
+        // null project
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        String body = "{ \"name\": null}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/finish")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
+
+    @Test
+    public void testPutFinish4() throws IOException {
+        // company has no projects
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{ \"name\": \"Moon mission\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        Request.put("http://localhost:4567/api/finish")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent();
+    }
+
+    @Test
+    public void testPutFinished5() throws IOException {
+        // project already finished
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker w1 = company.createWorker("w", quals, 10);
+        Project p1 = company.createProject("Moon mission", quals, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.start(p1);
+        company.finish(p1);
+        String body = "{ \"name\": \"Moon mission\"}";
+        restController.start();
+        Request.put("http://localhost:4567/api/start");
+        String response = gson.fromJson(
+                        Request.put("http://localhost:4567/api/finish")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        assertEquals("OK", response);
+        assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
+    }
+
+    @Test
+    public void testPutFinish6() throws IOException {
+        // suspended project
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Qualification python = company.createQualification("Python");
+        Set<Qualification> qualsW1 = new HashSet<Qualification>();
+        qualsW1.add(java);
+        Set<Qualification> qualsW2 = new HashSet<Qualification>();
+        qualsW2.add(python);
+        Set<Qualification> qualsProj = new HashSet<Qualification>();
+        qualsProj.add(python);
+        qualsProj.add(java);
+        Worker w1 = company.createWorker("w1", qualsW1, 10);
+        Worker w2 = company.createWorker("w2", qualsW2, 10);
+        Project p1 = company.createProject("Moon mission", qualsProj, ProjectSize.SMALL);
+        company.assign(w1, p1);
+        company.assign(w2, p1);
+        company.start(p1);
+        company.unassign(w2, p1);
+        String body = "{ \"name\": \"Moon mission\"}";
+        restController.start();
+        String response = gson.fromJson(
+                        Request.put("http://localhost:4567/api/finish")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        assertEquals("OK", response);
+        assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
     }
 }
