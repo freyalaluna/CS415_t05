@@ -1,8 +1,6 @@
 package edu.colostate.cs415.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,16 +20,8 @@ import org.junit.rules.ExpectedException;
 import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
-import edu.colostate.cs415.dto.AssignmentDTO;
-import edu.colostate.cs415.dto.ProjectDTO;
-import edu.colostate.cs415.dto.QualificationDTO;
-import edu.colostate.cs415.dto.WorkerDTO;
-import edu.colostate.cs415.model.Company;
-import edu.colostate.cs415.model.Project;
-import edu.colostate.cs415.model.ProjectSize;
-import edu.colostate.cs415.model.ProjectStatus;
-import edu.colostate.cs415.model.Qualification;
-import edu.colostate.cs415.model.Worker;
+import edu.colostate.cs415.dto.*;
+import edu.colostate.cs415.model.*;
 
 public class RestControllerTest {
 
@@ -967,4 +957,54 @@ public class RestControllerTest {
         assertEquals("OK", response);
         assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
     }
+
+    @Test
+    public void testGetNameWorker1() throws IOException{
+        company = new Company("Ford");
+        restController.start();
+        WorkerDTO[] workers= gson.fromJson(
+            Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+            WorkerDTO[].class);
+        assertEquals(0, workers.length);
+    }
+
+    @Test
+    public void testGetNameWorker2() throws IOException{
+        company = new Company("NSA");
+        Qualification q1 = company.createQualification("Knowledge Giver");
+        Set<Qualification> quals = new HashSet<>();
+        quals.add(q1);
+        company.createWorker("EdwardSnowden", quals, 10);
+        restController.start();
+        WorkerDTO[] worker = gson.fromJson(
+                                Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                       WorkerDTO[].class);
+        assertEquals("EdwardSnowden", worker[0].getName());
+    }
+
+    @Test 
+    public void testGetNameWorker3() throws IOException{
+        company = new Company("CSU");
+        Qualification q1 = company.createQualification("President");
+        Set<Qualification> quals = new HashSet<>();
+        quals.add(q1);
+        Set<Qualification> quals2 = new HashSet<>();
+        quals2.add(new Qualification("Unknown"));
+        company.createWorker("Tony Frank", quals, 10);
+        Worker joyce = new Worker("Joyce McConnell", quals2, 0);
+        company.createWorker("Amy Parsons", quals, 10);
+        restController.start();
+        WorkerDTO[] workers = gson.fromJson(
+                                Request.get("http://localhost:4567/api/workers").execute().returnContent().asString(),
+                       WorkerDTO[].class);
+        assertEquals(2, workers.length);
+        WorkerDTO joyceDTO = joyce.toDTO();
+        for(WorkerDTO w : workers){
+            assertFalse(w.equals(joyceDTO));
+        }
+    }
+
+
+
+
 }
