@@ -277,18 +277,16 @@ public class RestController {
 			throw new IllegalArgumentException("Project or worker are empty or null");
 		}
 
-		Set<Worker> companyWorkers = company.getEmployedWorkers();
-		Set<Project> companyProjects = company.getProjects();
 		Worker worker = null;
 		Project project = null;
 
-		for (Project p : companyProjects) {
+		for (Project p : company.getProjects()) {
 			if(p.getName().equals(assignmentDTO.getProject())){
 				project = p;
 			}
 		}
 
-		for (Worker w : companyWorkers) {
+		for (Worker w : company.getEmployedWorkers()) {
 			if(w.getName().equals(assignmentDTO.getWorker())){
 				worker = w;
 			}
@@ -299,7 +297,7 @@ public class RestController {
 		return OK;
 	}
 
-		private String startProj(Request request) {
+	private String startProj(Request request) {
 
 		ProjectDTO projectDTO = gson.fromJson(request.body(), ProjectDTO.class);
 
