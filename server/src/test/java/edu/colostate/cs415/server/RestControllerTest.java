@@ -1,6 +1,8 @@
 package edu.colostate.cs415.server;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +13,7 @@ import java.util.Set;
 
 import org.apache.hc.client5.http.HttpResponseException;
 import org.apache.hc.client5.http.fluent.Request;
+import org.apache.hc.core5.http.ContentType;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,6 +22,7 @@ import org.junit.rules.ExpectedException;
 import com.google.gson.Gson;
 
 import edu.colostate.cs415.db.DBConnector;
+import edu.colostate.cs415.dto.AssignmentDTO;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
@@ -351,6 +355,70 @@ public class RestControllerTest {
         Request.post("http://localhost:4567/api/workers/Daisy")
                 .bodyByteArray(body.getBytes())
                 .execute().returnContent().asString();
+    }
+
+    @Test
+    public void testPutAssign() throws IOException {
+        // Valid project and worker returns OK
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+        Project project = company.createProject("Joe's Java", quals, ProjectSize.SMALL);
+
+        assertFalse(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO(worker.getName(), project.getName());
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        String response = Request.put("http://localhost:4567/api/assign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
+
+        assertEquals("OK", response);
+        assertTrue(project.getWorkers().contains(worker));
+    }
+
+    @Test
+    public void testPutAssign1() throws IOException {
+        // project name does not match
+    }
+
+    @Test
+    public void testPutAssign2() throws IOException {
+        // project name is blank
+    }
+
+    @Test
+    public void testPutAssign3() throws IOException {
+        // project name is empty
+    }
+
+    @Test
+    public void testPutAssign4() throws IOException {
+        // project name is null
+    }
+
+    @Test
+    public void testPutAssign5() throws IOException {
+        // worker name does not match
+    }
+
+    @Test
+    public void testPutAssign6() throws IOException {
+        // worker name is blank
+    }
+
+    @Test
+    public void testPutAssign7() throws IOException {
+        // worker name is empty
+    }
+
+    @Test
+    public void testPutAssign8() throws IOException {
+        // worker name null
     }
 
     @Test
