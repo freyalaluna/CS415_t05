@@ -604,8 +604,29 @@ public class RestControllerTest {
             .execute().returnContent().asString();
     }
 
+    @Test
     public void testPutUnassign() throws IOException {
         // Valid project and worker returns OK
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        Worker worker = company.createWorker("Joe", quals, 10);
+        Project project = company.createProject("Joe's Java", quals, ProjectSize.SMALL);
+        
+        company.assign(worker, project);
+        assertTrue(company.getAssignedWorkers().contains(worker));
+
+        AssignmentDTO body = new AssignmentDTO(worker.getName(), project.getName());
+        String bodyString = gson.toJson(body);
+        
+        restController.start();
+        String response = Request.put("http://localhost:4567/api/unassign")
+            .bodyString(bodyString, ContentType.APPLICATION_JSON)
+            .execute().returnContent().asString();
+
+        assertEquals("OK", response);
+        assertFalse(project.getWorkers().contains(worker));
     }
 
     @Test
