@@ -604,6 +604,50 @@ public class RestControllerTest {
             .execute().returnContent().asString();
     }
 
+    public void testPutUnassign() throws IOException {
+        // Valid project and worker returns OK
+    }
+
+    @Test
+    public void testPutUnassign1() throws IOException {
+        // project name does not match
+    }
+
+    @Test
+    public void testPutUnssign2() throws IOException {
+        // project name is blank
+    }
+
+    @Test
+    public void testPutUnassign3() throws IOException {
+        // project name is empty
+    }
+
+    @Test
+    public void testPutUnassign4() throws IOException {
+        // project name is null
+    }
+
+    @Test
+    public void testPutUnassign5() throws IOException {
+        // worker name does not match
+    }
+
+    @Test
+    public void testPutUnassign6() throws IOException {
+        // worker name is blank
+    }
+
+    @Test
+    public void testPutUnassign7() throws IOException {
+        // worker name is empty
+    }
+
+    @Test
+    public void testPutUnassign8() throws IOException {
+        // worker name null
+    }
+
     @Test
     public void testPutStart() throws IOException {
         // Valid project returns OK
