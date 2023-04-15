@@ -25,7 +25,7 @@ const CreateQualificationForm = (props) => {
     const {setQualifications} = props
     return (
         <div className="card">
-        {/* <div className="card-body"> */}
+        <div className="card-body">
             <form>
                 <div className="form-group">
                     <input type="text" className="form-control" id="qualDesc" placeholder="Enter a description" />
@@ -47,7 +47,7 @@ const CreateQualificationForm = (props) => {
                     Create a Qualification
                 </button>
             </form>
-        {/* </div> */}
+        </div>
     </div>
     )
 }
