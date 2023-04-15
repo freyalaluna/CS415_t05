@@ -34,14 +34,14 @@ const CreateQualificationForm = (props) => {
                     type="button" className="btn btn-outline-primary"
                     onClick={() => {
                         const description = document.getElementById('qualDesc').value
-                        // if (description) {
-                        //     createQualification(description).then(response => {
-                        //         if (response?.data === 'OK') {
-                        //             getQualifications().then(setQualifications)
-                        //             document.getElementById('qualDesc').value = ""
-                        //         }
-                        //     })
-                        // }
+                        if (description) {
+                            createQualification(description).then(response => {
+                                if (response?.data === 'OK') {
+                                    getQualifications().then(setQualifications)
+                                    document.getElementById('qualDesc').value = ""
+                                }
+                            })
+                        }
                     }}
                 >
                     Create a Qualification
