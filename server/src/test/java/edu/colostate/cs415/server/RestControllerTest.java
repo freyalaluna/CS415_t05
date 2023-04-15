@@ -172,6 +172,124 @@ public class RestControllerTest {
     }
 
     @Test
+    public void testPostProject1() throws IOException {;
+        // Valid project returns OK
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        String body = "{ \"name\": \"P1\", \"qualifications\": [\"Java\"]," + 
+        "\"size\": \"BIG\"}";
+        restController.start();
+        String response = gson.fromJson(
+        Request.post("http://localhost:4567/api/projects/P1")
+        .bodyByteArray(body.getBytes())
+        .execute().returnContent().asString(), String.class);
+        
+        assertEquals("OK", response);
+        assertEquals("P1", company.getProjects().iterator().next().getName());
+    }
+
+    @Test
+    public void testPostProject2() throws IOException {
+        // If a 0-length name is provided, a project isn't created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{ \"name\": \"\", \"qualifications\": [\"Java\"]," + 
+         "\"size\": \"BIG\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/projects/P1")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+        
+        
+    }
+
+    @Test
+    public void testPostProject3() throws IOException {
+        // If name is null, a project isn't created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{\"qualifications\": [\"Java\"]," + 
+         "\"size\": \"BIG\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/projects/P1")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);  
+    }
+
+    @Test
+    public void testPostProject4() throws IOException {
+        // If qualifications is empty, a project isn't created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{ \"name\": \"P1\", \"qualifications\": []," + 
+         "\"size\": \"BIG\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/projects/P1")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);  
+    }
+
+    @Test
+    public void testPostProject5() throws IOException {
+        // If qualifications is null, a project isn't created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{ \"name\": \"P1\"," + 
+         "\"size\": \"BIG\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/projects/P1")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);  
+    }
+
+    @Test
+    public void testPostProject6() throws IOException {
+        // If size is null, a project isn't created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        String body = "{ \"name\": \"P1\", \"qualifications\": [\"Java\"]}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/projects/P1")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);  
+    }
+
+    @Test
+    public void testPostProject7() throws IOException {;
+        // If the param name and the body name don't match, a project isn't created
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        String body = "{ \"name\": \"P1\", \"qualifications\": [\"Java\"]," + 
+        "\"size\": \"BIG\"}";
+        thrown.expect(HttpResponseException.class);
+        restController.start();
+        String response = gson.fromJson(
+                        Request.post("http://localhost:4567/api/projects/P2")
+                        .bodyByteArray(body.getBytes())
+                        .execute().returnContent().asString(), String.class);
+    }
+
+    @Test
     public void testPostWorker1() throws IOException {
         // Valid worker returns OK
         company = new Company("Company 1");
