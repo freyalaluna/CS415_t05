@@ -172,6 +172,44 @@ public class RestControllerTest {
     }
 
     @Test
+    public void testGetProject1() throws IOException {
+        //Get a project with one worker and one qualification
+        company = new Company("Company 1");
+        Qualification java = company.createQualification("Java");
+        Set<Qualification> quals = new HashSet<Qualification>();
+        quals.add(java);
+        
+        Project project = company.createProject("P1", quals, ProjectSize.BIG);
+        Worker worker = company.createWorker("W1", quals, 10);
+        company.start(project);
+        company.assign(worker, project);
+        
+        restController.start();
+        ProjectDTO response = gson.fromJson(
+                        Request.get("http://localhost:4567/api/projects/P1").execute().returnContent().asString(),
+                        ProjectDTO.class);
+        
+        assertEquals("P1", response.getName());
+        assertEquals(ProjectSize.BIG, response.getSize());
+        assertEquals(0, response.getMissingQualifications().length);
+        assertEquals(1, response.getQualifications().length);
+        assertEquals(1, response.getWorkers().length);
+    }
+
+    @Test
+    public void testGetProject2() throws IOException {
+        //Return null when the company doesn't have the requested project
+        company = new Company("Company 1");
+        
+        restController.start();
+        ProjectDTO response = gson.fromJson(
+                        Request.get("http://localhost:4567/api/projects/P1").execute().returnContent().asString(),
+                        ProjectDTO.class);
+        
+        assertEquals(null, response);
+    }
+
+    @Test
     public void testPostProject1() throws IOException {;
         // Valid project returns OK
         company = new Company("Company 1");
