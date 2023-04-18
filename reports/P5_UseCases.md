@@ -7,9 +7,11 @@
 5. ## View worker details.  
 6. ## View project details. 
 7. ## Create new qualification. 
-8. ## Create new worker. 
-9. ## Create new project.  
-10. ## Assign worker.  
-11. ## Unassign worker.  
-12. ## Start project.  
-13. ## Finish project.  
+![create_qual_use_case](https://user-images.githubusercontent.com/58609154/232593627-a0b58997-3ec4-44c0-b770-1b38bfed25b4.png)
+
+9. ## Create new worker. 
+10. ## Create new project.  
+11. ## Assign worker.  
+12. ## Unassign worker.  
+13. ## Start project.  
+14. ## Finish project.  
