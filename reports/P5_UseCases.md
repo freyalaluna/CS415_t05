@@ -6,9 +6,12 @@
 
 3. ## View company projects. 
 4. ## View qualification details.  
-5. ## View worker details.  
-6. ## View project details. 
-7. ## Create new qualification. 
+5. ## View worker details. 
+![view_worker_details](https://user-images.githubusercontent.com/98504497/233884643-872087c1-6b7d-4f80-bc85-4dd0f84431ce.png)
+
+
+7. ## View project details. 
+8. ## Create new qualification. 
 ![create_qual_use_case](https://user-images.githubusercontent.com/58609154/232593627-a0b58997-3ec4-44c0-b770-1b38bfed25b4.png)
 
 9. ## Create new worker. 
