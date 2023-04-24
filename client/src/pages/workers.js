@@ -16,7 +16,10 @@ const Worker = (Worker, active) => {
 const WorkerBody = (Worker) => {
     return (
         <div style={grayContainerStyle}>
-            Workers: <ClickList list={Worker.workers} styles={darkGrayContainerStyle} path="/workers" />
+            Salary: {Worker.salary} <br></br>
+            Workload Value: {Worker.workload} <br></br><br></br>
+            Qualifications: <ClickList list={Worker.qualifications} styles={darkGrayContainerStyle} path="/qualifications" /><br></br>
+            Projects: <ClickList list={Worker.projects} styles={darkGrayContainerStyle} path="/projects" />
         </div>
     )
 }
@@ -24,7 +27,7 @@ const WorkerBody = (Worker) => {
 const Workers = () => {
     const [workers, setworkers] = useState([])
     useEffect(() => { getWorkers().then(setworkers) }, [])
-    const active = LocationID('workers', workers, 'description')
+    const active = LocationID('workers', workers, 'name')
     return (
         <div style={pageStyle}>
             <h1>
