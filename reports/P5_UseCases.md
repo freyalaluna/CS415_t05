@@ -1,4 +1,6 @@
 1. ## View company qualifications. 
+![useCase1](https://user-images.githubusercontent.com/58609154/233843683-63c7f1f9-cb47-45bc-a10c-8e3cf9df27da.png)
+
 2. ## View company employed worker.
 ![view_workers-1](https://user-images.githubusercontent.com/58609154/232326374-a6d0ed40-2ca4-4451-a030-144dbd31f927.png)
 
