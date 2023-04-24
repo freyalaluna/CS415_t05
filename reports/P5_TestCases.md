@@ -29,6 +29,25 @@
 ## 3.  View company projects.  
 ## 4.  View qualification details.  
 ## 5.  View worker details.  
+
+5.1 View worker details from clicking on a Worker in the table
+- Click on the Workers tab.
+- Click on an individual worker in the table
+- Verify that the table expands to show the worker's details
+- Verify that the worker's salary, workload, qualifications, and projects all match what's in the DB.
+
+5.2 View Qualifications from clicking on a qualification link in a Worker's details
+- Click on the Workers tab.
+- Click on an individual worker in the table
+- Click on a qualification in the worker's list of qualifications
+- Verify that you're redirected to the matching qualification in the Qualifications tab.
+
+5.3 View projects from clicking on a project link in a worker's details
+- Click on the Workers tab.
+- Click on an individual worker in the table
+- Click on a project in the worker's list of projects
+- Verify that you're redirected to the matching project in the Projects tab.
+
 ## 6.  View project details.  
 ## 7.  Create new qualification. 
 
