@@ -14,6 +14,14 @@ export const darkGrayContainerStyle = {
     background: '#CCCCCC',
 }
 
+export const missingStyle = {
+    background: 'red'
+}
+
+export const notMissingStyle = {
+    background: 'green'
+}
+
 export const pageStyle = {
     padding: '1vw',
 }
