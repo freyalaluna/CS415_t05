@@ -15,11 +15,11 @@ export const darkGrayContainerStyle = {
 }
 
 export const missingStyle = {
-    background: 'red'
+    background: '#db4b4b'
 }
 
 export const notMissingStyle = {
-    background: 'green'
+    background: '#74cc80'
 }
 
 export const pageStyle = {
