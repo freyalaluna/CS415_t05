@@ -67,6 +67,9 @@ const Projects = () => {
     const active = LocationID('projects', projects, 'name');
     return (
         <div style={pageStyle}>
+            {/* <h1>
+                This page displays all of the projects & will soon allow clicking to view project details.
+            </h1> */}
             <h1>
                 Click on the projects below to view their details.
             </h1>
