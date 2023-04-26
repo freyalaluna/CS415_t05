@@ -10,13 +10,16 @@
 ![view_worker_details](https://user-images.githubusercontent.com/98504497/233884643-872087c1-6b7d-4f80-bc85-4dd0f84431ce.png)
 
 
-7. ## View project details. 
-8. ## Create new qualification. 
+6. ## View project details.
+   ![view_project_details](https://user-images.githubusercontent.com/71053850/234400826-18a0b617-2b45-4d22-b384-ba6ac813d413.png)
+
+
+7. ## Create new qualification. 
 ![create_qual_use_case](https://user-images.githubusercontent.com/58609154/232593627-a0b58997-3ec4-44c0-b770-1b38bfed25b4.png)
 
-9. ## Create new worker. 
-10. ## Create new project.  
-11. ## Assign worker.  
-12. ## Unassign worker.  
-13. ## Start project.  
-14. ## Finish project.  
+8. ## Create new worker. 
+9. ## Create new project.  
+10. ## Assign worker.  
+11. ## Unassign worker.  
+12. ## Start project.  
+13. ## Finish project.  
