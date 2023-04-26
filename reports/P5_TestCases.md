@@ -48,7 +48,32 @@
 - Click on a project in the worker's list of projects
 - Verify that you're redirected to the matching project in the Projects tab.
 
-## 6.  View project details.  
+## 6.  View project details.
+6.1 View project details from clicking on a project in the projects list
+- Click on the Projects tab
+- Click on an individual project in the list
+- Verify that the table expands to show the project's details
+- Verify that the following match what's in the DB.
+   - Name
+   - Size
+   - Status
+   - Assigned employees
+   - Qualifications
+      - Required qualifications (both the red and green highlighted qualifications)
+      - Missing qualifications (the red highlighted qualifications)
+
+6.2 View Workers from clicking on the Assigned Employees in the Project's details
+- Click on the Projects tab
+- Click on an individual project in the list
+- Click on a worker in the project's list of assigned employees
+- Verify that you're redirected to the matching worker in the Workers tab
+
+6.3 View Qualifications from clicking on the Qualifications in the Project's details
+- Click on the Projects tab
+- Click on an individual project in the list
+- Click on a qualification in the project's list of qualifications
+- Verify that you're redirected to the matching qualification in the Qualifications tab
+
 ## 7.  Create new qualification. 
 
 7.1 A qualification can be created 
