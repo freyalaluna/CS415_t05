@@ -4,7 +4,7 @@
 
 1.1 View qualifications from clicking on Qualifications Tab 
 - Click on the Qualifications tab.  
-- Verify that the list of qualifications matches what's in the DB.  
+- Verify that the list of qualifications matches what's in the database (DB).  
 
 1.2 View qualifications from clicking on a qualification link from Project tab 
 - Click on the Project tab.  
@@ -26,7 +26,19 @@
 - Click on a worker's name 
 - Verify that you're redirected to the Workers tab and the list of workers matches what's in the DB. 
 
-## 3.  View company projects.  
+## 3.  View company projects.
+3.1 View Projects from clicking on Projects tab
+- Click on the Projects tab.
+- Verify that the list of projects matches what's in the DB.
+
+3.2 View Projects from clicking on a project link from the Workers tab
+- Click on the Workers tab
+- Click on a worker
+- See that a worker or list of workers is displayed
+- Click on a worker's name
+- Click on a a listed project under the worker
+- Verify that you are redirected to the Projects tab and that the list of projects matches what's in the DB
+
 ## 4.  View qualification details.  
 ## 5.  View worker details.  
 
