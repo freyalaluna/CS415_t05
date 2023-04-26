@@ -4,7 +4,7 @@
 
 1.1 View qualifications from clicking on Qualifications Tab 
 - Click on the Qualifications tab.  
-- Verify that the list of qualifications matches what's in the DB.  
+- Verify that the list of qualifications matches what's in the database (DB).  
 
 1.2 View qualifications from clicking on a qualification link from Project tab 
 - Click on the Project tab.  
