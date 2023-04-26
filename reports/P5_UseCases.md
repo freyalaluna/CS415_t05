@@ -22,6 +22,9 @@
 8. ## Create new worker. 
 9. ## Create new project.  
 10. ## Assign worker.  
+![assign_worker](https://user-images.githubusercontent.com/98504497/234662425-e6d67d6a-110d-4719-9f80-709f616e0bbc.png)
+
+
 11. ## Unassign worker.  
 12. ## Start project.  
 13. ## Finish project.  
