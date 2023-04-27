@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { darkGrayContainerStyle, grayContainerStyle, pageStyle } from '../utils/styles'
+import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
 import { getProjects } from '../services/dataService'
@@ -8,17 +8,39 @@ const Project = (project, active) => {
     return(
         <div>
             <div>{project.name}</div>
+            {/* <button>Test</button> */}
             {active === true ? ProjectBody(project) : null}
         </div>
     )
 }
 
-const ProjectBody = (project) => {
-    return(
-        <div style={grayContainerStyle}>
-            Projects: <ClickList list={project} styles={darkGrayContainerStyle} path="/workers" />
-        </div>
-    )
+const ProjectBody = (project) => (
+    <div style={grayContainerStyle}>
+        Size: {project.size} <br />
+        Status: {project.status} <br />
+        Assigned Employees: 
+        {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
+
+        Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
+                <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
+    </div>
+)
+
+const greenQuals = (project) => {
+    const quals = project.qualifications;
+    const missingQuals = project.missingQualifications;
+    const greenQuals = [];
+
+    // check if quals contain missing quals
+    for (let i = 0; i < quals.length; i++) {
+        // if quals do NOT contain missing quals
+        if (!missingQuals.includes(quals[i])) {
+            // add to greenQuals
+            greenQuals.push(quals[i]);
+        }
+    }
+
+    return greenQuals;
 }
 
 const Projects = () => {
@@ -27,9 +49,12 @@ const Projects = () => {
     const active = LocationID('projects', projects, 'name');
     return (
         <div style={pageStyle}>
-            <h1>
+            {/* <h1>
                 This page displays all of the projects & will soon allow clicking to view project details.
-            </h1>
+            </h1> */}
+            <h2>
+                Click on the projects below to view their details.
+            </h2>
             <br/><br/>
             <ClickList active={active} list={projects} item={Project} path='/projects' id='name'/>
         </div>
