@@ -19,11 +19,10 @@ const ProjectBody = (project) => (
         Size: {project.size} <br />
         Status: {project.status} <br />
         Assigned Employees: 
-        {project.workers.length === 0 ? <br/> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/projects" id='workers' />}
+        {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
 
-        {/* I will ask Sudipto about Quals and Missing Quals reqs */}
-        Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/projects" id='qualifications'/>
-                <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/projects" id='qualifications'/>
+        Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
+                <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
     </div>
 )
 
@@ -53,9 +52,9 @@ const Projects = () => {
             {/* <h1>
                 This page displays all of the projects & will soon allow clicking to view project details.
             </h1> */}
-            <h1>
+            <h2>
                 Click on the projects below to view their details.
-            </h1>
+            </h2>
             <br/><br/>
             <ClickList active={active} list={projects} item={Project} path='/projects' id='name'/>
         </div>
