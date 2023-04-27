@@ -8,6 +8,7 @@ const Project = (project, active) => {
     return(
         <div>
             <div>{project.name}</div>
+            {/* <button>Test</button> */}
             {active === true ? ProjectBody(project) : null}
         </div>
     )
@@ -21,28 +22,10 @@ const ProjectBody = (project) => (
         {project.workers.length === 0 ? <br/> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/projects" id='workers' />}
 
         {/* I will ask Sudipto about Quals and Missing Quals reqs */}
-        Qualifications: <ClickList list={redQuals(project)} styles={missingStyle} path="/projects" id='qualifications'/>
+        Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/projects" id='qualifications'/>
                 <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/projects" id='qualifications'/>
-        Missing Qualifications: <ClickList list={project.missingQualifications} styles={darkGrayContainerStyle} path="/projects" id='missingQualifications' />
     </div>
 )
-
-const redQuals = (project) => {
-    const quals = project.qualifications;
-    const missingQuals = project.missingQualifications;
-    const redQuals = [];
-    
-    // check if quals contain missing quals
-    for (let i = 0; i < quals.length; i++) {
-        // if quals do NOT contain missing quals
-        if (missingQuals.includes(quals[i])) {
-            // add to greenQuals
-            redQuals.push(quals[i]);
-        }
-    }
-
-    return redQuals;
-}
 
 const greenQuals = (project) => {
     const quals = project.qualifications;
