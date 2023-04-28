@@ -9,20 +9,35 @@ const Project = (project, active) => {
         <div>
             <div>{project.name}</div>
             {/* <button>Test</button> */}
-            {active === true ? ProjectBody(project) : null}
+            {active === true ?  ProjectBody(project)  : null}
         </div>
     )
 }
 
 const ProjectBody = (project) => (
-    <div style={grayContainerStyle}>
-        Size: {project.size} <br />
-        Status: {project.status} <br />
-        Assigned Employees: 
-        {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
-
-        Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
-                <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
+    <div>
+        <div style={grayContainerStyle}>
+            Size: {project.size} <br />
+            Status: {project.status} <br />
+            Assigned Employees: 
+            {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
+            <br />
+            Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
+                    <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
+                    Options:
+        </div>
+        Options:
+            {project.workers.length === 0 ? <div>-</div> : 
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" onClick={(e)=>e.stopPropagation()} data-toggle="dropdown" aria-expanded="false">
+                    Unasign Worker
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" > Action </a>
+                    <a class="dropdown-item"> Another action</a>
+                    <a class="dropdown-item" >Something else here</a>
+                </div>
+            </div>}
     </div>
 )
 
