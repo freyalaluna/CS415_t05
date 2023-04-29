@@ -20,7 +20,7 @@
 ![create_qual_use_case](https://user-images.githubusercontent.com/58609154/232593627-a0b58997-3ec4-44c0-b770-1b38bfed25b4.png)
 
 8. ## Create new worker. 
-9. ## Create new project.  
+9. ## Create new project.
 10. ## Assign worker.  
 ![assign_worker](https://user-images.githubusercontent.com/98504497/234662425-e6d67d6a-110d-4719-9f80-709f616e0bbc.png)
 
