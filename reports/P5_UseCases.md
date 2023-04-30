@@ -21,6 +21,8 @@
 
 8. ## Create new worker. 
 9. ## Create new project.
+   ![create_new_project](https://user-images.githubusercontent.com/71053850/235373440-9f1606bd-c5f4-4402-94ca-5488d1075aa3.png)
+
 10. ## Assign worker.  
 ![assign_worker](https://user-images.githubusercontent.com/98504497/234662425-e6d67d6a-110d-4719-9f80-709f616e0bbc.png)
 
