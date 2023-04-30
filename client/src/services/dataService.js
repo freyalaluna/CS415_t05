@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const SERVER_ADDRESS = 'http://localhost:4567/api/'
 
+
 export function getQualification(name) {
     return axios.get(SERVER_ADDRESS + 'qualifications/' + name).then((res) => JSON.parse(res.request.response))
 }
@@ -24,4 +25,8 @@ export function getWorker(name) {
 
 export function getProjects() {
     return axios.get(SERVER_ADDRESS + 'projects').then((res) => JSON.parse(res.request.response).sort((a, b) => a.name.localeCompare(b.name)))
+}
+
+export function unasignWorker(worker, project) {
+    return axios.put(SERVER_ADDRESS + 'unassign' , { worker:worker, project:project })
 }

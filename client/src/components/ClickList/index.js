@@ -5,7 +5,7 @@ const Box = (value) => {
     return <div>{value}</div>
 }
 
-const ClickList = ({ active, list, item, path, id, styles }) => {
+const ClickList = ({ active, list, setprojects, item, path, id, styles, dropdownOpen, setDropdownOpen }) => {
     const navigate = useNavigate()
     return list.map((value, index) => {
         let style = styles ? (Array.isArray(styles) ? styles[index] : styles) : goldenContainerStyle
@@ -20,7 +20,7 @@ const ClickList = ({ active, list, item, path, id, styles }) => {
                     else navigate(path)
                 }
             }}>
-                {item ? item(value, active === index) : Box(value)}
+                {item ? item(value, setprojects, active === index, dropdownOpen, setDropdownOpen) : Box(value)}
             </div>
         )
     })
