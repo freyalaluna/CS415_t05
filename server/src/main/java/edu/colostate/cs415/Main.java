@@ -7,7 +7,7 @@ import edu.colostate.cs415.server.RestController;
 
 public class Main {
 
-    private static final int PORT = 6789;
+    private static final int PORT = 1234;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
