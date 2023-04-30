@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const SERVER_ADDRESS = 'http://localhost:4567/api/'
 
+
 export function getQualification(name) {
     return axios.get(SERVER_ADDRESS + 'qualifications/' + name).then((res) => JSON.parse(res.request.response))
 }
