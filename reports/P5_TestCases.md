@@ -103,7 +103,47 @@
 - Verify that there are no duplicate qualifications. 
 
 ## 8.  Create new worker.  
-## 9.  Create new project.  
+## 9.  Create new project.
+9.1 A project can be created
+- Click on the projects tab
+- Verify that the list of projects matches what's in the DB
+- Enter the following information:
+   - A valid project name (any string)
+   - Valid qualifications within the company set of qualifications
+   - A selected project size
+- Click "Create Project"
+- Verify that the new project is in the projects list
+
+9.2 A project is not created when the name is empty or blank
+- Click on the projects tab
+- Verify that the list of projects matches what's in the DB
+- Enter the following information:
+   - An empty or blank project name
+   - Valid qualifications within the company set of qualifications
+   - A selected project size
+- Click "Create Project"
+- Verify that a error message displays that there is missing required information
+
+9.3 A project is not created when the qualifications are blank or not in the list of qualifications
+- Click on the projects tab
+- Verify that the list of projects matches what's in the DB
+- Enter the following information:
+   - A valid project name (any string)
+   - A blank qualification or a qualificatoins not in the company set of qualifications
+   - A selected project size
+- Click "Create Project"
+- Verify that a error message displays that there is missing required information
+
+9.5 A project is not created with the project size is not selected
+- Click on the projects tab
+- Verify that the list of projects matches what's in the DB
+- Enter the following information:
+   - A valid project name (any string)
+   - Valid qualifications within the company set of qualifications
+   - A non-selected project status
+- Click "Create Project"
+- Verify that a error message displays that there is missing required information
+
 ## 10. Assign worker.  
 ## 11. Unassign worker.  
 ## 12. Start project.  
