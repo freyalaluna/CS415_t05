@@ -27,6 +27,8 @@
 ![assign_worker](https://user-images.githubusercontent.com/98504497/234662425-e6d67d6a-110d-4719-9f80-709f616e0bbc.png)
 
 
-11. ## Unassign worker.  
+11. ## Unassign worker. 
+<img width="586" alt="image" src="https://user-images.githubusercontent.com/97856149/235371936-f2a9215f-9562-48ac-a3c5-02df84f2ca4a.png"> 
+
 12. ## Start project.  
 13. ## Finish project.  
