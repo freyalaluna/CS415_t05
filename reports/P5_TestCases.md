@@ -106,6 +106,16 @@
 ## 9.  Create new project.  
 ## 10. Assign worker.  
 ## 11. Unassign worker.  
+
+11.1 A worker can be unassigned from a project
+- Click on the project tab
+- Click on a project
+- Click on the unassign worker dropdown
+- See that only the workers currently assigned to the project are listed
+- Click on a worker
+- Verify that the worker was removed from the projects details
+- Verify that the projects qualifications were updated
+
 ## 12. Start project.  
 ## 13. Finish project.  
 
