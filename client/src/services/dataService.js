@@ -30,3 +30,7 @@ export function getProjects() {
 export function unasignWorker(worker, project) {
     return axios.put(SERVER_ADDRESS + 'unassign' , { worker:worker, project:project })
 }
+
+export function createProject(name, quals, size) {
+    return axios.post(SERVER_ADDRESS + 'projects/' + name, { name: name, qualifications: quals, size: size })
+}
