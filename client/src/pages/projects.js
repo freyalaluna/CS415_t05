@@ -5,17 +5,18 @@ import LocationID from '../utils/location'
 import { getProjects, unasignWorker } from '../services/dataService'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const Project = (project, setprojects, active, dropdownOpen, setDropdownOpen) => {
+const Project = (project, active, toggleObject) => {
     return(
         <div>
             <div>{project.name}</div>
             {/* <button>Test</button> */}
-            {active === true ?  ProjectBody(project, setprojects, dropdownOpen, setDropdownOpen)  : null}
+            {active === true ?  ProjectBody(project, toggleObject)  : null}
         </div>
     )
 }
 
-const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
+const ProjectBody = (project, toggleObject) => {
+    const {assignDropdownOpen, setAssignDropdownOpen, setprojects} = toggleObject;
     return(
         <div>
             <div style={grayContainerStyle}>
@@ -25,13 +26,13 @@ const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
                 {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
                 <br />
                 Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
-                        <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
+                                <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
             {project.workers.length === 0 ? <div>-</div> : 
                 <div>
-                    <Dropdown isOpen={dropdownOpen} toggle={(e) => {
+                    <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
                         e.stopPropagation();
-                        setDropdownOpen(prevState => !prevState)
+                        setAssignDropdownOpen(prevState => !prevState)
                     }}>
                         <DropdownToggle caret>
                             Unassign Worker
@@ -74,10 +75,15 @@ const greenQuals = (project) => {
 }
 
 const Projects = () => {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [projects, setprojects] = useState([])
     useEffect(() => { getProjects().then(setprojects) }, [])
     const active = LocationID('projects', projects, 'name');
+    const toggleObject = {
+            assignDropdownOpen: assignDropdownOpen,
+            setAssignDropdownOpen: setAssignDropdownOpen,
+            setprojects: setprojects
+        }
     return (
         <div style={pageStyle}>
             {/* <h1>
@@ -87,7 +93,7 @@ const Projects = () => {
                 Click on the projects below to view their details.
             </h2>
             <br/><br/>
-            <ClickList active={active} list={projects} setprojects={setprojects} item={Project} path='/projects' id='name' dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
+            <ClickList active={active} list={projects} item={Project} path='/projects' id='name' toggleObject={toggleObject} />
         </div>
     )
 }
