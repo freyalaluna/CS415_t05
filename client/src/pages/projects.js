@@ -16,7 +16,7 @@ const Project = (project, active, extraProps) => {
 }
 
 const ProjectBody = (project, extraProps) => {
-    const {unassignDropdownOpen, setUnassignDropdownOpen, setprojects} = extraProps;
+    const {assignDropdownOpen, setAssignDropdownOpen, unassignDropdownOpen, setUnassignDropdownOpen, workers, setprojects} = extraProps;
     return(
         <div>
             <div style={grayContainerStyle}>
@@ -31,9 +31,9 @@ const ProjectBody = (project, extraProps) => {
             {project.missingQualifications.length === 0 ? <div> - </div> : 
                 <div>
                     <br></br>
-                    <Dropdown isOpen={dropdownOpen} toggle={(e) => {
+                    <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
                         e.stopPropagation();
-                        setDropdownOpen(prevState => !prevState);
+                        setAssignDropdownOpen(prevState => !prevState);
                     }}>
                         <DropdownToggle caret>
                             Assign Worker
@@ -53,7 +53,7 @@ const ProjectBody = (project, extraProps) => {
                     </Dropdown>    
                 </div>}
 
-            {/* {project.workers.length === 0 ? <div>-</div> : 
+            {project.workers.length === 0 ? <div>-</div> : 
                 <div>
                     <Dropdown isOpen={unassignDropdownOpen} toggle={(e) => {
                         e.stopPropagation();
@@ -75,7 +75,7 @@ const ProjectBody = (project, extraProps) => {
                             )}
                         </DropdownMenu>
                     </Dropdown>
-                </div>} */}
+                </div>}
         </div>
     )
 }
@@ -125,6 +125,7 @@ const assignList = (project, workers) => {
 }
 
 const Projects = () => {
+    const [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [unassignDropdownOpen, setUnassignDropdownOpen] = useState(false);
     // Add this to extraProps and then use to toggle the assign button
     // [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
@@ -134,8 +135,11 @@ const Projects = () => {
     useEffect(() => { getWorkers().then(setworkers) }, [])
     const active = LocationID('projects', projects, 'name');
     const extraProps = {
+            assignDropdownOpen: assignDropdownOpen,
             unassignDropdownOpen: unassignDropdownOpen,
+            setAssignDropdownOpen: setAssignDropdownOpen,
             setUnassignDropdownOpen: setUnassignDropdownOpen,
+            workers: workers,
             setprojects: setprojects
         }
     return (
