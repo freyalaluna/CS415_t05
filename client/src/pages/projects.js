@@ -5,18 +5,18 @@ import LocationID from '../utils/location'
 import { getProjects, unasignWorker } from '../services/dataService'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const Project = (project, active, toggleObject) => {
+const Project = (project, active, extraProps) => {
     return(
         <div>
             <div>{project.name}</div>
             {/* <button>Test</button> */}
-            {active === true ?  ProjectBody(project, toggleObject)  : null}
+            {active === true ?  ProjectBody(project, extraProps)  : null}
         </div>
     )
 }
 
-const ProjectBody = (project, toggleObject) => {
-    const {assignDropdownOpen, setAssignDropdownOpen, setprojects} = toggleObject;
+const ProjectBody = (project, extraProps) => {
+    const {assignDropdownOpen, setAssignDropdownOpen, setprojects} = extraProps;
     return(
         <div>
             <div style={grayContainerStyle}>
@@ -79,7 +79,7 @@ const Projects = () => {
     const [projects, setprojects] = useState([])
     useEffect(() => { getProjects().then(setprojects) }, [])
     const active = LocationID('projects', projects, 'name');
-    const toggleObject = {
+    const extraProps = {
             assignDropdownOpen: assignDropdownOpen,
             setAssignDropdownOpen: setAssignDropdownOpen,
             setprojects: setprojects
@@ -93,7 +93,7 @@ const Projects = () => {
                 Click on the projects below to view their details.
             </h2>
             <br/><br/>
-            <ClickList active={active} list={projects} item={Project} path='/projects' id='name' toggleObject={toggleObject} />
+            <ClickList active={active} list={projects} item={Project} path='/projects' id='name' extraProps={extraProps} />
         </div>
     )
 }
