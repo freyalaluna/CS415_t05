@@ -7,7 +7,9 @@
 3. ## View company projects. 
 ![view_co_projects](https://user-images.githubusercontent.com/71053850/234406576-5ee2e0a6-d294-4224-868e-e46fdf0e0ea6.png)
 
-4. ## View qualification details.  
+4. ## View qualification details.
+![image](https://user-images.githubusercontent.com/98073413/235411864-e0015d6c-bf15-4651-9dac-a41638ab7757.png)
+  
 5. ## View worker details. 
 ![view_worker_details](https://user-images.githubusercontent.com/98504497/233884643-872087c1-6b7d-4f80-bc85-4dd0f84431ce.png)
 
