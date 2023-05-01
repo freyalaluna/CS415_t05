@@ -28,7 +28,7 @@ const ProjectBody = (project, extraProps) => {
                 Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
                                 <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
-            {project.missingQualifications.length === 0 ? <div> - </div> : 
+            {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div> - </div> : 
                 <div>
                     <br></br>
                     <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
