@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { getProjects, unasignWorker } from '../services/dataService'
+import { getProjects, getWorkers, assignWorker, unasignWorker } from '../services/dataService'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const Project = (project, setprojects, active, dropdownOpen, setDropdownOpen) => {
@@ -53,8 +53,6 @@ const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
         </div>
     )
 }
-    
-
 
 const greenQuals = (project) => {
     const quals = project.qualifications;
@@ -73,10 +71,39 @@ const greenQuals = (project) => {
     return greenQuals;
 }
 
+const assignList = (project, workers) => {
+    const missingQuals = project.missingQualifications;
+    const preassignedWorkers = project.workers;
+    const eligibleWorkers = [];
+
+    for (let i = 0; i < workers.length; i++){  //For each worker, check if they're already assigned, and if they can take the workload
+        const thisWorker = workers[i];
+        if(preassignedWorkers.find(thisWorker) 
+             || (thisWorker.workload === 12)
+             || ((thisWorker.workload >= 11) && (project.size === "MEDIUM"))
+             || ((thisWorker.workload >= 10) && (project.size === "BIG"))){
+                continue;
+             }
+        eligibleWorkers.add(workers[i]);
+    }
+
+    const assignableWorkers = [];
+    for (let i = 0; i < eligibleWorkers.length; i++){ //Add each worker to the list if they have any of the missing qualifications
+        const workerQuals = eligibleWorkers[i].qualifications;
+        if(missingQuals.some(r=> workerQuals.indexOf(r) >= 0)){
+            assignableWorkers.name.add(eligibleWorkers[i]);
+        }
+    }
+
+    return assignableWorkers;
+}
+
 const Projects = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [projects, setprojects] = useState([])
+    const [workers, setworkers] = useState([])
     useEffect(() => { getProjects().then(setprojects) }, [])
+    useEffect(() => { getWorkers().then(setworkers) }, [])
     const active = LocationID('projects', projects, 'name');
     return (
         <div style={pageStyle}>
@@ -87,7 +114,8 @@ const Projects = () => {
                 Click on the projects below to view their details.
             </h2>
             <br/><br/>
-            <ClickList active={active} list={projects} setprojects={setprojects} item={Project} path='/projects' id='name' dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
+            <ClickList active={active} list={projects} setprojects={setprojects} workers={workers} setworkers={setworkers}
+                item={Project} path='/projects' id='name' dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen}/>
         </div>
     )
 }
