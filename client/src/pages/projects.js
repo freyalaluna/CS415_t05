@@ -5,17 +5,17 @@ import LocationID from '../utils/location'
 import { getProjects, getWorkers, assignWorker, unasignWorker } from '../services/dataService'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const Project = (project, setprojects, active, dropdownOpen, setDropdownOpen) => {
+const Project = (project, setprojects, workers, active, dropdownOpen, setDropdownOpen) => {
     return(
         <div>
             <div>{project.name}</div>
             {/* <button>Test</button> */}
-            {active === true ?  ProjectBody(project, setprojects, dropdownOpen, setDropdownOpen)  : null}
+            {active === true ?  ProjectBody(project, setprojects, workers, dropdownOpen, setDropdownOpen)  : null}
         </div>
     )
 }
 
-const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
+const ProjectBody = (project, setprojects, workers, dropdownOpen, setDropdownOpen) => {
     return(
         <div>
             <div style={grayContainerStyle}>
@@ -27,6 +27,31 @@ const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
                 Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
                         <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
+            {project.missingQualifications.length === 0 ? <div> - </div> : 
+                <div>
+                    <br></br>
+                    <Dropdown isOpen={dropdownOpen} toggle={(e) => {
+                        e.stopPropagation();
+                        setDropdownOpen(prevState => !prevState);
+                    }}>
+                        <DropdownToggle caret>
+                            Assign Worker
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            {assignList(project, workers)?.map((worker, idx) => <DropdownItem
+                                key={idx}
+                                onClick={() => {
+                                    assignWorker(worker, project.name).then((response) => getProjects().then(setprojects))
+                                }}
+                            >
+                                {worker}
+                            </DropdownItem>
+                            
+                            )}
+                        </DropdownMenu>
+                    </Dropdown>    
+                </div>}
+
             {project.workers.length === 0 ? <div>-</div> : 
                 <div>
                     <Dropdown isOpen={dropdownOpen} toggle={(e) => {
