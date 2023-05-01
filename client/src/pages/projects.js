@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { getProjects, unasignWorker } from '../services/dataService'
+import { getProjects, unasignWorker, startProject } from '../services/dataService'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
 
 const Project = (project, setprojects, active, dropdownOpen, setDropdownOpen) => {
     return(
@@ -49,6 +50,20 @@ const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
                             )}
                         </DropdownMenu>
                     </Dropdown>
+                </div>}
+                <br />
+                {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div>-</div> :
+                <div>
+                    <button
+                        type="button" className="btn btn-outline-primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            console.log("Clicked Start");
+                            startProject(project.name).then((response) => getProjects().then(setprojects))
+                        }}
+                    >
+                        Start Project
+                    </button>
                 </div>}
         </div>
     )
