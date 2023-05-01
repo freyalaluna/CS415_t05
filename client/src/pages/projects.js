@@ -77,7 +77,7 @@ const greenQuals = (project) => {
 const Projects = () => {
     const [unassignDropdownOpen, setUnassignDropdownOpen] = useState(false);
     // Add this to extraProps and then use to toggle the assign button
-    // [unassignDropdownOpen, setAssignDropdownOpen] = useState(false);
+    // [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [projects, setprojects] = useState([])
     useEffect(() => { getProjects().then(setprojects) }, [])
     const active = LocationID('projects', projects, 'name');
