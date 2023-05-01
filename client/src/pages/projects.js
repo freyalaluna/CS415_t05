@@ -74,8 +74,13 @@ const greenQuals = (project) => {
     return greenQuals;
 }
 
+const CreateProjectForm = (props) => { 
+    
+}
+
 const Projects = () => {
     const [unassignDropdownOpen, setUnassignDropdownOpen] = useState(false);
+    const [data, setData] = useState([])
     // Add this to extraProps and then use to toggle the assign button
     // [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [projects, setprojects] = useState([])
@@ -91,10 +96,12 @@ const Projects = () => {
             {/* <h1>
                 This page displays all of the projects & will soon allow clicking to view project details.
             </h1> */}
+            <h2>Create a new project with the</h2>
+            <CreateProjectForm setData={data} />
+            <br/><br/>
             <h2>
                 Click on the projects below to view their details.
             </h2>
-            <br/><br/>
             <ClickList active={active} list={projects} item={Project} path='/projects' id='name' extraProps={extraProps} />
         </div>
     )
