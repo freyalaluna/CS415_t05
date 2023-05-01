@@ -52,8 +52,9 @@ const ProjectBody = (project, setprojects, workers, dropdownOpen, setDropdownOpe
                     </Dropdown>    
                 </div>}
 
-            {project.workers.length === 0 ? <div>-</div> : 
+            {/* {project.workers.length === 0 ? <div>-</div> : 
                 <div>
+                    <br></br>
                     <Dropdown isOpen={dropdownOpen} toggle={(e) => {
                         e.stopPropagation();
                         setDropdownOpen(prevState => !prevState)
@@ -74,7 +75,7 @@ const ProjectBody = (project, setprojects, workers, dropdownOpen, setDropdownOpe
                             )}
                         </DropdownMenu>
                     </Dropdown>
-                </div>}
+                </div>} */}
         </div>
     )
 }
@@ -99,24 +100,24 @@ const greenQuals = (project) => {
 const assignList = (project, workers) => {
     const missingQuals = project.missingQualifications;
     const preassignedWorkers = project.workers;
-    const eligibleWorkers = [];
+    const eligibleWorkers = new Array();
 
     for (let i = 0; i < workers.length; i++){  //For each worker, check if they're already assigned, and if they can take the workload
         const thisWorker = workers[i];
-        if(preassignedWorkers.find(thisWorker) 
+        if((preassignedWorkers.indexOf(thisWorker) > -1)
              || (thisWorker.workload === 12)
              || ((thisWorker.workload >= 11) && (project.size === "MEDIUM"))
              || ((thisWorker.workload >= 10) && (project.size === "BIG"))){
                 continue;
              }
-        eligibleWorkers.add(workers[i]);
+        eligibleWorkers.push(workers[i]);
     }
 
-    const assignableWorkers = [];
+    const assignableWorkers = new Array();
     for (let i = 0; i < eligibleWorkers.length; i++){ //Add each worker to the list if they have any of the missing qualifications
         const workerQuals = eligibleWorkers[i].qualifications;
         if(missingQuals.some(r=> workerQuals.indexOf(r) >= 0)){
-            assignableWorkers.name.add(eligibleWorkers[i]);
+            assignableWorkers.push(eligibleWorkers[i].name);
         }
     }
 
@@ -139,7 +140,7 @@ const Projects = () => {
                 Click on the projects below to view their details.
             </h2>
             <br/><br/>
-            <ClickList active={active} list={projects} setprojects={setprojects} workers={workers} setworkers={setworkers}
+            <ClickList active={active} list={projects} setprojects={setprojects} workers={workers}
                 item={Project} path='/projects' id='name' dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen}/>
         </div>
     )
