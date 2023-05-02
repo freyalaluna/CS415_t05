@@ -59,6 +59,7 @@ const ProjectBody = (project, setprojects, dropdownOpen, setDropdownOpen) => {
                         onClick={(e) => {
                             e.stopPropagation();
                             console.log("Clicked Start");
+                            console.log(project.name);
                             startProject(project.name).then((response) => getProjects().then(setprojects))
                         }}
                     >

@@ -31,8 +31,8 @@ export function unasignWorker(worker, project) {
     return axios.put(SERVER_ADDRESS + 'unassign' , { worker:worker, project:project })
 }
 
-export function startProject(name, quals, size){
-    return axios.put(SERVER_ADDRESS + 'start' , { name: name, qualifications: quals, size: size })
+export function startProject(name){
+    return axios.put(SERVER_ADDRESS + 'start' , { name: name})
 }
 
 // export function createProject(name, quals, size) {
