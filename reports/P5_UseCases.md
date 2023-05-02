@@ -7,7 +7,9 @@
 3. ## View company projects. 
 ![view_co_projects](https://user-images.githubusercontent.com/71053850/234406576-5ee2e0a6-d294-4224-868e-e46fdf0e0ea6.png)
 
-4. ## View qualification details.  
+4. ## View qualification details.
+![image](https://user-images.githubusercontent.com/98073413/235411864-e0015d6c-bf15-4651-9dac-a41638ab7757.png)
+  
 5. ## View worker details. 
 ![view_worker_details](https://user-images.githubusercontent.com/98504497/233884643-872087c1-6b7d-4f80-bc85-4dd0f84431ce.png)
 
@@ -20,11 +22,15 @@
 ![create_qual_use_case](https://user-images.githubusercontent.com/58609154/232593627-a0b58997-3ec4-44c0-b770-1b38bfed25b4.png)
 
 8. ## Create new worker. 
-9. ## Create new project.  
+9. ## Create new project.
+   ![create_new_project](https://user-images.githubusercontent.com/71053850/235373440-9f1606bd-c5f4-4402-94ca-5488d1075aa3.png)
+
 10. ## Assign worker.  
 ![assign_worker](https://user-images.githubusercontent.com/98504497/234662425-e6d67d6a-110d-4719-9f80-709f616e0bbc.png)
 
 
-11. ## Unassign worker.  
+11. ## Unassign worker. 
+<img width="586" alt="image" src="https://user-images.githubusercontent.com/97856149/235371936-f2a9215f-9562-48ac-a3c5-02df84f2ca4a.png"> 
+
 12. ## Start project.  
 13. ## Finish project.  
