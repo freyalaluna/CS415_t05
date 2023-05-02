@@ -16,10 +16,10 @@ const Worker = (Worker, active) => {
 const WorkerBody = (Worker) => {
     return (
         <div style={grayContainerStyle}>
-            Salary: {Worker.salary} <br></br>
-            Workload Value: {Worker.workload} <br></br><br></br>
-            Qualifications: <ClickList list={Worker.qualifications} styles={darkGrayContainerStyle} path="/qualifications" /><br></br>
-            Projects: <ClickList list={Worker.projects} styles={darkGrayContainerStyle} path="/projects" />
+            <b>Salary:</b> ${Worker.salary} <br></br>
+            <b>Workload Value:</b> {Worker.workload} <br></br><br></br>
+            <b>Qualifications:</b> <ClickList list={Worker.qualifications} styles={darkGrayContainerStyle} path="/qualifications" /><br></br>
+            <b>Projects:</b> <ClickList list={Worker.projects} styles={darkGrayContainerStyle} path="/projects" />
         </div>
     )
 }

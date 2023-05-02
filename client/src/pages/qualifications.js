@@ -2,21 +2,27 @@ import { useEffect, useState } from 'react'
 import ClickList from '../components/ClickList'
 import { createQualification, getQualifications } from '../services/dataService'
 import LocationID from '../utils/location'
-import { darkGrayContainerStyle, grayContainerStyle, pageStyle } from '../utils/styles'
+import { grayContainerStyle, darkGrayContainerStyle, pageStyle } from '../utils/styles'
 
-const Qualification = (qualification, active) => {
+const Qualification = (qualification, active, extraProps) => {
     return (
         <div>
             <div>{qualification.description}</div>
-            {active === true ? QualificationBody(qualification) : null}
+            {active === true ? QualificationBody(qualification, extraProps) : null}
         </div>
     )
 }
 
 const QualificationBody = (qualification) => {
+    
     return (
-        <div style={grayContainerStyle}>
-            Workers: <ClickList list={qualification.workers} styles={darkGrayContainerStyle} path="/workers" />
+        <div>
+            <div style={grayContainerStyle}>
+                <b>Description:</b> {qualification.description} <br /> <br />
+                <b>Workers:</b> 
+                {qualification.workers.length === 0 ? <div>-</div> :
+                    <ClickList list={qualification.workers} styles={darkGrayContainerStyle} path="/workers"/>}
+            </div>
         </div>
     )
 }
@@ -58,11 +64,16 @@ const Qualifications = () => {
     const active = LocationID('qualifications', qualifications, 'description')
     return (
         <div style={pageStyle}>
+            <h2>Create a new qualification</h2>
             <CreateQualificationForm setQualifications={setQualifications} />
             <br></br>
+            <h2>Click on a Qualification to view details.</h2>
             <ClickList active={active} list={qualifications} item={Qualification} path='/qualifications' id='description' />
         </div>
     )
 }
+
+
+
 
 export default Qualifications

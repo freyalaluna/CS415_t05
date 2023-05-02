@@ -25,12 +25,12 @@ const ProjectBody = (project, extraProps) => {
     return(
         <div>
             <div style={grayContainerStyle}>
-                Size: {project.size} <br />
-                Status: {project.status} <br />
-                Assigned Employees: 
+                <b>Size:</b> {project.size} <br />
+                <b>Status:</b> {project.status} <br /><br />
+                <b>Assigned Employees:</b> 
                 {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
                 <br />
-                Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
+                <b>Qualifications:</b> <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
                                 <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
             {project.workers.length === 0 ? <div>-</div> : 
