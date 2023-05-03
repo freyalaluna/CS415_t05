@@ -6,9 +6,10 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { createProject, getProjects, getQualifications, getWorkers, unasignWorker  } from '../services/dataService'
+import { createProject, getProjects, getQualifications, getWorkers, unasignWorker, startProject  } from '../services/dataService'
 
 const animatedComponents = makeAnimated();
+
 
 const Project = (project, active, extraProps) => {
     return(
@@ -55,6 +56,21 @@ const ProjectBody = (project, extraProps) => {
                             )}
                         </DropdownMenu>
                     </Dropdown>
+                </div>}
+                <br />
+                {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div>-</div> :
+                <div>
+                    <button
+                        type="button" className="btn btn-outline-primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            console.log("Clicked Start");
+                            console.log(project.name);
+                            startProject(project.name).then((response) => getProjects().then(setprojects))
+                        }}
+                    >
+                        Start Project
+                    </button>
                 </div>}
         </div>
     )
