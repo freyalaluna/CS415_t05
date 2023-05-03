@@ -6,7 +6,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { createProject, getProjects, getQualifications, getWorkers, unasignWorker, startProject  } from '../services/dataService'
+import { createProject, getProjects, getQualifications, unasignWorker, startProject  } from '../services/dataService'
 
 const animatedComponents = makeAnimated();
 
@@ -29,12 +29,12 @@ const ProjectBody = (project, extraProps) => {
                 <b>Size:</b> {project.size} <br />
                 <b>Status:</b> {project.status} <br /><br />
                 <b>Assigned Employees:</b> 
-                {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
+                {project.workers.length === 0 ? <div></div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
                 <br />
                 <b>Qualifications:</b> <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
                                 <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
-            {project.workers.length === 0 ? <div>-</div> : 
+            {project.workers.length === 0 ? <div></div> : 
                 <div>
                     <Dropdown isOpen={unassignDropdownOpen} toggle={(e) => {
                         e.stopPropagation();
@@ -58,7 +58,7 @@ const ProjectBody = (project, extraProps) => {
                     </Dropdown>
                 </div>}
                 <br />
-                {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div>-</div> :
+                {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div></div> :
                 <div>
                     <button
                         type="button" className="btn btn-outline-primary"
@@ -106,7 +106,7 @@ const qualsDescriptions = (quals) => {
 }
 
 const CreateProjectForm = (props) => { 
-    const { setProjects } = props
+    const { setprojects } = props
     const [quals, setQualifications] = useState([])
     const [selectedQuals, setSelectedQuals] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
@@ -170,15 +170,15 @@ const CreateProjectForm = (props) => {
                                             setSelectedQuals([])
                                             setSelectedSize('')
                                             document.getElementById('name').value = ''
+                                            getProjects().then(setprojects)
                                         } else { 
                                             alert('Error: ' + response?.data)
                                         }
-                                    }).then(() => { 
-                                        Promise.all([getProjects(), getWorkers()]).then(setProjects())
                                     })
                                 }
                             }}>
-                        Create Project</button>
+                            Create Project
+                        </button>
                     </div>
                 </form>
             </div>
@@ -188,7 +188,6 @@ const CreateProjectForm = (props) => {
 
 const Projects = () => {
     const [unassignDropdownOpen, setUnassignDropdownOpen] = useState(false);
-    const [data] = useState([])
     // Add this to extraProps and then use to toggle the assign button
     // [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [projects, setprojects] = useState([])
@@ -205,7 +204,7 @@ const Projects = () => {
                 This page displays all of the projects & will soon allow clicking to view project details.
             </h1> */}
             <h2>Create a new project with the</h2>
-            <CreateProjectForm setData={data} />
+            <CreateProjectForm setprojects={setprojects}/>
             <br/><br/>
             <h2>
                 Click on the projects below to view their details.
