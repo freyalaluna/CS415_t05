@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import ClickList from '../components/ClickList'
 import { createQualification, getQualifications } from '../services/dataService'
 import LocationID from '../utils/location'
-import { grayContainerStyle, darkGrayContainerStyle, pageStyle } from '../utils/styles'
+import { grayContainerStyle, darkGrayContainerStyle, pageStyle, clickListStyle } from '../utils/styles'
 
 const Qualification = (qualification, active, extraProps) => {
     return (
@@ -18,10 +18,14 @@ const QualificationBody = (qualification) => {
     return (
         <div>
             <div style={grayContainerStyle}>
-                <b>Description:</b> {qualification.description} <br /> <br />
-                <b>Workers:</b> 
-                {qualification.workers.length === 0 ? <div>-</div> :
-                    <ClickList list={qualification.workers} styles={darkGrayContainerStyle} path="/workers"/>}
+                <div style={clickListStyle}><b>Description:</b> {qualification.description}</div>
+                <div style={clickListStyle}>
+                    <b>Workers:</b>
+                    {qualification.workers.length === 0 ? <div>-</div> :
+                        <ClickList list={qualification.workers} styles={darkGrayContainerStyle} path="/workers"/>}
+                </div>
+                
+                
             </div>
         </div>
     )
