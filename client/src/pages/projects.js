@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+
 import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { getProjects, getWorkers, assignWorker, unasignWorker } from '../services/dataService'
+import { createProject, getProjects, getQualifications, getWorkers, assignWorker, unasignWorker, startProject  } from '../services/dataService'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+const animatedComponents = makeAnimated();
 
 const Project = (project, active, extraProps) => {
     return(
@@ -20,12 +26,12 @@ const ProjectBody = (project, extraProps) => {
     return(
         <div>
             <div style={grayContainerStyle}>
-                Size: {project.size} <br />
-                Status: {project.status} <br />
-                Assigned Employees: 
-                {project.workers.length === 0 ? <div>-</div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
+                <b>Size:</b> {project.size} <br />
+                <b>Status:</b> {project.status} <br /><br />
+                <b>Assigned Employees:</b> 
+                {project.workers.length === 0 ? <div></div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
                 <br />
-                Qualifications: <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
+                <b>Qualifications:</b> <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
                                 <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
             {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div> - </div> : 
@@ -76,6 +82,21 @@ const ProjectBody = (project, extraProps) => {
                         </DropdownMenu>
                     </Dropdown>
                 </div>}
+                <br />
+                {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div></div> :
+                <div>
+                    <button
+                        type="button" className="btn btn-outline-primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            console.log("Clicked Start");
+                            console.log(project.name);
+                            startProject(project.name).then((response) => getProjects().then(setprojects))
+                        }}
+                    >
+                        Start Project
+                    </button>
+                </div>}
         </div>
     )
 }
@@ -124,6 +145,97 @@ const assignList = (project, workers) => {
     return assignableWorkers;
 }
 
+const qualsDescriptions = (quals) => {
+    const qualOptions = [];
+
+    for (let i = 0; i < quals.length; i++) {
+        qualOptions.push({value: quals[i].description, label: quals[i].description});
+    }
+
+    return qualOptions;
+}
+
+const CreateProjectForm = (props) => { 
+    const { setprojects } = props
+    const [quals, setQualifications] = useState([])
+    const [selectedQuals, setSelectedQuals] = useState(null);
+    const [selectedSize, setSelectedSize] = useState(null);
+
+    const handleQualsChange = (selectedOptions) => {
+        setSelectedQuals(Array.isArray(selectedOptions) ? selectedOptions : []);
+    };
+
+    const handleSizeChange = (selectedOption) => {
+        setSelectedSize(selectedOption);
+    };
+
+    useEffect(() => {
+        getQualifications().then((quals) => { 
+            setQualifications(quals)
+        })
+    }, [])
+    
+    return (
+        <div className="card">
+            <div className="card-body">
+                <form>
+                    <div className="form-group">
+                        <input type="text" className="form-control" id="name" placeholder="Enter the project name..." required/><br/>
+
+                        <Select
+                            id="quals"
+                            placeholder="Select the qualifications..."
+                            options={qualsDescriptions(quals)}
+                            value={selectedQuals}
+                            onChange={handleQualsChange}
+                            isSearchable
+                            isMulti
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            required
+                        /><br/>
+
+                        <Select 
+                            id="size"
+                            placeholder="Select the project size..."
+                            options={[
+                                { key:'SMALL', value:'SMALL', label: 'SMALL' },
+                                { key:'MEDIM', value: 'MEDIUM', label: 'MEDIUM' },
+                                { value: 'BIG', label: 'BIG' }
+                            ]}
+                            value={selectedSize}
+                            isSearchable
+                            onChange={handleSizeChange} 
+                            required
+                        /><br/>
+
+                        <button type="button" className="btn btn-outline-primary"
+                            onClick={() => {
+                                const name = document.getElementById('name').value
+                                const size = selectedSize.value
+                                const quals = selectedQuals.map(x=>x.value)
+                                if (name && quals && size) {
+                                    createProject(name, quals, size).then(response => {
+                                        if (response?.data === 'OK') {
+                                            setSelectedQuals([])
+                                            setSelectedSize('')
+                                            document.getElementById('name').value = ''
+                                            getProjects().then(setprojects)
+                                        } else { 
+                                            alert('Error: ' + response?.data)
+                                        }
+                                    })
+                                }
+                            }}>
+                            Create Project
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    )
+}
+
 const Projects = () => {
     const [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [unassignDropdownOpen, setUnassignDropdownOpen] = useState(false);
@@ -147,10 +259,12 @@ const Projects = () => {
             {/* <h1>
                 This page displays all of the projects & will soon allow clicking to view project details.
             </h1> */}
+            <h2>Create a new project with the</h2>
+            <CreateProjectForm setprojects={setprojects}/>
+            <br/><br/>
             <h2>
                 Click on the projects below to view their details.
             </h2>
-            <br/><br/>
             <ClickList active={active} list={projects} item={Project} path='/projects' id='name' extraProps={extraProps} />
         </div>
     )
