@@ -41,7 +41,6 @@ const qualsDescription = (quals) => {
 const CreateWorkerForm = (props) => {
     const { setworkers } = props
     const [quals, setQualifications] = useState([])
-    const [selectedSal, setSelectedSal] = useState(null);
     const [selectedQuals, setSelectedQuals] = useState(null);
 
     const handleQualsChange = (selectedOptions) => {
