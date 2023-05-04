@@ -3,7 +3,7 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
-import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
+import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle, clickListStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
 import { createProject, getProjects, getQualifications, unasignWorker, startProject  } from '../services/dataService'
@@ -15,7 +15,6 @@ const Project = (project, active, extraProps) => {
     return(
         <div>
             <div>{project.name}</div>
-            {/* <button>Test</button> */}
             {active === true ?  ProjectBody(project, extraProps)  : null}
         </div>
     )
@@ -26,14 +25,19 @@ const ProjectBody = (project, extraProps) => {
     return(
         <div>
             <div style={grayContainerStyle}>
-                <b>Size:</b> {project.size} <br />
-                <b>Status:</b> {project.status} <br /><br />
-                <b>Assigned Employees:</b> 
-                {project.workers.length === 0 ? <div></div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
-                <br />
-                <b>Qualifications:</b> <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
-                                <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
+                <div style={clickListStyle}><b>Size:</b> {project.size}</div>
+                <div style={clickListStyle}><b>Status:</b> {project.status}</div>
+                <div style={clickListStyle}>
+                    <b>Assigned Employees:</b> 
+                    {project.workers.length === 0 ? <div></div> : <ClickList list={project.workers} styles={darkGrayContainerStyle} path="/workers" />}
+                </div>
+                <div style={clickListStyle}>
+                    <b>Qualifications:</b>
+                    <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
+                    <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
+                </div>
             </div>
+
             {project.workers.length === 0 ? <div></div> : 
                 <div>
                     <Dropdown isOpen={unassignDropdownOpen} toggle={(e) => {
