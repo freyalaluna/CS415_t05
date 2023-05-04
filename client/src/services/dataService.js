@@ -23,6 +23,10 @@ export function getWorkers() {
     return axios.get(SERVER_ADDRESS + 'workers').then((res) => JSON.parse(res.request.response).sort((a, b) => a.name.localeCompare(b.name)))
 }
 
+export function createWorker(name, quals, salary){
+    return axios.post(SERVER_ADDRESS + 'workers/' + name, { name: name, qualifications: quals, salary: salary })
+}
+
 export function unasignWorker(worker, project) {
     return axios.put(SERVER_ADDRESS + 'unassign' , { worker:worker, project:project })
 }
