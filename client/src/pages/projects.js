@@ -6,10 +6,10 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle } from '../utils/styles'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { createProject, getProjects, getQualifications, unasignWorker, startProject  } from '../services/dataService'
+import { createProject, getProjects, getQualifications, getWorkers, assignWorker, unasignWorker, startProject  } from '../services/dataService'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const animatedComponents = makeAnimated();
-
 
 const Project = (project, active, extraProps) => {
     return(
@@ -22,7 +22,7 @@ const Project = (project, active, extraProps) => {
 }
 
 const ProjectBody = (project, extraProps) => {
-    const {unassignDropdownOpen, setUnassignDropdownOpen, setprojects} = extraProps;
+    const {assignDropdownOpen, setAssignDropdownOpen, unassignDropdownOpen, setUnassignDropdownOpen, workers, setprojects} = extraProps;
     return(
         <div>
             <div style={grayContainerStyle}>
@@ -34,7 +34,32 @@ const ProjectBody = (project, extraProps) => {
                 <b>Qualifications:</b> <ClickList list={project.missingQualifications} styles={missingStyle} path="/qualifications"/>
                                 <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
             </div>
-            {project.workers.length === 0 ? <div></div> : 
+            {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div> - </div> : 
+                <div>
+                    <br></br>
+                    <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
+                        e.stopPropagation();
+                        setAssignDropdownOpen(prevState => !prevState);
+                    }}>
+                        <DropdownToggle caret>
+                            Assign Worker
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            {assignList(project, workers)?.map((worker, idx) => <DropdownItem
+                                key={idx}
+                                onClick={() => {
+                                    assignWorker(worker, project.name).then((response) => getProjects().then(setprojects))
+                                }}
+                            >
+                                {worker}
+                            </DropdownItem>
+                            
+                            )}
+                        </DropdownMenu>
+                    </Dropdown>    
+                </div>}
+
+            {project.workers.length === 0 ? <div>-</div> : 
                 <div>
                     <Dropdown isOpen={unassignDropdownOpen} toggle={(e) => {
                         e.stopPropagation();
@@ -75,8 +100,6 @@ const ProjectBody = (project, extraProps) => {
         </div>
     )
 }
-    
-
 
 const greenQuals = (project) => {
     const quals = project.qualifications;
@@ -93,6 +116,33 @@ const greenQuals = (project) => {
     }
 
     return greenQuals;
+}
+
+const assignList = (project, workers) => {
+    const missingQuals = project.missingQualifications;
+    const preassignedWorkers = project.workers;
+    const eligibleWorkers = new Array();
+
+    for (let i = 0; i < workers.length; i++){  //For each worker, check if they're already assigned, and if they can take the workload
+        const thisWorker = workers[i];
+        if((preassignedWorkers.indexOf(thisWorker) > -1)
+             || (thisWorker.workload === 12)
+             || ((thisWorker.workload >= 11) && (project.size === "MEDIUM"))
+             || ((thisWorker.workload >= 10) && (project.size === "BIG"))){
+                continue;
+             }
+        eligibleWorkers.push(workers[i]);
+    }
+
+    const assignableWorkers = new Array();
+    for (let i = 0; i < eligibleWorkers.length; i++){ //Add each worker to the list if they have any of the missing qualifications
+        const workerQuals = eligibleWorkers[i].qualifications;
+        if(missingQuals.some(r=> workerQuals.indexOf(r) >= 0)){
+            assignableWorkers.push(eligibleWorkers[i].name);
+        }
+    }
+
+    return assignableWorkers;
 }
 
 const qualsDescriptions = (quals) => {
@@ -187,15 +237,21 @@ const CreateProjectForm = (props) => {
 }
 
 const Projects = () => {
+    const [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [unassignDropdownOpen, setUnassignDropdownOpen] = useState(false);
     // Add this to extraProps and then use to toggle the assign button
     // [assignDropdownOpen, setAssignDropdownOpen] = useState(false);
     const [projects, setprojects] = useState([])
+    const [workers, setworkers] = useState([])
     useEffect(() => { getProjects().then(setprojects) }, [])
+    useEffect(() => { getWorkers().then(setworkers) }, [])
     const active = LocationID('projects', projects, 'name');
     const extraProps = {
+            assignDropdownOpen: assignDropdownOpen,
             unassignDropdownOpen: unassignDropdownOpen,
+            setAssignDropdownOpen: setAssignDropdownOpen,
             setUnassignDropdownOpen: setUnassignDropdownOpen,
+            workers: workers,
             setprojects: setprojects
         }
     return (
