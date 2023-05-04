@@ -25,6 +25,7 @@ import edu.colostate.cs415.dto.AssignmentDTO;
 import edu.colostate.cs415.dto.ProjectDTO;
 import edu.colostate.cs415.model.Company;
 import edu.colostate.cs415.model.Project;
+import edu.colostate.cs415.model.ProjectStatus;
 import edu.colostate.cs415.model.Qualification;
 import edu.colostate.cs415.model.Worker;
 import spark.Request;
@@ -293,6 +294,9 @@ public class RestController {
 		}
 
 		company.unassign(worker, project);
+
+		if (project.getMissingQualifications().size() > 0)
+			project.setStatus(ProjectStatus.SUSPENDED);
 
 		return OK;
 	}
