@@ -67,7 +67,7 @@ const CreateWorkerForm = (props) => {
                             id="name"
                             type="text"
                             className="form-control"
-                            placeholder="Enter the worker's name..."
+                            placeholder="Enter the worker name..."
                             required={true}
                         /><br />
 
@@ -75,7 +75,7 @@ const CreateWorkerForm = (props) => {
                             id="salary"
                             type="number"
                             className="form-control"
-                            placeholder="Enter worker's salary..."
+                            placeholder="Enter the worker salary..."
                             min="0"
                             step=".01"
                             required={true}
@@ -83,7 +83,7 @@ const CreateWorkerForm = (props) => {
                         
                         <Select
                             id="quals"
-                            placeholder="Worker's qualifications..."
+                            placeholder="Select the worker qualifications..."
                             options={qualsDescription(quals)}
                             value={selectedQuals}
                             onChange={handleQualsChange}
@@ -126,10 +126,10 @@ const Workers = () => {
     const active = LocationID('workers', workers, 'name')
     return (
         <div style={pageStyle}>
-            <h2>Create a new worker:</h2>
+            <h2>Create a New Worker:</h2>
             <CreateWorkerForm setworkers={setworkers}/>
-            
-            <h2>Click on a worker below to view their details:</h2>
+            <br/>
+            <h2>Click on a worker below to view its details.</h2>
             <ClickList active={active} list={workers} item={Worker} path='/workers' id='name' />
         </div>
     )
