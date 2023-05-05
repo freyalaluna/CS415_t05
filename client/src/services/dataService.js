@@ -45,5 +45,9 @@ export function createProject(name, quals, size) {
 }
 
 export function startProject(name){
-    return axios.put(SERVER_ADDRESS + 'start' , { name: name})
+    return axios.put(SERVER_ADDRESS + 'start' , { name: name })
+}
+
+export function finishProject(name){
+    return axios.put(SERVER_ADDRESS + 'finish' , { name: name })
 }
