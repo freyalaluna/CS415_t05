@@ -64,6 +64,10 @@ button:hover {
   color: white;
 }
 
+img {
+  margin: 2vw 1vw 2vw 2vw;
+}
+
 .card-body {
   background: #B2C1A4;
 }
