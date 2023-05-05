@@ -41,7 +41,7 @@ const CreateQualificationForm = (props) => {
                         <input type="text" className="form-control" id="qualDesc" placeholder="Enter the qualification description..." />
                     </div>
                     <button
-                        type="button" className="btn btn-outline-primary"
+                        type="button"
                         onClick={() => {
                             const description = document.getElementById('qualDesc').value
                             if (description) {
