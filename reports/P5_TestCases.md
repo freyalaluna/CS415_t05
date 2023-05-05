@@ -187,6 +187,11 @@
 - Verify that the project has missing qualifications
 - Verify that the Start Project button is not visible
 
+12.3 An active/finished project cannot be started
+- Click the project tab
+- Click on a project 
+- Verify that the project status is either active or finished
+- Verify that the start button is not visible
 
 ## 13. Finish project.  
 
