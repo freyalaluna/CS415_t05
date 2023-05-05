@@ -169,7 +169,18 @@
 - Verify that the worker was removed from the projects details
 - Verify that the projects qualifications were updated
 
-## 12. Start project.  
+## 12. Start project.
+12.1 A planned or suspended project with no missing qualifications can be started
+- Click the project tab
+- Click on a project
+- Verify that the project status is either  planned or suspended
+- Verify that the project has no missing qualifications
+- Verify that the Start Project button is visible
+- Click the Start Project button
+- Verify that the project status is set to Active
+- Verify that the Start Project button is no longer visible
+
+
 ## 13. Finish project.  
 
  
