@@ -33,4 +33,6 @@
 <img width="586" alt="image" src="https://user-images.githubusercontent.com/97856149/235371936-f2a9215f-9562-48ac-a3c5-02df84f2ca4a.png"> 
 
 12. ## Start project.  
+<img width="589" alt="image" src="https://user-images.githubusercontent.com/97856149/236291993-66b35830-e544-42e9-8a04-8badc0bc4e13.png">
+
 13. ## Finish project.  

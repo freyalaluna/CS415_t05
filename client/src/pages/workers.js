@@ -3,7 +3,7 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { darkGrayContainerStyle, grayContainerStyle,pageStyle } from '../utils/styles'
+import { clickListStyle, darkGrayContainerStyle, grayContainerStyle,pageStyle } from '../utils/styles'
 import { getQualifications, getWorkers, createWorker } from '../services/dataService'
 
 const animatedComponents = makeAnimated();
@@ -20,10 +20,14 @@ const Worker = (Worker, active) => {
 const WorkerBody = (Worker) => {
     return (
         <div style={grayContainerStyle}>
-            <b>Salary:</b> ${Worker.salary} <br></br>
-            <b>Workload Value:</b> {Worker.workload} <br></br><br></br>
-            <b>Qualifications:</b> <ClickList list={Worker.qualifications} styles={darkGrayContainerStyle} path="/qualifications" /><br></br>
-            <b>Projects:</b> <ClickList list={Worker.projects} styles={darkGrayContainerStyle} path="/projects" />
+            <div style={clickListStyle}><b>Salary:</b> ${Worker.salary}</div>
+            <div style={clickListStyle}><b>Workload Value:</b> {Worker.workload}</div>
+            <div style={clickListStyle}>
+                <b>Qualifications:</b> <ClickList list={Worker.qualifications} styles={darkGrayContainerStyle} path="/qualifications" />
+            </div>
+            <div style={clickListStyle}>
+                <b>Projects:</b> <ClickList list={Worker.projects} styles={darkGrayContainerStyle} path="/projects" />
+            </div>
         </div>
     )
 }
