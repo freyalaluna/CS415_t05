@@ -52,6 +52,9 @@ const CreateQualificationForm = (props) => {
                                     }
                                 })
                             }
+                            if (!description){
+                                window.alert("You must enter a valid description for the qualification.")
+                            }
                         }}
                     >
                         Create Qualification
