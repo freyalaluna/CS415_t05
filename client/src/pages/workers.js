@@ -93,7 +93,7 @@ const CreateWorkerForm = (props) => {
                             required={true}
                         /><br />
 
-                        <button type="button" className="btn btn-outline-primary"
+                        <button type="button"
                             onClick={() => {
                                 const name = document.getElementById("name").value
                                 const salary = document.getElementById("salary").value
