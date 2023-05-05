@@ -51,7 +51,3 @@ export function startProject(name){
 export function finishProject(name){
     return axios.put(SERVER_ADDRESS + 'finish' , { name: name })
 }
-
-// export function createProject(name, quals, size) {
-//     return axios.post(SERVER_ADDRESS + 'projects/' + name, { name: name, qualifications: quals, size: size })
-// }
