@@ -105,7 +105,7 @@
 - Click on the qualifications tab. 
 - Verify that the list of qualifications matches what's in the DB. 
 - Enter a description for a new qualification.  
-- Click "Create a Qualification" 
+- Click "Create Qualification" 
 - Verify that the new qualifaction is now in the list. 
  
 7.2 A qualifaction is not created when the description matches an existing qualification 
@@ -115,7 +115,48 @@
 - Click "Create a Qualification" 
 - Verify that there are no duplicate qualifications. 
 
-## 8.  Create new worker.  
+## 8.  Create new worker.
+
+8.1 A worker can be created
+- Click on worker tab
+- Verify that the list of workers matches what's in the DB
+- Enter the following information:
+   - A valid worker name
+   - A valid worker salary
+   - A valid qualification
+- Click "Create Worker"
+- Verify that the new worker is in the workers list
+
+8.2 A worker is not created when the name is empty or blank
+- Click on the worker tab
+- Verify that the list of workers matches what's in the DB
+- Enter the following information:
+   - An empty or blank worker name
+   - A valid worker salary
+   - A valid qualification
+- Click "Create Worker"
+- Verify that an error message displays that there is missing required information
+
+8.3 A worker is not created when the salary is blank or empty
+- Click on the worker tab
+- Verify that the list of workers matches what's in the DB
+- Enter the following information:
+   - A valid worker name (any string)
+   - An empty or blank worker salary
+   - A valid qualification
+- Click "Create Worker"
+- Verify that a error message displays that there is missing required information
+
+8.4 A worker is not created when the qualifications are blank or not in the list of qualifications
+- Click on the worker tab
+- Verify that the list of workers matches what's in the DB
+- Enter the following information:
+   - A valid worker name (any string)
+   - A valid worker salary
+   - A blank qualification or a qualificatoins not in the company set of qualifications
+- Click "Create Worker"
+- Verify that a error message displays that there is missing required information
+
 ## 9.  Create new project.
 9.1 A project can be created
 - Click on the projects tab
@@ -147,7 +188,7 @@
 - Click "Create Project"
 - Verify that a error message displays that there is missing required information
 
-9.5 A project is not created with the project size is not selected
+9.4 A project is not created with the project size is not selected
 - Click on the projects tab
 - Verify that the list of projects matches what's in the DB
 - Enter the following information:
@@ -194,7 +235,26 @@
 - Verify that the start button is not visible
 
 ## 13. Finish project.  
+13.1 An active project can be finished
+- Click the project tab
+- Click on a project
+- Verify that the project status is active
+- Verify that the Finish Project button is visible
+- Click the Finish Project button
+- Verify that the project status is set to Finished
+- Verify that the Finish Project button is no longer visible
 
+13.2 A planned or suspended project cannot be finished
+- Click the project tab
+- Click on a project
+- Verify that the project status is either  planned or suspended
+- Verify that the Start Finish button is not visible
+
+12.3 A finished project cannot be finished
+- Click the project tab
+- Click on a project 
+- Verify that the project status is finished
+- Verify that the finish button is not visible
  
  
 
