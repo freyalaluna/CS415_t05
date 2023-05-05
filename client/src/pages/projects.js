@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react'
 import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-
-import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle, clickListStyle } from '../utils/styles'
-import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
-import { createProject, getProjects, getQualifications, getWorkers, assignWorker, unasignWorker, startProject  } from '../services/dataService'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import ClickList from '../components/ClickList'
+import makeAnimated from 'react-select/animated'
+
+import { useEffect, useState } from 'react'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, notMissingStyle, clickListStyle } from '../utils/styles'
+import { createProject, getProjects, getQualifications, getWorkers, assignWorker, unasignWorker, startProject, finishProject  } from '../services/dataService'
 
 const animatedComponents = makeAnimated();
 
@@ -38,7 +37,7 @@ const ProjectBody = (project, extraProps) => {
                 </div>
             </div>
 
-            {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div> - </div> : 
+            {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div></div> : 
                 <div>
                     <br></br>
                     <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
@@ -101,6 +100,21 @@ const ProjectBody = (project, extraProps) => {
                         Start Project
                     </button>
                 </div>}
+                {project.status.toString() !== "ACTIVE" ? <div></div> : 
+                    <div>
+                        <button
+                            type="button" className="btn btn-outline-primary"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                console.log
+                                ("Clicked Finish");
+                                console.log(project.name);
+                                finishProject(project.name).then((response) => getProjects().then(setprojects))
+                            }}
+                        >
+                        Finish Project    
+                        </button>
+                    </div>}
         </div>
     )
 }
@@ -176,7 +190,7 @@ const CreateProjectForm = (props) => {
     useEffect(() => {
         getQualifications().then((quals) => { 
             setQualifications(quals)
-        })
+            })
     }, [])
     
     return (
@@ -209,7 +223,7 @@ const CreateProjectForm = (props) => {
                             ]}
                             value={selectedSize}
                             isSearchable
-                            onChange={handleSizeChange} 
+                            onChange={handleSizeChange}
                             required
                         /><br/>
 
