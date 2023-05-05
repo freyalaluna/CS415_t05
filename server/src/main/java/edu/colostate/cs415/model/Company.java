@@ -193,10 +193,6 @@ public class Company {
 			throw new IllegalArgumentException();
 		}
 		if(worker.getProjects().contains(project) && assigned.contains(worker)) {
-			if(!(project.getMissingQualifications().isEmpty()) && project.getStatus() == ProjectStatus.ACTIVE) {
-				project.setStatus(ProjectStatus.SUSPENDED);
-			}
-
 			// worker is only assigned to this project (already verfied assigned to project)
 			if(worker.getProjects().size() == 1){
 				assigned.remove(worker);
@@ -205,6 +201,10 @@ public class Company {
 			worker.removeProject(project);
 			project.removeWorker(worker);
 			available.add(worker);
+
+			if(!(project.getMissingQualifications().isEmpty()) && project.getStatus() == ProjectStatus.ACTIVE) {
+				project.setStatus(ProjectStatus.SUSPENDED);
+			}
 		}
 	}
 
