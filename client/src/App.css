@@ -41,3 +41,20 @@
 h2 {
   padding: 1rem 0rem;
 }
+
+button {
+  border-radius: 5px !important;
+  border: 2px solid #4a6330;
+  padding: 5px 12px;
+  background: white;
+  color: #4a6330;
+}
+
+button:hover {
+  background: #4a6330;
+  color: white;
+}
+
+.card-body {
+  background: #B2C1A4;
+}
