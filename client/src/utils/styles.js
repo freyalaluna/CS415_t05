@@ -1,5 +1,5 @@
 export const goldenContainerStyle = {
-    background: '#B7B78A',
+    background: '#829370',
     margin: '0.2vw',
     padding: '0.5vw',
 }
@@ -16,12 +16,12 @@ export const darkGrayContainerStyle = {
 }
 
 export const missingStyle = {
-    background: '#db4b4b',
+    background: '#E7535B',
     padding: '0 0 0 3vw'
 }
 
 export const notMissingStyle = {
-    background: '#74cc80',
+    background: '#5EC689',
     padding: '0 0 0 3vw'
 }
 
