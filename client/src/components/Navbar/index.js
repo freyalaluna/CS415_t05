@@ -5,9 +5,11 @@ const Navbar = () => {
         <>
             <Nav>
                 <NavMenu>
-                    <img src="CSU-logo.jpeg"/>
+                    <a href="/">
+                        <img alt="CSU Ram Logo" height={50} src="https://brand.colostate.edu/wp-content/uploads/sites/47/2019/01/CSU-Ram-357-617.png"/>
+                    </a>
                     <NavLogo>
-                        CSU - CS415
+                        CS415
                     </NavLogo>
                     <NavLink to="/">
                         Home
