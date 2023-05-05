@@ -38,7 +38,7 @@ const CreateQualificationForm = (props) => {
             <div className="card-body">
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control" id="qualDesc" placeholder="Enter a description" />
+                        <input type="text" className="form-control" id="qualDesc" placeholder="Enter the qualification description..." />
                     </div>
                     <button
                         type="button" className="btn btn-outline-primary"
@@ -54,7 +54,7 @@ const CreateQualificationForm = (props) => {
                             }
                         }}
                     >
-                        Create a Qualification
+                        Create Qualification
                     </button>
                 </form>
             </div>
@@ -68,10 +68,10 @@ const Qualifications = () => {
     const active = LocationID('qualifications', qualifications, 'description')
     return (
         <div style={pageStyle}>
-            <h2>Create a new qualification</h2>
+            <h2>Create a New Qualification:</h2>
             <CreateQualificationForm setQualifications={setQualifications} />
-            <br></br>
-            <h2>Click on a Qualification to view details.</h2>
+            <br/>
+            <h2>Click on a qualification below to view its details.</h2>
             <ClickList active={active} list={qualifications} item={Qualification} path='/qualifications' id='description' />
         </div>
     )
