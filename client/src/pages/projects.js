@@ -36,7 +36,7 @@ const ProjectBody = (project, extraProps) => {
                     <ClickList list={greenQuals(project)} styles={notMissingStyle} path="/qualifications"/>
                 </div>
             </div>
-
+            
             {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div></div> : 
                 <div>
                     <br></br>
@@ -89,7 +89,7 @@ const ProjectBody = (project, extraProps) => {
                 {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div></div> :
                 <div>
                     <button
-                        type="button" className="btn btn-outline-primary"
+                        type="button"
                         onClick={(e) => {
                             e.stopPropagation();
                             console.log("Clicked Start");
@@ -103,7 +103,7 @@ const ProjectBody = (project, extraProps) => {
                 {project.status.toString() !== "ACTIVE" ? <div></div> : 
                     <div>
                         <button
-                            type="button" className="btn btn-outline-primary"
+                            type="button"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 console.log
@@ -227,7 +227,7 @@ const CreateProjectForm = (props) => {
                             required
                         /><br/>
 
-                        <button type="button" className="btn btn-outline-primary"
+                        <button type="button"
                             onClick={() => {
                                 const name = document.getElementById('name').value
                                 const size = selectedSize.value
