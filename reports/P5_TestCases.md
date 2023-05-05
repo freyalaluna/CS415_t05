@@ -180,6 +180,13 @@
 - Verify that the project status is set to Active
 - Verify that the Start Project button is no longer visible
 
+12.2 A planned or suspended project with missing qualifications cannot be started
+- Click the project tab
+- Click on a project
+- Verify that the project status is either  planned or suspended
+- Verify that the project has missing qualifications
+- Verify that the Start Project button is not visible
+
 
 ## 13. Finish project.  
 
