@@ -66,6 +66,7 @@ button:hover {
 
 img {
   margin: 2vw 1vw 2vw 2vw;
+  height: 50px;
 }
 
 .card-body {
