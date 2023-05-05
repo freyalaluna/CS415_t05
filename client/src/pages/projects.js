@@ -37,84 +37,85 @@ const ProjectBody = (project, extraProps) => {
                 </div>
             </div>
             
-            {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div></div> : 
-                <div>
-                    <br></br>
-                    <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
-                        e.stopPropagation();
-                        setAssignDropdownOpen(prevState => !prevState);
-                    }}>
-                        <DropdownToggle caret>
-                            Assign Worker
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            {assignList(project, workers)?.map((worker, idx) => <DropdownItem
-                                key={idx}
-                                onClick={() => {
-                                    assignWorker(worker, project.name).then((response) => getProjects().then(setprojects))
-                                }}
-                            >
-                                {worker}
-                            </DropdownItem>
-                            
-                            )}
-                        </DropdownMenu>
-                    </Dropdown>    
-                </div>}
+            <div className='parent'>
+                {((project.missingQualifications.length === 0) || project.status === "FINISHED") ? <div></div> : 
+                    <div className='child'>
+                        <Dropdown isOpen={assignDropdownOpen} toggle={(e) => {
+                            e.stopPropagation();
+                            setAssignDropdownOpen(prevState => !prevState);
+                        }}>
+                            <DropdownToggle caret>
+                                Assign Worker
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {assignList(project, workers)?.map((worker, idx) => <DropdownItem
+                                    key={idx}
+                                    onClick={() => {
+                                        assignWorker(worker, project.name).then((response) => getProjects().then(setprojects))
+                                    }}
+                                >
+                                    {worker}
+                                </DropdownItem>
+                                
+                                )}
+                            </DropdownMenu>
+                        </Dropdown>    
+                    </div>}
 
-            {project.workers.length === 0 ? <div></div> : 
-                <div>
-                    <Dropdown isOpen={unassignDropdownOpen} toggle={(e) => {
-                        e.stopPropagation();
-                        setUnassignDropdownOpen(prevState => !prevState)
-                    }}>
-                        <DropdownToggle caret>
-                            Unassign Worker
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            {project.workers?.map((worker, idx) => <DropdownItem
-                                key={idx}
-                                onClick={() => {
-                                    unasignWorker(worker, project.name).then((response) => getProjects().then(setprojects))
-                                }}
-                            >
-                                {worker}
-                            </DropdownItem>
+                {project.workers.length === 0 ? <div></div> : 
+                    <div className='child'>
+                        <Dropdown isOpen={unassignDropdownOpen} toggle={(e) => {
+                            e.stopPropagation();
+                            setUnassignDropdownOpen(prevState => !prevState)
+                        }}>
+                            <DropdownToggle caret>
+                                Unassign Worker
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {project.workers?.map((worker, idx) => <DropdownItem
+                                    key={idx}
+                                    onClick={() => {
+                                        unasignWorker(worker, project.name).then((response) => getProjects().then(setprojects))
+                                    }}
+                                >
+                                    {worker}
+                                </DropdownItem>
 
-                            )}
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>}
-                <br />
-                {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div></div> :
+                                )}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>}
+            </div>
+
+            {project.missingQualifications.length !==  0  ||  project.status.toString() !== "PLANNED" ? <div></div> :
+            <div>
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        console.log("Clicked Start");
+                        console.log(project.name);
+                        startProject(project.name).then((response) => getProjects().then(setprojects))
+                    }}
+                >
+                    Start Project
+                </button>
+            </div>}
+            {project.status.toString() !== "ACTIVE" ? <div></div> : 
                 <div>
                     <button
                         type="button"
                         onClick={(e) => {
                             e.stopPropagation();
-                            console.log("Clicked Start");
+                            console.log
+                            ("Clicked Finish");
                             console.log(project.name);
-                            startProject(project.name).then((response) => getProjects().then(setprojects))
+                            finishProject(project.name).then((response) => getProjects().then(setprojects))
                         }}
                     >
-                        Start Project
+                    Finish Project    
                     </button>
                 </div>}
-                {project.status.toString() !== "ACTIVE" ? <div></div> : 
-                    <div>
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                console.log
-                                ("Clicked Finish");
-                                console.log(project.name);
-                                finishProject(project.name).then((response) => getProjects().then(setprojects))
-                            }}
-                        >
-                        Finish Project    
-                        </button>
-                    </div>}
         </div>
     )
 }
