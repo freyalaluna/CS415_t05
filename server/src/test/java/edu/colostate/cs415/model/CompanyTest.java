@@ -830,7 +830,7 @@ public void testStartWithProjectNotInProject(){
 			assertEquals(thisCompany.getAssignedWorkers().size(), 0);
 			assertEquals(worker.getProjects().size(), 0);
 			assertEquals(thisCompany.getAvailableWorkers().size(), 1);
-			assertEquals(project.getStatus(), ProjectStatus.ACTIVE);
+			assertEquals(project.getStatus(), ProjectStatus.SUSPENDED);
 		}
 
 		@Test
