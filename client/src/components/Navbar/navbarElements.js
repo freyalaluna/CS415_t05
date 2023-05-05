@@ -7,7 +7,6 @@ export const Nav = styled.nav`
   background: #5D82A5;
   display: flex;
   justify-content: space-between;
-  padding: 2vw;
 `
 
 export const NavMenu = styled.div`
