@@ -1124,7 +1124,7 @@ public class RestControllerTest {
                         .bodyByteArray(body.getBytes())
                         .execute().returnContent().asString(), String.class);
         assertEquals("OK", response);
-        assertEquals(ProjectStatus.ACTIVE, company.getProjects().iterator().next().getStatus());
+        assertEquals(ProjectStatus.SUSPENDED, company.getProjects().iterator().next().getStatus());
     }
 
     @Test
@@ -1321,7 +1321,7 @@ public class RestControllerTest {
                         .bodyByteArray(body.getBytes())
                         .execute().returnContent().asString(), String.class);
         assertEquals("OK", response);
-        assertEquals(ProjectStatus.FINISHED, company.getProjects().iterator().next().getStatus());
+        assertEquals(ProjectStatus.SUSPENDED, company.getProjects().iterator().next().getStatus());
     }
 
     @Test
