@@ -199,6 +199,27 @@
 - Verify that a error message displays that there is missing required information
 
 ## 10. Assign worker.  
+
+10.1 A valid worker can be assigned to a project that is planned or suspended
+- Click on the project tab
+- Click on a project that is planned or suspended
+- Find the workers in the DB that satisfy some/all of the project's missing requirements and will not be overloaded
+- Verify that all of those workers appear in the "Asssign Worker" dropdown
+- Click one of the workers in the dropdown, and verify that the project details are updated to reflect their assignment
+
+10.2 A worker cannot be assigned to a project if they would be overloaded
+- Click on a project that is planned or suspended
+- Find a worker in the DB that satisfy some/all of the project's missing requirements, but will be overloaded by the assignment
+- Verify that the worker does not appear in the "Asssign Worker" dropdown
+
+10.3 A worker cannot be assigned to a project they are already working on
+- Click on a project that is planned or suspended
+- Verify that none of the workers already assigned to the project appear in the "Asssign Worker" dropdown
+
+10.4 An active/finished project cannot have workers added to it
+- Click on a project that is active or finished
+- Verify that the "Assign Worker" dropdown is not present in the project's details
+
 ## 11. Unassign worker.  
 
 11.1 A worker can be unassigned from a project
