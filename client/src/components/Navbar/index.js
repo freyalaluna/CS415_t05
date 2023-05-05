@@ -5,6 +5,7 @@ const Navbar = () => {
         <>
             <Nav>
                 <NavMenu>
+                    <img src="CSU-logo.jpeg"/>
                     <NavLogo>
                         CSU - CS415
                     </NavLogo>
