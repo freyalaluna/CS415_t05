@@ -58,3 +58,9 @@ button:hover {
 .card-body {
   background: #B2C1A4;
 }
+
+.child {
+  display: inline-block;
+  color: #4a6330;
+  padding: 5pt 5pt 5pt 0pt;
+}
