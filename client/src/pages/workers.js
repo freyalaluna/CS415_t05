@@ -45,7 +45,7 @@ const qualsDescription = (quals) => {
 const CreateWorkerForm = (props) => {
     const { setworkers } = props
     const [quals, setQualifications] = useState([])
-    const [selectedQuals, setSelectedQuals] = useState(null);
+    const [selectedQuals, setSelectedQuals] = useState([]);
 
     const handleQualsChange = (selectedOptions) => {
         setSelectedQuals(Array.isArray(selectedOptions) ? selectedOptions : []);
@@ -68,7 +68,6 @@ const CreateWorkerForm = (props) => {
                             type="text"
                             className="form-control"
                             placeholder="Enter the worker name..."
-                            required={true}
                         /><br />
 
                         <input
@@ -78,7 +77,6 @@ const CreateWorkerForm = (props) => {
                             placeholder="Enter the worker salary..."
                             min="0"
                             step=".01"
-                            required={true}
                         /><br />                    
                         
                         <Select
@@ -90,7 +88,6 @@ const CreateWorkerForm = (props) => {
                             isSearchable
                             isMulti
                             components={animatedComponents}
-                            required={true}
                         /><br />
 
                         <button type="button"
@@ -105,10 +102,24 @@ const CreateWorkerForm = (props) => {
                                             document.getElementById("salary").value = ''
                                             setSelectedQuals([])
                                             getWorkers().then(setworkers)
-                                        } else {
-                                            alert("Error: " + response?.data)
                                         }
                                     })
+                                }
+                                
+                                if (!name && !salary || !name && quals.length == 0 || !salary && quals.length == 0){
+                                    window.alert("You must enter valid information for the worker.")
+                                }
+
+                                else if (!name){
+                                    window.alert("You must enter a valid name for the worker.")
+                                }
+
+                                else if (!salary){
+                                    window.alert("You must enter a valid salary for the worker.")
+                                }
+
+                                else if (quals.length == 0){
+                                    window.alert("You must enter at least one valid qualification for the worker.")
                                 }
                             }}>
                         Create Worker
