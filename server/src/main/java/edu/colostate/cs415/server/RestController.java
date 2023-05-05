@@ -90,7 +90,6 @@ public class RestController {
         		get("/:name", (req, res) -> getProject(req.params("name")),
 						gson::toJson);
 				post("/:name", (req, res) -> createProject(req));
-
 			});
 
 			// Company
@@ -332,7 +331,10 @@ public class RestController {
 				matchingProject = project;
 			}
 		}
-		company.finish(matchingProject);
+
+		if(matchingProject.getStatus().equals(ProjectStatus.ACTIVE))
+			company.finish(matchingProject);
+
 		return OK;
 	}
 
