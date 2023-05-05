@@ -7,7 +7,6 @@ import { darkGrayContainerStyle, grayContainerStyle, pageStyle, missingStyle, no
 import ClickList from '../components/ClickList'
 import LocationID from '../utils/location'
 import { createProject, getProjects, getQualifications, getWorkers, assignWorker, unasignWorker, startProject  } from '../services/dataService'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const animatedComponents = makeAnimated();
 
@@ -188,7 +187,7 @@ const CreateProjectForm = (props) => {
 
                         <Select
                             id="quals"
-                            placeholder="Select the qualifications..."
+                            placeholder="Select the project qualifications..."
                             options={qualsDescriptions(quals)}
                             value={selectedQuals}
                             onChange={handleQualsChange}
@@ -260,15 +259,10 @@ const Projects = () => {
         }
     return (
         <div style={pageStyle}>
-            {/* <h1>
-                This page displays all of the projects & will soon allow clicking to view project details.
-            </h1> */}
-            <h2>Create a new project with the</h2>
+            <h2>Create a New Project:</h2>
             <CreateProjectForm setprojects={setprojects}/>
-            <br/><br/>
-            <h2>
-                Click on the projects below to view their details.
-            </h2>
+            <br/>
+            <h2>Click on a project below to view its details.</h2>
             <ClickList active={active} list={projects} item={Project} path='/projects' id='name' extraProps={extraProps} />
         </div>
     )
