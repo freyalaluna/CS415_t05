@@ -40,9 +40,6 @@ export function assignWorker(worker, project){
     return axios.put(SERVER_ADDRESS + 'assign', {worker: worker, project: project})
 }
 
-export function unasignWorker(worker, project) {
-    return axios.put(SERVER_ADDRESS + 'unassign' , { worker:worker, project:project })
-
 export function createProject(name, quals, size) {
     return axios.post(SERVER_ADDRESS + 'projects/' + name, { name: name, qualifications: quals, size: size })
 }
@@ -50,7 +47,3 @@ export function createProject(name, quals, size) {
 export function startProject(name){
     return axios.put(SERVER_ADDRESS + 'start' , { name: name})
 }
-
-// export function createProject(name, quals, size) {
-//     return axios.post(SERVER_ADDRESS + 'projects/' + name, { name: name, qualifications: quals, size: size })
-// }
