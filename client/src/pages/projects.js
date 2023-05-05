@@ -161,6 +161,10 @@ const assignList = (project, workers) => {
         }
     }
 
+    if (assignableWorkers.length == 0){
+        assignableWorkers.push("There are no valid workers availble at this time.");
+    }
+
     return assignableWorkers;
 }
 
@@ -177,8 +181,8 @@ const qualsDescriptions = (quals) => {
 const CreateProjectForm = (props) => { 
     const { setprojects } = props
     const [quals, setQualifications] = useState([])
-    const [selectedQuals, setSelectedQuals] = useState(null);
-    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedQuals, setSelectedQuals] = useState([]);
+    const [selectedSize, setSelectedSize] = useState([]);
 
     const handleQualsChange = (selectedOptions) => {
         setSelectedQuals(Array.isArray(selectedOptions) ? selectedOptions : []);
@@ -199,7 +203,7 @@ const CreateProjectForm = (props) => {
             <div className="card-body">
                 <form>
                     <div className="form-group">
-                        <input type="text" className="form-control" id="name" placeholder="Enter the project name..." required/><br/>
+                        <input type="text" className="form-control" id="name" placeholder="Enter the project name..." /><br/>
 
                         <Select
                             id="quals"
@@ -211,7 +215,6 @@ const CreateProjectForm = (props) => {
                             isMulti
                             closeMenuOnSelect={false}
                             components={animatedComponents}
-                            required
                         /><br/>
 
                         <Select 
@@ -225,7 +228,6 @@ const CreateProjectForm = (props) => {
                             value={selectedSize}
                             isSearchable
                             onChange={handleSizeChange}
-                            required
                         /><br/>
 
                         <button type="button"
@@ -233,6 +235,23 @@ const CreateProjectForm = (props) => {
                                 const name = document.getElementById('name').value
                                 const size = selectedSize.value
                                 const quals = selectedQuals.map(x=>x.value)
+                                
+                                if(!name && quals.length == 0 || !name && !size || quals.length == 0 && !size){
+                                    window.alert("You must enter valid information for the project.")
+                                }
+
+                                else if (!name){
+                                    window.alert("You must enter a valid name for the project.")
+                                }
+
+                                else if (quals.length == 0){
+                                    window.alert("You must enter at least one valid qualification for the project.")
+                                }
+
+                                else if (!size) {
+                                    window.alert("You must enter a valid size for the project.")
+                                }
+
                                 if (name && quals && size) {
                                     createProject(name, quals, size).then(response => {
                                         if (response?.data === 'OK') {
@@ -240,12 +259,11 @@ const CreateProjectForm = (props) => {
                                             setSelectedSize('')
                                             document.getElementById('name').value = ''
                                             getProjects().then(setprojects)
-                                        } else { 
-                                            alert('Error: ' + response?.data)
                                         }
                                     })
                                 }
-                            }}>
+                            }}
+                        >
                             Create Project
                         </button>
                     </div>
